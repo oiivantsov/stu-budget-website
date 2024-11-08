@@ -1,10 +1,8 @@
 "use strict";
 
-
 // Imports
-const express = require("express");
-const restaurantRouter = require("./api/restaurants/restaurantRouter");
-
+import express from "express";
+import restaurantRouter from "./src/domains/restaurants/restaurant.routes.js"
 
 // Constants
 const PORT = 3000;
