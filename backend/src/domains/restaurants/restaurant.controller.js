@@ -7,7 +7,7 @@ export const getAll = (req, res) => {
 }
 
 export const getByName = (req, res) => {
-  const restaurant = dao.findOne(req.params.name, "address.city");
+  const restaurant = dao.findOne(req.params.name);
 
   if (restaurant === undefined) {
     res.status(404).json({msg: `${req.params.name} not found`});
