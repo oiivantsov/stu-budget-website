@@ -1,5 +1,3 @@
-"use strict";
-
 import DAO from "../../services/daos/index.js";
 const { RestaurantDAO } = DAO;
 const dao = new RestaurantDAO();

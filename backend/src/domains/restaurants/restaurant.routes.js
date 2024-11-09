@@ -1,7 +1,5 @@
-"use strict";
-
-import express from "express";
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
 import { getAll, getByName } from "./restaurant.controller.js"
 
 // GET all
