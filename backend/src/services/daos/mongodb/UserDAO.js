@@ -1,10 +1,10 @@
 export class UserDAO {
     constructor() {}
 
-    findOne(item) {};
-    findAll() {};
-    persist(item) {};
-    update(item) {};
-    delete(item) {};
+    async findOne(item) {};
+    async findAll() {};
+    async persist(item) {};
+    async update(item) {};
+    async delete(item) {};
 
 }
