@@ -13,7 +13,6 @@ app.use(express.json());
 // Establish routers
 app.use("/", routes);
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 })
