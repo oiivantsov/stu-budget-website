@@ -1,3 +1,5 @@
+import { businesses } from "./data.js";
+
 export class RestaurantDAO {
     constructor() {
       this.restaurants = businesses;
