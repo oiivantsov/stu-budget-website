@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Business from './pages/Business';
 import SearchResults from './pages/SearchResults';
 import Favorites from './pages/Favorites';
+import ErrorPage from './pages/ErrorPage';
 import LoginModal from './components/LoginModal';
 import SignUpModal from './components/SignUpModal';
 import './App.css';
@@ -26,7 +27,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/business" element={<Business />} />
         <Route path="/search" element={<SearchResults />} />
-        <Route path="/favorites" element={<Favorites />} /> {/* Add Favorites Route */}
+        <Route path="/favorites" element={<Favorites />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Footer />
       {isLoginOpen && (
