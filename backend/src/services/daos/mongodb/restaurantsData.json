@@ -5,10 +5,10 @@
       "phone": "+358 12 345 6789",
       "website": "http://www.hoku.fi",
       "address": {
-          "street": "Annankatu 28",
+          "street": "annankatu_28",
           "postal": "01000",
-          "city": "Helsinki",
-          "country": "Finland"
+          "city": "helsinki",
+          "country": "finland"
       },
       "coordinates": { "lat": 60.16763171124735, "long": 24.93563135889214 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
@@ -28,10 +28,10 @@
       "phone": "+358 12 987 6543",
       "website": "http://www.tokyostreet.fi",
       "address": {
-          "street": "Erottajankatu 10",
+          "street": "erottajankatu_10",
           "postal": "01010",
-          "city": "Helsinki",
-          "country": "Finland"
+          "city": "helsinki",
+          "country": "finland"
       },
       "coordinates": { "lat": 60.16548541370081, "long": 24.943744324169458 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
@@ -50,10 +50,10 @@
       "phone": "+358 13 555 6677",
       "website": "http://www.nordicbites.fi",
       "address": {
-          "street": "Kluuvikatu 4",
+          "street": "kluuvikatu_4",
           "postal": "01020",
-          "city": "Helsinki",
-          "country": "Finland"
+          "city": "helsinki",
+          "country": "finland"
       },
       "coordinates": { "lat": 60.168666833036994, "long": 24.947161531671995 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
@@ -72,10 +72,10 @@
       "phone": "+358 14 555 2233",
       "website": "http://www.cafebonjour.fi",
       "address": {
-          "street": "Mannerheimintie 22",
+          "street": "mannerheimintie_22",
           "postal": "01030",
-          "city": "Helsinki",
-          "country": "Finland"
+          "city": "helsinki",
+          "country": "finland"
       },
       "coordinates": { "lat": 60.17043058097076, "long": 24.93684390327354 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
@@ -94,10 +94,10 @@
       "phone": "+358 15 222 4567",
       "website": "http://www.pastahouse.fi",
       "address": {
-          "street": "Pohjoisesplanadi 9",
+          "street": "pohjoisesplanadi_9",
           "postal": "01040",
-          "city": "Helsinki",
-          "country": "Finland"
+          "city": "helsinki",
+          "country": "finland"
       },
       "coordinates": { "lat": 60.16864627145819, "long": 24.95424007584397 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
@@ -116,10 +116,10 @@
       "phone": "+358 16 333 8877",
       "website": "http://www.spiceroute.fi",
       "address": {
-          "street": "Aleksanterinkatu 15",
+          "street": "aleksanterinkatu_15",
           "postal": "01050",
-          "city": "Helsinki",
-          "country": "Finland"
+          "city": "helsinki",
+          "country": "finland"
       },
       "coordinates": { "lat": 60.16909575362763, "long": 24.944918835960237 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
@@ -138,10 +138,10 @@
       "phone": "+358 17 555 9999",
       "website": "http://www.greenleaf.fi",
       "address": {
-          "street": "Lönnrotinkatu 5",
+          "street": "lönnrotinkatu_5",
           "postal": "01060",
-          "city": "Helsinki",
-          "country": "Finland"
+          "city": "helsinki",
+          "country": "finland"
       },
       "coordinates": { "lat": 60.16706762460777, "long": 24.939853727266065 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
@@ -160,10 +160,10 @@
       "phone": "+358 18 222 8888",
       "website": "http://www.fiestamexicana.fi",
       "address": {
-          "street": "Yrjönkatu 12",
+          "street": "yrjönkatu 12",
           "postal": "01070",
-          "city": "Helsinki",
-          "country": "Finland"
+          "city": "helsinki",
+          "country": "finland"
       },
       "coordinates": { "lat": 60.164818716312034, "long": 24.942955014655478 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
@@ -182,10 +182,10 @@
       "phone": "+358 19 111 7777",
       "website": "http://www.burgerhaven.fi",
       "address": {
-          "street": "Keskuskatu 3",
+          "street": "keskuskatu_3",
           "postal": "01080",
-          "city": "Helsinki",
-          "country": "Finland"
+          "city": "helsinki",
+          "country": "finland"
       },
       "coordinates": { "lat": 60.168445293403146, "long": 24.943189537986186 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
@@ -204,10 +204,10 @@
       "phone": "+358 20 333 4444",
       "website": "http://www.koreangrill.fi",
       "address": {
-          "street": "Fredrikinkatu 8",
+          "street": "fredrikinkatu_8",
           "postal": "01090",
-          "city": "Helsinki",
-          "country": "Finland"
+          "city": "helsinki",
+          "country": "finland"
       },
       "coordinates": { "lat": 60.16105911342521, "long": 24.94132580898967 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
