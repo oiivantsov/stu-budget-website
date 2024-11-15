@@ -1,12 +1,15 @@
 import { Router } from "express";
 const router = Router();
-import { getAll, getByName, getNearby } from "./restaurant.controller.js"
+import { getAll, getByCity, getNearby } from "./restaurant.controller.js"
 
 // GET all
 router.get("/all", getAll);
 
 // GET restaurant by name
-router.get("/:name", getByName);
+// router.get("/:name", getByName);
+
+// GET restaurants by city
+router.get("/city/:city", getByCity);
 
 // GET nearby restaurants
 /*
