@@ -5,7 +5,7 @@ export class RestaurantDAO {
       this.restaurants = businesses;
     }
 
-    async findOne(name) {
+    async findOneByName(name) {
         name = name.replace(" ", "").toLowerCase();
 
         const restaurant = this.restaurants.find(restaurant => {
@@ -14,6 +14,10 @@ export class RestaurantDAO {
       });
         return restaurant;
       };
+
+    async findOneById(id) {
+      return this.restaurants.find(restaurant => restaurant.id === id);
+    }
 
     async findAll() {
         return this.restaurants;
