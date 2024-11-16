@@ -1,32 +1,30 @@
 import { MongooseConnection } from "../../../db/mongodb.js";
 import Restaurant from "../../../db/models/restaurant.model.js";
 
-
 export default class RestaurantDAO {
     constructor() {
         this.db = new MongooseConnection();
     }
 
-    async findOne(name) {
-        return "Not implemented yet";
-    };
+    async findOneById(id) {
+        const restaurant = await Restaurant.findOne({_id:id});
+        return restaurant;
+    }
 
     async findByCity(city) {
         const restaurants = await Restaurant.find({"address.city": city});
-        // console.log("DAO", restaurants);
         return restaurants;
     }
 
     async findAll() {
-        try {
-            const restaurants = await Restaurant.find();
-            // console.log(restaurants);
-            return restaurants;
-        } catch (e) {
-            console.log(e.message);
-        }
+        const restaurants = await Restaurant.find();
+        return restaurants;
     }
-    async persist(item) {};
-    async update(item) {};
+    async persist() {}
+
+    async update(restaurant) {
+        const result = await Restaurant.updateOne(restaurant);
+        return result;
+    };
     async delete(item) {};
 }

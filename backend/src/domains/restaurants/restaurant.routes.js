@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { getAll, getByCity, getNearby } from "./restaurant.controller.js"
+import { getAll, getByCity, getNearby, getReviews, addReview } from "./restaurant.controller.js"
 
 // GET all
 router.get("/all", getAll);
@@ -24,5 +24,9 @@ router.get("/city/:city", getByCity);
 * Limit and provided distances are in metres.
 */
 router.get("/nearby/:street/:city/:limit", getNearby);
+
+router.get("/reviews/:id", getReviews);
+
+router.post("/reviews/addReview", addReview);
 
 export default router;

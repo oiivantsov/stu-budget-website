@@ -2,16 +2,13 @@
 
 import mongoose from "mongoose";
 
-
 const reviewSchema = new mongoose.Schema({
-    id: Number,
-    name: String,
+    reviewer:mongoose.Schema.Types.ObjectId,
     rating: String,
     comment: String
 })
 
 const restaurantSchema = new mongoose.Schema({
-    id: Number,
     name: String,
     category: String,
     phone: String,
@@ -30,7 +27,7 @@ const restaurantSchema = new mongoose.Schema({
     reviews: {
         total: Number,
         average: Number,
-        ratings: [reviewSchema]
+        comments: [reviewSchema]
     }
 });
 
