@@ -52,5 +52,4 @@ export class RestaurantDAO {
     async persist(item) {};
     async update(item) {};
     async delete(item) {};
-
 }
