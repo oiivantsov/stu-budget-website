@@ -598,7 +598,7 @@ h1, h2, h3, h4 {
 .business-address-container {
   display: flex;
   gap: 1rem;
-  align-items: start;
+  align-items: stretch;
   margin-top: 1rem;
 }
 
@@ -824,6 +824,51 @@ button[type="submit"]:hover {
   color: inherit; /* Inherits text color */
   display: block; /* Makes the link cover the full area */
 }
+
+/* Error Page Styles */
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background: var(--clr-light-pink);
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+  color: var(--clr-grey-1);
+  font-family: var(--ff-primary);
+}
+
+.error-page h1 {
+  font-size: 5rem;
+  color: var(--clr-primary-1);
+  margin-bottom: 1rem;
+  letter-spacing: var(--spacing);
+  text-shadow: var(--dark-shadow);
+}
+
+.error-page p {
+  font-size: 1.2rem;
+  color: var(--clr-grey-3);
+  margin-bottom: 2rem;
+}
+
+.home-link {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: var(--clr-secondary-1);
+  color: var(--clr-white);
+  text-decoration: none;
+  border-radius: var(--radius);
+  box-shadow: var(--light-shadow);
+  transition: var(--transition);
+}
+
+.home-link:hover {
+  background-color: var(--clr-secondary-5);
+  transform: scale(1.05);
+}
+
 
 
 

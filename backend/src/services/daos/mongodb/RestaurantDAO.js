@@ -26,7 +26,7 @@ export default class RestaurantDAO {
             console.log(e.message);
         }
     }
-    async persist(item) { };
-    async update(item) { };
-    async delete(item) { };
+    async persist(item) {};
+    async update(item) {};
+    async delete(item) {};
 }
