@@ -1,15 +1,13 @@
 import { Router } from "express";
 const router = Router();
-import { getAll, getByCity, getNearby, getReviews, addReview } from "./restaurant.controller.js"
+import { getAll, getById, getByCity, getNearby, getReviews, addReview, deleteReview, updateReview, updateRestaurant } from "./restaurant.controller.js"
 
-// GET all
+// Restaurants
 router.get("/all", getAll);
-
-// GET restaurant by name
-// router.get("/:name", getByName);
-
-// GET restaurants by city
+router.get("/", getById);
 router.get("/city/:city", getByCity);
+router.put("/edit", updateRestaurant);
+// router.delete("/delete") Will implement if needed
 
 // GET nearby restaurants
 /*
@@ -25,8 +23,10 @@ router.get("/city/:city", getByCity);
 */
 router.get("/nearby/:street/:city/:limit", getNearby);
 
-router.get("/reviews/:id", getReviews);
-
-router.post("/reviews/addReview", addReview);
+// Reviews
+router.get("/reviews/:restaurantId", getReviews);
+router.post("/reviews/add", addReview);
+router.delete("/reviews/delete", deleteReview);
+router.put("/reviews/update", updateReview);
 
 export default router;

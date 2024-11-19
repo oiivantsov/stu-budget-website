@@ -7,10 +7,16 @@ const dao = new RestaurantDAO();
 
 export const getAll = async (req, res) => {
     try {
-        const result = dao.findAll();
-        res.json(result);
-    } catch (e) {
-        console.log(e.message);
+        res.json(await dao.findAll());
+    } catch ({name, message}) {
+        res.status(500).json({msg:"Internal server error"});
+    }
+}
+
+export const getById = async (req, res) => {
+    try {
+        res.json(await dao.findOneById(req.body.id));
+    } catch ({name, message}) {
         res.status(500).json({msg:"Internal server error"});
     }
 }
@@ -20,8 +26,7 @@ export const getByCity = async (req, res) => {
         const restaurants = await dao.findByCity(req.params.city.replace(" ", ""));
         if (restaurants.length > 0) res.json(restaurants);
         else res.status(404).send();
-    } catch (e) {
-        console.log(e.message);
+    } catch ({name, message}) {
         res.status(500).json({msg:"Internal server error"});
     }
 }
@@ -57,38 +62,85 @@ export const getNearby = async (req, res) => {
 
         nearby = nearby.sort((next, prev) => next.distance - prev.distance);
         res.json(nearby);
-    } catch (e) {
-        console.log(e.message);
+    } catch ({name, message}) {
         res.status(500).send({msg:"Internal server error"});
     }
 };
 
 export const getReviews = async (req, res) => {
     try {
-        const restaurant = await dao.findOneById(req.params.id);
-        const comments = restaurant.reviews.comments;
-        console.log(restaurant);
-        res.json(restaurant);
-    } catch (e) {
-        console.log(e.message);
-        res.status(500).json({msg:"Internal server error"});
+        const reviews = await dao.findCommentsById(req.params.restaurantId);
+        if (reviews) res.json(reviews);
+        else res.status(404).send();
+    } catch ({name, message}) {
+        if (message == "TypeError") res.status(400).json({msg:"Incorrect input data"});
+        else res.status(500).json({msg:"Internal server error"});
     }
 }
 
 export const addReview = async (req, res) => {
-    if (!req.body.comment || !req.body.rating || !req.body.restaurantId) res.status(400).json({msg:"One of review parameters is missing"});
+    if (!req.body.comment || !req.body.rating || !req.body.restaurantId) {
+        res.status(400).json({msg:"One of review parameters is missing"});
+        return;
+    }
+    if (isNaN(Number(req.body.rating))) {
+        res.status(400).json({msg:"Rating must be a number"});
+        return;
+    }
+
     try {
-        // const user = userdao.findUserBySomeMethod(req.header.jwtToken);
-        const user = {_id:"29342934"}; // For testing purposes
+        const user = {_id:"673c7e0099784abcd6d256ee"}; // For testing purposes, will be replaced by jwt check when the final db form is decided
         const { rating, comment, restaurantId } = req.body;
-        const restaurant = await dao.findOneById(restaurantId);
-        restaurant.reviews.comments.push({reviewer:user._id, rating:rating, comment:comment});
-        restaurant.reviews.total += 1;
-        restaurant.reviews.average = average + ((value - average) / (restaurant.reviews.total + 1)) // average = (average * nValues - value) / (nValues - 1) -> for subtracting
-        dao.update(restaurant);
+        const restaurant = await dao.addReview(restaurantId, user._id, rating, comment);
         res.status(201).json(restaurant);
-    } catch (e) {
-        console.log(e.message);
-        res.status(500).json({msg:"Internal server error"});
+    } catch ({name, message}) {
+        if (message == "TypeError") res.status(400).json({msg:"Incorrect input data"});
+        else res.status(500).json({msg:"Internal server error"});
+    }
+}
+
+export const deleteReview = async (req, res) => {
+    if (!req.body.commentId || !req.body.restaurantId) {
+        res.status(400).json({msg:"One of delete parameters is missing"});
+        return;
+    }
+
+    try {
+        const user = {_id:"673c7e0099784abcd6d256ee"}; // For testing purposes, will be replaced by jwt check when the final db form is decided
+        const ok = await dao.deleteReview(req.body.restaurantId, req.body.commentId);
+        if (ok) res.status(204).send();
+        else res.status(404).json({msg:"No comment found"});
+    } catch ({name, message}) {
+        if (message == "TypeError") res.status(400).json({msg:"Incorrect input data"});
+        else res.status(500).json({msg:"Internal server error"});
+    }
+}
+
+export const updateRestaurant = async (req, res) => {
+    const { id, name, category, phone, website, address } = req.body;
+
+    // Add check for user privileges here, same as above and below
+
+    try {
+        const restaurant = await dao.update(id, name, category, phone, website, address);
+        if (restaurant) res.status(200).json(restaurant);
+        else res.status(404).json({msg:"No restaurant found"});
+    } catch ({name, message}) {
+        if (message == "TypeError") res.status(400).json({msg:"Incorrect input data"});
+        else res.status(500).json({msg:"Internal server error"});
+    }
+}
+
+export const updateReview = async (req, res) => {
+    const { restaurantId, commentId, rating, comment } = req.body;
+
+    try {
+        const user = {_id:"673c7e0099784abcd6d256ee"}; // For testing purposes, will be replaced by jwt check when the final db form is decided
+        const ok = await dao.editReview(restaurantId, commentId, rating, comment);
+        if (ok) res.status(204).send();
+        else res.status(404).json({msg:"No review found"});
+    } catch ({name, message}) {
+        if (message == "TypeError") res.status(400).json({msg:"Incorrect input data"});
+        else res.status(500).json({msg:"Internal server error"});
     }
 }
