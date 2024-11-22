@@ -1,7 +1,7 @@
 import User from "../../../db/models/user.model.js";
 
 
-export class UserDAO {
+export default class UserDAO {
     constructor() { }
 
     async findOneById(id) {
@@ -46,4 +46,19 @@ export class UserDAO {
         return User.deleteOne({_id: id});
     };
 
+    async addReview(reviewId, userId) {
+        const user = User.find({_id: userId});
+
+        const newReviews = [...user.reviews, reviewId];
+
+        return User.updateOne({_id: userId}, {reviews: newReviews});
+    }
+
+    async deleteReview(reviewId, userId) {
+        const user = User.find({_id: userId});
+
+        const newReviews = user.reviews.filter(id => id !== reviewId)
+
+        return User.updateOne({_id: userId}, {reviews: newReviews});
+    }
 }

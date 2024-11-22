@@ -12,15 +12,8 @@
       },
       "coordinates": { "lat": 60.16763171124735, "long": 24.93563135889214 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
-      "reviews": {
-          "total": 3,
-          "average": 4.66,
-          "ratings": [
-              { "id": 1, "name": "John D.", "rating": "5", "comment": "Amazing food and great atmosphere. Highly recommend the poke bowl!" },
-              { "id": 2, "name": "Jane S.", "rating": "4", "comment": "Delicious dishes but a bit crowded during peak hours. Worth the wait!" },
-              { "id": 3, "name": "Alex R.", "rating": "5", "comment": "Fantastic flavors and friendly staff. Will definitely come back!" }
-          ]
-      }
+      "reviewsTotal": 0,
+      "reviewsAverage": 0
   },
   {
       "name": "Tokyo Street",
@@ -35,14 +28,8 @@
       },
       "coordinates": { "lat": 60.16548541370081, "long": 24.943744324169458 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
-      "reviews": {
-          "total": 2,
-          "average": 4.5,
-          "ratings": [
-              { "id": 1, "name": "Sarah T.", "rating": "5", "comment": "Best sushi in Helsinki!" },
-              { "id": 2, "name": "Tom K.", "rating": "4", "comment": "Great ambiance but a bit pricey." }
-          ]
-      }
+      "reviewsTotal": 0,
+      "reviewsAverage": 0
   },
   {
       "name": "Nordic Bites",
@@ -57,14 +44,8 @@
       },
       "coordinates": { "lat": 60.168666833036994, "long": 24.947161531671995 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
-      "reviews": {
-          "total": 2,
-          "average": 5.0,
-          "ratings": [
-              { "id": 1, "name": "Lars P.", "rating": "5", "comment": "Authentic Nordic flavors!" },
-              { "id": 2, "name": "Emily V.", "rating": "5", "comment": "A must-visit for Nordic cuisine lovers." }
-          ]
-      }
+      "reviewsTotal": 0,
+      "reviewsAverage": 0
   },
   {
       "name": "Café Bonjour",
@@ -79,14 +60,8 @@
       },
       "coordinates": { "lat": 60.17043058097076, "long": 24.93684390327354 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
-      "reviews": {
-          "total": 2,
-          "average": 4.5,
-          "ratings": [
-              { "id": 1, "name": "Anais M.", "rating": "5", "comment": "Cozy place with delicious pastries!" },
-              { "id": 2, "name": "Pierre J.", "rating": "4", "comment": "Feels like a piece of Paris in Helsinki." }
-          ]
-      }
+      "reviewsTotal": 0,
+      "reviewsAverage": 0
   },
   {
       "name": "Pasta House",
@@ -101,14 +76,8 @@
       },
       "coordinates": { "lat": 60.16864627145819, "long": 24.95424007584397 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
-      "reviews": {
-          "total": 2,
-          "average": 4.5,
-          "ratings": [
-              { "id": 1, "name": "Marco P.", "rating": "5", "comment": "Best pasta outside Italy!" },
-              { "id": 2, "name": "Julia R.", "rating": "4", "comment": "Lovely Italian dishes but a bit crowded." }
-          ]
-      }
+      "reviewsTotal": 0,
+      "reviewsAverage": 0
   },
   {
       "name": "Spice Route",
@@ -123,14 +92,8 @@
       },
       "coordinates": { "lat": 60.16909575362763, "long": 24.944918835960237 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
-      "reviews": {
-          "total": 2,
-          "average": 4.5,
-          "ratings": [
-              { "id": 1, "name": "Rahul D.", "rating": "5", "comment": "Authentic Indian flavors." },
-              { "id": 2, "name": "Priya S.", "rating": "4", "comment": "Great spices, but a bit too spicy for me." }
-          ]
-      }
+      "reviewsTotal": 0,
+      "reviewsAverage": 0
   },
   {
       "name": "Green Leaf",
@@ -145,14 +108,8 @@
       },
       "coordinates": { "lat": 60.16706762460777, "long": 24.939853727266065 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
-      "reviews": {
-          "total": 2,
-          "average": 4.0,
-          "ratings": [
-              { "id": 1, "name": "Ella N.", "rating": "5", "comment": "Perfect spot for vegetarians!" },
-              { "id": 2, "name": "Sam H.", "rating": "3", "comment": "Healthy options but limited variety." }
-          ]
-      }
+      "reviewsTotal": 0,
+      "reviewsAverage": 0
   },
   {
       "name": "Fiesta Mexicana",
@@ -167,14 +124,8 @@
       },
       "coordinates": { "lat": 60.164818716312034, "long": 24.942955014655478 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
-      "reviews": {
-          "total": 2,
-          "average": 4.5,
-          "ratings": [
-              { "id": 1, "name": "Carlos M.", "rating": "5", "comment": "Authentic Mexican food!" },
-              { "id": 2, "name": "Sofia L.", "rating": "4", "comment": "Loved the tacos, but service was slow." }
-          ]
-      }
+      "reviewsTotal": 0,
+      "reviewsAverage": 0
   },
   {
       "name": "Burger Haven",
@@ -189,14 +140,8 @@
       },
       "coordinates": { "lat": 60.168445293403146, "long": 24.943189537986186 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
-      "reviews": {
-          "total": 2,
-          "average": 4.5,
-          "ratings": [
-              { "id": 1, "name": "David T.", "rating": "5", "comment": "Best burgers in town!" },
-              { "id": 2, "name": "Linda W.", "rating": "4", "comment": "Great burgers, though a bit greasy." }
-          ]
-      }
+      "reviewsTotal": 0,
+      "reviewsAverage": 0
   },
   {
       "name": "Korean Grill",
@@ -211,13 +156,7 @@
       },
       "coordinates": { "lat": 60.16105911342521, "long": 24.94132580898967 },
       "images": ["food1.jpg", "food2.jpg", "food3.jpg"],
-      "reviews": {
-          "total": 2,
-          "average": 4.5,
-          "ratings": [
-              { "id": 1, "name": "Jihoon K.", "rating": "5", "comment": "Tastes just like home!" },
-              { "id": 2, "name": "Mina L.", "rating": "4", "comment": "Good BBQ but a bit smoky indoors." }
-          ]
-      }
+      "reviewsTotal": 0,
+      "reviewsAverage": 0
   }
 ]

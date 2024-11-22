@@ -1,11 +1,9 @@
 "use strict";
 
 import mongoose from "mongoose";
-import reviewSchema from "./review.schema.js";
 
 
 const restaurantSchema = new mongoose.Schema({
-    id: Number,
     name: String,
     category: String,
     phone: String,
@@ -21,11 +19,8 @@ const restaurantSchema = new mongoose.Schema({
         long: Number
     },
     images: [String],
-    reviews: {
-        total: Number,
-        average: Number,
-        ratings: [reviewSchema]
-    }
+    reviewsTotal: Number,
+    reviewsAverage: Number,
 });
 
 

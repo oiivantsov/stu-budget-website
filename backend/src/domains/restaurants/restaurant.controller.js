@@ -1,6 +1,7 @@
 import DAO from "../../services/daos/index.js";
 import { getDistanceBetweenCoords } from "../../utils/distanceBetweenCoords.js";
 import { getCoordinates } from "../../services/apis/openrouteservice.js";
+import { verifyUserId, verifyRestaurantId } from "../../utils/verifiers.js";
 
 const { RestaurantDAO } = DAO;
 const dao = new RestaurantDAO();
@@ -55,7 +56,7 @@ export const getNearby = async (req, res) => {
     // For-loop used on purpose instead of forEach.
     // Awaiting not possible inside of forEach.
     for (let i = 0; i < restaurants.length; i++) {
-        const responseObj = {restaurant: restaurants[i]};
+        const responseObj = { restaurant: restaurants[i] };
         responseObj.distance = getDistanceBetweenCoords(userCoords, restaurants[i].coordinates);
 
         if (responseObj.distance <= nearbyLimit) {
@@ -77,3 +78,51 @@ export const getNearby = async (req, res) => {
     res.json(nearby);
 };
 
+export const addReview = async (req, res) => {
+    // Check for missing fields
+    const requiredFields = [
+        "user",
+        "restaurant",
+        "rating"
+    ];
+
+    let missingFields = "Request missing fields:";
+    const initLength = missingFields.length;
+
+    requiredFields.forEach(field => {
+        if (!req.body[field]) {
+            missingFields += " " + field + ",";
+        }
+    });
+
+    if (missingFields.length > initLength) {
+        return res.status(400).json({message: missingFields});
+    }
+
+    try {
+        const review = req.body;
+
+        // Verify that user and restaurant ids are valid and correspond to real documents
+        switch (await verifyRestaurantId(review.restaurant)) {
+            case "not found":
+                return res.status(400).json({ message: `No restaurant found with id ${review.restaurant}` });
+            case "invalid":
+                return res.status(400).json({ message: "Invalid restaurant id" });
+        }
+
+        switch (await verifyUserId(review.user)) {
+            case "not found":
+                return res.status(400).json({ message: `No user found with id ${review.user}` });
+            case "invalid":
+                return res.status(400).json({ message: "Invalid user id" });
+        }
+
+        // Add review
+        await dao.addReview(review);
+        res.status(200).json({ message: "Review added succesfully" });
+
+    } catch (error) {
+        console.error("Error in /restaurant/review/add", error);
+        res.status(500).json({ error: "Server error" });
+    }
+}

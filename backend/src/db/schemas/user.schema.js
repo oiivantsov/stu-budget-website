@@ -1,12 +1,9 @@
 "use strict";
 
 import mongoose from "mongoose";
-import reviewSchema from "./review.schema.js";
-import restaurantSchema from "./restaurant.schema.js";
 
 
 const userSchema = new mongoose.Schema({
-    id: mongoose.Schema.Types.ObjectId,
     username: {
         type: String,
         required: true
@@ -19,8 +16,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    reviews: [reviewSchema],
-    favorites: [restaurantSchema]
+    favorites: [mongoose.Schema.Types.ObjectId]
 });
 
 

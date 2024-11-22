@@ -2,9 +2,18 @@ import mongoose from "mongoose";
 
 
 const reviewSchema = new mongoose.Schema({
-    id: Number,
-    name: String,
-    rating: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    restaurant: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    rating: {
+        type: Number,
+        required: true
+    },
     comment: String
 })
 
