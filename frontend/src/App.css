@@ -256,8 +256,8 @@ h1, h2, h3, h4 {
 }
 
 .hero-content p {
-  font-size: 1.25rem;
-  max-width: 600px;
+  font-size: 2rem;
+  /* max-width: 600px; */
   margin: 0 auto;
 }
 
@@ -266,6 +266,7 @@ h1, h2, h3, h4 {
   background: var(--clr-grey-10);
   padding: 2rem 2rem; /* Reduce vertical padding */
   text-align: center;
+  margin-top: 3rem;
   margin-bottom: 1rem; /* Add a smaller margin to separate sections */
 }
 
@@ -319,6 +320,71 @@ h1, h2, h3, h4 {
   font-weight: bold;
 }
 
+/* Nearby Section */
+
+.nearby {
+  background: var(--clr-grey-9);
+  padding: 0rem 5rem;
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.nearby h2 {
+  font-size: 2.2rem;
+  color: var(--clr-primary-5);
+  margin-bottom: 2rem;
+}
+
+.nearby-cards {
+  display: grid;
+  gap: 2rem; /* Consistent spacing between cards */
+  grid-template-columns: repeat(3, minmax(250px, 1fr)); /* 3 columns layout */
+  max-width: 1200px; /* Control layout width */
+  margin: 0 auto; /* Center the grid */
+}
+
+.nearby-card {
+  background: var(--clr-white);
+  border-radius: var(--radius);
+  box-shadow: var(--light-shadow);
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.nearby-card:hover {
+  transform: scale(1.05);
+  box-shadow: var(--light-shadow);
+}
+
+.nearby-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.nearby-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.nearby .restaurant-info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.nearby .restaurant-info h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--clr-secondary-1);
+}
+
+.nearby .restaurant-info p {
+  color: var(--clr-grey-5);
+  font-size: 1rem;
+}
+
+
 
 
 /* Recommended Section */
@@ -328,7 +394,8 @@ h1, h2, h3, h4 {
   background: var(--clr-grey-9);
   padding: 0rem 5rem; /* Reduce vertical padding */
   text-align: center;
-  margin-bottom: 3rem; /* Optional: further reduce distance from Categories */
+  margin-top: 7rem;
+  margin-bottom:10rem; /* Optional: further reduce distance from Categories */
 }
 
 .recommended h2 {

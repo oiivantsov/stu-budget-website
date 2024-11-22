@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import FilterSection from "../components/search/FilterSection";
 import ResultItem from "../components/search/ResultItem";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,11 +9,11 @@ function SearchResults() {
     averageScore: [],
     reviewNumber: [],
   });
-  const [resetFilters, setResetFilters] = useState(false); // Track when to reset filters
-  const [filteredResults, setFilteredResults] = useState(businesses); // Initialize with all businesses
+  const [resetFilters, setResetFilters] = useState(false);
+  const [filteredResults, setFilteredResults] = useState(businesses);
   const location = useLocation();
   const navigate = useNavigate();
-  const { find, near, filterType } = location.state || {}; // Get search input and pre-selected filters
+  const { find, near, filterType } = location.state || {};
 
   useEffect(() => {
     if (filterType === "mostLiked") {
@@ -24,10 +24,8 @@ function SearchResults() {
   }, [filterType]);
 
   useEffect(() => {
-    // Filter businesses based on user input and pre-selected filters
     let results = businesses;
 
-    // Search by "find" (business name or category)
     if (find) {
       results = results.filter(
         (business) =>
@@ -36,14 +34,12 @@ function SearchResults() {
       );
     }
 
-    // Search by "near" (location/city)
     if (near) {
       results = results.filter((business) =>
         business.address.city.toLowerCase().includes(near.toLowerCase())
       );
     }
 
-    // Filter by average score
     if (selectedFilters.averageScore.length > 0) {
       results = results.filter((business) =>
         selectedFilters.averageScore.some((range) => {
@@ -53,18 +49,19 @@ function SearchResults() {
       );
     }
 
-    // Filter by review number
     if (selectedFilters.reviewNumber.length > 0) {
       results = results.filter((business) =>
         selectedFilters.reviewNumber.some((range) => {
-          const [min, max] = range.includes("+") ? [parseInt(range), Infinity] : range.split(" - ").map(Number);
+          const [min, max] = range.includes("+")
+            ? [parseInt(range), Infinity]
+            : range.split(" - ").map(Number);
           return business.reviews.total >= min && business.reviews.total <= max;
         })
       );
     }
 
     setFilteredResults(results);
-  }, [find, near, selectedFilters]); // Recalculate results when filters change
+  }, [find, near, selectedFilters]);
 
   const handleFilterChange = (type, selectedOptions) => {
     setSelectedFilters((prev) => ({
@@ -78,9 +75,9 @@ function SearchResults() {
       averageScore: [],
       reviewNumber: [],
     });
-    setResetFilters(true); // Trigger reset for checkboxes
-    setTimeout(() => setResetFilters(false), 0); // Reset the resetFilters flag
-    setFilteredResults(businesses); // Reset the filtered results
+    setResetFilters(true);
+    setTimeout(() => setResetFilters(false), 0);
+    setFilteredResults(businesses);
     navigate("/search", { replace: true });
   };
 
@@ -93,12 +90,14 @@ function SearchResults() {
           options={["4.0 - 4.5", "4.6 - 5.0"]}
           onFilter={(selectedOptions) => handleFilterChange("averageScore", selectedOptions)}
           resetFilters={resetFilters}
+          selectedOptions={selectedFilters.averageScore} // Pass current state
         />
         <FilterSection
           title="Reviews"
           options={["1 - 5", "6 - 10", "10+"]}
           onFilter={(selectedOptions) => handleFilterChange("reviewNumber", selectedOptions)}
           resetFilters={resetFilters}
+          selectedOptions={selectedFilters.reviewNumber} // Pass current state
         />
         <button className="clear-filters-button" onClick={clearFilters}>
           Clear Filters

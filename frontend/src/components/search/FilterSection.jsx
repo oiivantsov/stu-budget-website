@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from "react";
 
-function FilterSection({ title, options, onFilter, resetFilters }) {
-  const [selectedOptions, setSelectedOptions] = useState([]);
+function FilterSection({ title, options, onFilter, resetFilters, selectedOptions }) {
+  const [localSelectedOptions, setLocalSelectedOptions] = useState([]);
 
-  const handleCheckboxChange = (option) => {
-    const updatedOptions = selectedOptions.includes(option)
-      ? selectedOptions.filter((selected) => selected !== option)
-      : [...selectedOptions, option];
-
-    setSelectedOptions(updatedOptions);
-    onFilter(updatedOptions); // Pass selected options to the parent
-  };
+  useEffect(() => {
+    setLocalSelectedOptions(selectedOptions); // Sync with parent state
+  }, [selectedOptions]);
 
   useEffect(() => {
     if (resetFilters) {
-      setSelectedOptions([]); // Clear selected options
+      setLocalSelectedOptions([]);
       onFilter([]); // Notify parent about the reset
     }
   }, [resetFilters, onFilter]);
+
+  const handleCheckboxChange = (option) => {
+    const updatedOptions = localSelectedOptions.includes(option)
+      ? localSelectedOptions.filter((selected) => selected !== option)
+      : [...localSelectedOptions, option];
+
+    setLocalSelectedOptions(updatedOptions);
+    onFilter(updatedOptions); // Pass selected options to the parent
+  };
 
   return (
     <div className="filter-section">
@@ -29,7 +33,7 @@ function FilterSection({ title, options, onFilter, resetFilters }) {
               <input
                 type="checkbox"
                 value={option}
-                checked={selectedOptions.includes(option)}
+                checked={localSelectedOptions.includes(option)}
                 onChange={() => handleCheckboxChange(option)}
               />
               {option}
