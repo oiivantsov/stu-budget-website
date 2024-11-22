@@ -1,13 +1,13 @@
 function BusinessHeader({ name, rating, totalReviews, category }) {
   return (
-    <div className="business-header">
+    <header className="business-header">
       <h1>{name}</h1>
       <div className="rating">
-        <span>{rating}</span>
-        <span>({totalReviews} reviews)</span> {/* Use totalReviews here */}
+        <span>{rating} ⭐</span>
+        <span>({totalReviews} reviews)</span>
       </div>
       <p>{category}</p>
-    </div>
+    </header>
   );
 }
 
