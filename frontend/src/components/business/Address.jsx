@@ -1,26 +1,43 @@
-import React from 'react';
+function Address({ address, coordinates, phone, website }) {
+  if (!address) {
+    return <div>Address information is not available for this business.</div>;
+  }
 
-function Address({ address }) {
-  // Hardcoded coordinates for the map
-  const coordinates = { lat: 60.1699, lng: 24.9384 }; // Example: Helsinki, Finland
+  const { street, postal, city, country } = address;
 
   return (
     <div className="business-address-container">
-      <iframe
-        title="Map"
-        // openstreetmap embed API - open source alternative to Google Maps
-        src={`https://www.openstreetmap.org/export/embed.html?bbox=${coordinates.lng - 0.01},${coordinates.lat - 0.01},${coordinates.lng + 0.01},${coordinates.lat + 0.01}&layer=mapnik&marker=${coordinates.lat},${coordinates.lng}`}
-        className="map"
-        allowFullScreen=""
-        loading="lazy"
-        style={{ width: '100%', height: '400px', border: 'none' }}
-      ></iframe>
+      {/* Map Integration */}
+      {coordinates ? (
+        <iframe
+          title="Map"
+          src={`https://www.openstreetmap.org/export/embed.html?bbox=${coordinates.long - 0.01},${coordinates.lat - 0.01},${coordinates.long + 0.01},${coordinates.lat + 0.01}&layer=mapnik&marker=${coordinates.lat},${coordinates.long}`}
+          className="map"
+          allowFullScreen
+          loading="lazy"
+          style={{ width: '100%', height: '400px', border: 'none' }}
+        ></iframe>
+      ) : (
+        <p>Map information is not available for this business.</p>
+      )}
 
+      {/* Address Details */}
       <div className="business-address">
-        <p>{address.street}</p>
-        <p>{address.city}, {address.country}</p>
-        <p><a href={`tel:${address.phone}`}>{address.phone}</a></p>
-        <p><a href={address.website} target="_blank" rel="noopener noreferrer">{address.website}</a></p>
+        {street && <p><strong>Address:</strong> {street}, {postal}</p>}
+        {(city || country) && <p>{city && `${city}, `}{country}</p>}
+        {phone && (
+          <p>
+            <strong>Phone:</strong> {phone}
+          </p>
+        )}
+        {website && (
+          <p>
+            <strong>Website:</strong>{" "}
+            <a href={website} target="_blank" rel="noopener noreferrer">
+              {website}
+            </a>
+          </p>
+        )}
       </div>
     </div>
   );
