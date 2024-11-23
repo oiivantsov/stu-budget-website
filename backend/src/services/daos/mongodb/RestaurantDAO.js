@@ -10,32 +10,57 @@ export default class RestaurantDAO {
     }
 
     async findOneById(restaurantId) {
-        return await Restaurant.find({_id: restaurantId});
+        return await Restaurant.findOne({_id: restaurantId});
     };
 
     async findByCity(city) {
-        const restaurants = await Restaurant.find({"address.city": city});
-        // console.log("DAO", restaurants);
-        return restaurants;
+        return await Restaurant.find({"address.city":city});
     }
 
     async findAll() {
-        try {
-            const restaurants = await Restaurant.find();
-            // console.log(restaurants);
-            return restaurants;
-        } catch (e) {
-            console.log(e.message);
-        }
+        return await Restaurant.find();
     }
 
-    async persist(item) {};
-    async update(item) {};
-    async delete(item) {};
+    async persist(restaurant) {
+        return await Restaurant.create(restaurant);
+    }
 
-    // TODO: Update reviewsTotal and reviewsAverage in affected restaurant
+    async update(id, data) {
+        // Do we need this?
+    }
+
+    async delete(id) {
+        return await Restaurant.deleteOne({_id:id});
+    }
+
+    async addImage(id, image) {
+        const restaurant = await Restaurant.findOne({_id:id});
+        return await Restaurant.updateOne({_id:id}, {
+            images:[...restaurant.images, image]
+        })
+    }
+
+    async removeImage(id, image) {
+        const restaurant = await Restaurant.findOne({_id:id});
+        return await Restaurant.updateOne({_id:id}, {
+            images:restaurant.images.filter(img => img !== image)
+        })
+    }
+
     async addReview(review) {
-        return await this.reviewDao.persist(review);
+        const restaurant = await Restaurant.findOne({_id:review.restaurant});
+        if (!restaurant.reviewsTotal) restaurant.reviewsTotal = 0;
+        if (!restaurant.reviewsAverage) restaurant.reviewsAverage = 0;
+        restaurant.reviewsTotal += 1;
+        restaurant.reviewsAverage = restaurant.reviewsAverage + ((review.rating - restaurant.reviewsAverage) / (restaurant.reviewsTotal + 1));
+        await Restaurant.findOneAndReplace({_id:restaurant.id}, restaurant);
+    }
+
+    async deleteReview(review) {
+        const restaurant = await Restaurant.findOne({_id:review.restaurant});
+        restaurant.reviewsTotal -= 1;
+        restaurant.reviewsAverage = (restaurant.reviewsAverage * restaurant.reviewsTotal - review.rating) / (restaurant.reviewsTotal - 1);
+        await Restaurant.updateOne(restaurant);
     }
 
     async findReviewByUserAndRestaurant(userId, restaurantId) {
