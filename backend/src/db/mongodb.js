@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export class MongooseConnection {
+export default class MongooseConnection {
     constructor() {
         if (MongooseConnection.instance) return MongooseConnection.instance;
 

@@ -2,6 +2,7 @@
 
 import express, { Router } from "express";
 import restaurantRoutes from "../domains/restaurants/restaurant.routes.js";
+import userRoutes from "../domains/users/user.routes.js";
 
 const router = Router();
 
@@ -10,5 +11,8 @@ router.use("/public", express.static("public"));
 
 // Restaurant paths
 router.use("/restaurant", restaurantRoutes);
+
+// User paths
+router.use("/user", userRoutes);
 
 export default router;
