@@ -1,0 +1,19 @@
+
+.sad-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+
+.sad-container h2 {
+  color: #cc0000; 
+  margin-bottom: 20px;
+}
+
+.sad-container video {
+  max-width: 100%;
+}

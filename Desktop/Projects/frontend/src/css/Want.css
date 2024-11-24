@@ -1,0 +1,84 @@
+/* frontend/src/css/Want.css */
+.want-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.want-title {
+  margin-bottom: 20px;
+  color: #cc0000; /* Little reddish color */
+}
+
+.want-container video {
+  margin-bottom: 20px;
+  max-width: 100%;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.form-group input {
+  padding: 10px;
+  font-size: 16px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.want-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #ff0000; /* Heart red background */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.want-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff; /* White background */
+  transition: left 0.3s ease;
+  z-index: 0; /* Ensure pseudo-element is below the text */
+}
+
+.want-button:hover::before {
+  left: 0;
+}
+
+.want-button:hover {
+  color: #ff0000; /* Heart red text */
+  background-color: #ffffff; /* Ensure background color changes */
+}
+
+.want-button span {
+  position: relative;
+  z-index: 1; /* Ensure text is above the pseudo-element */
+}
+
+.error {
+  color: #cc0000; /* Little reddish color */
+  margin-top: 10px;
+}
