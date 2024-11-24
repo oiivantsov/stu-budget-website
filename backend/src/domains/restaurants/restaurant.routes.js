@@ -1,6 +1,7 @@
 import { Router } from "express";
+import { upload } from "../../middlewares/multer.js";
 const router = Router();
-import { getAll, getById, getByCity, getNearby, addReview, deleteReview, updateReview } from "./restaurant.controller.js"
+import { getAll, getById, getByCity, getNearby, addReview, deleteReview, updateReview, uploadImage, deleteImage } from "./restaurant.controller.js"
 
 // GET all
 router.get("/all", getAll);
@@ -25,5 +26,9 @@ router.get("/nearby", getNearby);
 router.post("/review/add", addReview);
 router.put("/review/update", updateReview);
 router.delete("/review/delete", deleteReview);
+
+// Images
+router.post("/image/upload", upload.single("image"), uploadImage);
+router.delete("/image/delete", deleteImage);
 
 export default router;

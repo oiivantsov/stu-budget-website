@@ -3,6 +3,7 @@ import { getDistanceBetweenCoords } from "../../utils/distanceBetweenCoords.js";
 import { getCoordinates } from "../../services/apis/openrouteservice.js";
 import { verifyUserId, verifyRestaurantId } from "../../utils/verifiers.js";
 import Tracer from "../../utils/tracer.js";
+import { upload } from "../../middlewares/multer.js";
 
 const { RestaurantDAO, ReviewDAO } = DAO;
 const reviewdao = new ReviewDAO();
@@ -167,7 +168,11 @@ export const deleteReview = async (req, res) => {
 
     } catch (e) {
         Tracer.error(ERROR, e)
-        res.status(500).json({msg:"Server error"});
+        if (e.name === "CastError") {
+            res.status(400).json({msg:"Bad review id"});
+        } else {
+            res.status(500).json({msg:"Server error"});
+        }
     }
 }
 
@@ -178,24 +183,28 @@ export const updateReview = async (req, res) => {
         Tracer.print(INFO, `Attempting to update review with id ${id}..`);
         // Check if requester is owner here
 
-        const review = reviewdao.findOneById(id);
+        const review = await reviewdao.findOneById(id);
         await dao.deleteReview(review);
-        await dao.addReview(req.body);
+        await dao.addReview({restaurant:review.restaurant, rating:rating, comment:comment});
 
         const ok = await reviewdao.updateReview(id, rating, comment);
 
         if (ok.modifiedCount > 0) return res.status(200).send();
-        else return res.status(500).json({msg:"Could not update review"});
+        else return res.status(500).json({msg:"Entry was not modified"});
     } catch (e) {
         Tracer.error(ERROR, e);
-        res.status(500).json({msg:"Server error"});
+        if (e.name === "CastError") {
+            res.status(400).json({msg:"Bad review id"});
+        } else {
+            res.status(500).json({msg:"Server error"});
+        }
     }
 }
 
-export const addImage = async (req, res) => {
+export const uploadImage = async (req, res) => {
     // Todo
 }
 
-export const removeImage = async (req, res) => {
+export const deleteImage = async (req, res) => {
     // Todo
 }

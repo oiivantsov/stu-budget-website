@@ -7,10 +7,6 @@ const imageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    restaurant: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
     image: String
 })
 
