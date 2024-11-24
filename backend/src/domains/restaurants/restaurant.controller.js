@@ -178,6 +178,10 @@ export const updateReview = async (req, res) => {
         Tracer.print(INFO, `Attempting to update review with id ${id}..`);
         // Check if requester is owner here
 
+        const review = reviewdao.findOneById(id);
+        await dao.deleteReview(review);
+        await dao.addReview(req.body);
+
         const ok = await reviewdao.updateReview(id, rating, comment);
 
         if (ok.modifiedCount > 0) return res.status(200).send();

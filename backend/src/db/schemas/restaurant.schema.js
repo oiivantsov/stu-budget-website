@@ -18,7 +18,7 @@ const restaurantSchema = new mongoose.Schema({
         lat: Number,
         long: Number
     },
-    images: [String],
+    images: [mongoose.Schema.Types.ObjectId],
     reviewsTotal: Number,
     reviewsAverage: Number,
 });

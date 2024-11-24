@@ -1,6 +1,6 @@
 import MongooseConnection from "../../../db/mongodb.js";
 import Restaurant from "../../../db/models/restaurant.model.js";
-import ReviewDAO from "./subdaos/ReviewDAO.js";
+import ReviewDAO from "./ReviewDAO.js";
 
 
 export default class RestaurantDAO {
@@ -61,6 +61,14 @@ export default class RestaurantDAO {
         restaurant.reviewsTotal -= 1;
         restaurant.reviewsAverage = (restaurant.reviewsAverage * restaurant.reviewsTotal - review.rating) / (restaurant.reviewsTotal - 1);
         await Restaurant.updateOne(restaurant);
+    }
+
+    async updateReview(review) {
+        const restaurantt = await Restaurant.findOne({_id:review.restaurant});
+        restaurant.reviewsTotal -= 1;
+        restaurant.reviewsAverage = (restaurant.reviewsAverage * restaurant.reviewsTotal - review.rating) / (restaurant.reviewsTotal - 1);
+        restaurant.reviewsTotal += 1;
+        restaurant.reviewsAverage = restaurant.reviewsAverage + ((review.rating - restaurant.reviewsAverage) / (restaurant.reviewsTotal + 1));
     }
 
     async findReviewByUserAndRestaurant(userId, restaurantId) {
