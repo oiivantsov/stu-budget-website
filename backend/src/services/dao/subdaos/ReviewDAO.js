@@ -1,6 +1,6 @@
 "use strict";
 
-import Review from "./../../../../db/models/review.model.js";
+import Review from "../../../db/models/review.model.js";
 
 
 export default class ReviewDAO {

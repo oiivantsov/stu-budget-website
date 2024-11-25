@@ -1,23 +1,20 @@
-[
+const usersData = [
     {
         "username": "Taavi Mustonen",
         "password": "securepassword123",
         "email": "taavi@mustonen.com",
-        "reviews": [],
-        "favorites": []
     },
     {
         "username": "Lennart af Malmo",
         "password": "hantyckerommig",
         "email": "lennart.af@malmo.se",
-        "reviews": [],
-        "favorites": []
     },
     {
         "username": "Eetu Esimerkki",
         "password": "esimerkillinensalasana",
         "email": "eetu@esimerk.fi",
-        "reviews": [],
-        "favorites": []
     }
 ]
+
+
+export default usersData;

@@ -1,8 +1,9 @@
-import DAO from "../../services/daos/index.js";
-import objectContainsKeys from "../../utils/objectContainsKeys.js";
+import DAOs from "../../services/dao/index.js";
+import validator from "validator";
+import bcrypt from "bcrypt";
 
 
-const { UserDAO } = DAO;
+const {UserDAO} = DAOs;
 const dao = new UserDAO();
 
 export const getOneById = async (req, res) => {
@@ -12,12 +13,12 @@ export const getOneById = async (req, res) => {
     try {
         user = await dao.findOneById(id);
     } catch (CastError) {
-        res.status(400).json({ msg: `${id} is not a valid ObjectId` });
+        res.status(400).json({msg: `${id} is not a valid ObjectId`});
         return;
     }
 
     if (user === null) {
-        res.status(404).json({ msg: `User with id ${id} not found` });
+        res.status(404).json({msg: `User with id ${id} not found`});
         return;
     }
 
@@ -29,29 +30,45 @@ export const getAll = async (_, res) => {
 };
 
 
-export const createUser = async (req, res) => {
+export const registerUser = async (req, res) => {
     try {
-        const newUser = await dao.persist(req.body);
-        res.status(200).json(newUser);
-    } catch (ValidationError) {
-        // Missing fields
-        const error = ValidationError;
+        const newUser = await dao.register(req.body);
 
-        const requiredFields = [
-            "username",
-            "password",
-            "email",
-            "reviews",
-            "favorites"
-        ];
-        const missingFields = objectContainsKeys(error.errors, requiredFields);
+        if (newUser)
+            res.status(201).json(newUser);
+    } catch (error) {
+        console.error("Error in POST /user/register", error);
 
-        let msg = "Missing fields from request body: ";
-        missingFields.forEach(field => msg += `${field} `);
+        if (error.message === "Internal server error") {
+            return res.status(500).json({error: error.message});
+        }
 
-        res.status(400).json({ msg: msg });
-        return;
+        return res.status(400).json({error: error.message});
     }
+}
+
+export const loginUser = async (req, res) => {
+    const {email, password} = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({msg: "All fields are required"});
+    }
+
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({msg: "Invalid email address"});
+    }
+
+    const user = await dao.findOneByEmail(email);
+
+    if (!user) {
+        return res.status(404).json({msg: `User with email ${email} not found`});
+    }
+
+    if (!(await bcrypt.compare(password, user.password))) {
+        return res.status(400).json({msg: "Password is incorrect"});
+    }
+
+    return res.status(200).json({msg: "User logged in"});
 }
 
 export const updateUser = async (req, res) => {
@@ -60,14 +77,14 @@ export const updateUser = async (req, res) => {
 
         // Valid id but no user with that id
         if (updatedUser.matchedCount === 0) {
-            res.status(404).json({ msg: `No user found with id ${req.params.id}` });
+            res.status(404).json({msg: `No user found with id ${req.params.id}`});
             return;
         }
 
         res.status(200).json(updatedUser);
     } catch (ValidationError) {
         // Invalid id
-        res.status(400).json({ msg: "Invalid id" });
+        res.status(400).json({msg: "Invalid id"});
 
     }
 };
@@ -76,13 +93,13 @@ export const deleteUser = async (req, res) => {
     try {
         const daoResponse = await dao.delete(req.params.id);
         if (daoResponse.deletedCount === 0) {
-            res.status(404).json({ msg: `No user found with id ${req.params.id}` });
+            res.status(404).json({msg: `No user found with id ${req.params.id}`});
             return;
         }
         res.status(204).end();
-        return;
+
     } catch (ValidationError) {
         res.status(400).json({msg: "Invalid id"});
-        return;
+
     }
 };

@@ -1,6 +1,6 @@
-import DAO from "../../services/daos/index.js";
+import DAO from "../../services/dao/index.js";
 import { getDistanceBetweenCoords } from "../../utils/distanceBetweenCoords.js";
-import { getCoordinates } from "../../services/apis/openrouteservice.js";
+//import { getCoordinates } from "../../services/apis/openrouteservice.js";
 import { verifyUserId, verifyRestaurantId } from "../../utils/verifiers.js";
 
 const { RestaurantDAO } = DAO;
@@ -71,7 +71,7 @@ export const getNearby = async (req, res) => {
             return 1;
         } else {
             return 0;
-        };
+        }
     });
     console.log(nearby);
 

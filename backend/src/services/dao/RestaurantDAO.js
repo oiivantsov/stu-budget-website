@@ -1,5 +1,5 @@
-import MongooseConnection from "../../../db/mongodb.js";
-import Restaurant from "../../../db/models/restaurant.model.js";
+import MongooseConnection from "../../db/mongodb.js";
+import Restaurant from "../../db/models/restaurant.model.js";
 import ReviewDAO from "./subdaos/ReviewDAO.js";
 
 
@@ -14,16 +14,12 @@ export default class RestaurantDAO {
     };
 
     async findByCity(city) {
-        const restaurants = await Restaurant.find({"address.city": city});
-        // console.log("DAO", restaurants);
-        return restaurants;
+        return await Restaurant.find({"address.city": city});
     }
 
     async findAll() {
         try {
-            const restaurants = await Restaurant.find();
-            // console.log(restaurants);
-            return restaurants;
+            return await Restaurant.find();
         } catch (e) {
             console.log(e.message);
         }
