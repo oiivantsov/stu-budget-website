@@ -1,6 +1,6 @@
 // Imports
 import express from "express";
-import routes from "./src/routes/index.js";
+import routes from "./routes/index.js";
 
 // Constants
 const PORT = 3000;

@@ -2,6 +2,7 @@
 
 import { Router } from "express";
 import { getOneById, getAll, registerUser, loginUser, updateUser, deleteUser } from "./user.controller.js";
+import auth from "../../middlewares/auth.js"
 
 
 const router = Router();
@@ -19,7 +20,7 @@ router.post("/register",registerUser);
 router.post("/login", loginUser);
 
 // PATCH Update user
-router.patch("/:id", updateUser);
+router.patch("/:id", auth, updateUser);
 
 // DELETE User
 router.delete("/:id", deleteUser);

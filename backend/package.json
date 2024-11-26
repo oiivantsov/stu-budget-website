@@ -1,11 +1,11 @@
 {
   "name": "restaurant_backend",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --env-file=.env app.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "dev": "nodemon --env-file=.env src/app.js"
   },
   "author": "Aaro Saila",
   "license": "ISC",

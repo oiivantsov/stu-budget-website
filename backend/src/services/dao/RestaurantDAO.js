@@ -1,6 +1,6 @@
 import MongooseConnection from "../../db/mongodb.js";
 import Restaurant from "../../db/models/restaurant.model.js";
-import ReviewDAO from "./subdaos/ReviewDAO.js";
+import ReviewDAO from "./ReviewDAO.js";
 
 
 export default class RestaurantDAO {

@@ -23,7 +23,7 @@ export const getOneById = async (req, res) => {
         return;
     }
 
-    res.json(await dao.findOneById(id));
+    res.json(user);
 };
 
 export const getAll = async (_, res) => {
@@ -66,7 +66,7 @@ export const loginUser = async (req, res) => {
         return res.status(404).json({msg: `User with email ${email} not found`});
     }
 
-    if (! await bcrypt.compare(password, user.password)) {
+    if (!(await bcrypt.compare(password, user.password))) {
         return res.status(400).json({msg: "Password is incorrect"});
     }
 
@@ -76,6 +76,13 @@ export const loginUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
+    const authorizedUser = req.user;
+
+    // Check if authorized user is the same that is being updated
+    if (!(authorizedUser["_id"] === req.params.id)) {
+        return res.status(401).json({msg: "You are not authorized to update this profile"});
+    }
+
     try {
         const updatedUser = await dao.update(req.params.id, req.body);
 
@@ -89,7 +96,6 @@ export const updateUser = async (req, res) => {
     } catch (ValidationError) {
         // Invalid id
         res.status(400).json({msg: "Invalid id"});
-
     }
 };
 
@@ -104,6 +110,5 @@ export const deleteUser = async (req, res) => {
 
     } catch (ValidationError) {
         res.status(400).json({msg: "Invalid id"});
-
     }
 };
