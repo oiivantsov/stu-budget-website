@@ -4,6 +4,7 @@ import routes from "./src/routes/index.js";
 
 // Constants
 const PORT = 3000;
+const ADDRESS = "127.0.0.1";
 
 const app = express();
 
@@ -13,6 +14,6 @@ app.use(express.json());
 // Establish routers
 app.use("/", routes);
 
-app.listen(PORT, () => {
+app.listen(PORT, ADDRESS, () => {
   console.log(`Server listening on port ${PORT}...`);
 })

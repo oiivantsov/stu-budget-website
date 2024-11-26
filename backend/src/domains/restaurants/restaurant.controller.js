@@ -50,7 +50,6 @@ export const getNearby = async (req, res) => {
 
     // Get restaurants by city
     let restaurants = await dao.findByCity(userCity);
-    // console.log("nearby", restaurants);
 
     // Calculate distances
     // For-loop used on purpose instead of forEach.

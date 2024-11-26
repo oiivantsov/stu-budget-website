@@ -1,6 +1,7 @@
 import DAOs from "../../services/dao/index.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 
 const {UserDAO} = DAOs;
@@ -34,8 +35,9 @@ export const registerUser = async (req, res) => {
     try {
         const newUser = await dao.register(req.body);
 
-        if (newUser)
-            res.status(201).json(newUser);
+        const token = jwt.sign({id: newUser["_id"]}, process.env.JWT_SECRET);
+
+        res.status(201).json({id: newUser["_id"], token});
     } catch (error) {
         console.error("Error in POST /user/register", error);
 
@@ -64,11 +66,13 @@ export const loginUser = async (req, res) => {
         return res.status(404).json({msg: `User with email ${email} not found`});
     }
 
-    if (!(await bcrypt.compare(password, user.password))) {
+    if (! await bcrypt.compare(password, user.password)) {
         return res.status(400).json({msg: "Password is incorrect"});
     }
 
-    return res.status(200).json({msg: "User logged in"});
+    const token = jwt.sign({id: user["_id"]}, process.env.JWT_SECRET);
+
+    return res.status(200).json({id: user["_id"], token});
 }
 
 export const updateUser = async (req, res) => {
