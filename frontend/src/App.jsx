@@ -25,7 +25,7 @@ function App() {
       <Header openLoginModal={openLoginModal} openSignUpModal={openSignUpModal} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/business/:id" element={<Business />} /> {/* Use :id for dynamic routes */}
+        <Route path="/business/:id" element={<Business />} />
         <Route path="/search" element={<SearchResults />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="*" element={<ErrorPage />} />
@@ -34,7 +34,7 @@ function App() {
       {isLoginOpen && (
         <LoginModal
           closeLoginModal={closeLoginModal}
-          openSignUpModal={openSignUpModal} // Passing this prop to LoginModal
+          openSignUpModal={openSignUpModal}
         />
       )}
       {isSignUpOpen && (
