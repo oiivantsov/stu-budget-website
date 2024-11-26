@@ -7,7 +7,10 @@ const imageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    image: String
+    image: {
+        type:String,
+        required:true
+    }
 })
 
 
