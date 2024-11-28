@@ -1,9 +1,9 @@
 // Index of all routes
 
 import express, { Router } from "express";
-import restaurantRoutes from "../domains/restaurants/restaurant.routes.js";
-import userRoutes from "../domains/users/user.routes.js";
 import { errorHandler } from "../middlewares/errorHandler.js";
+import restaurantRoutes from "../domains/restaurant/restaurant.routes.js";
+import userRoutes from "../domains/user/user.routes.js";
 
 const router = Router();
 

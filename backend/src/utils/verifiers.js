@@ -1,7 +1,7 @@
 "use strict";
 
-import RestaurantDAO from "./../services/daos/mongodb/RestaurantDAO.js";
-import UserDAO from "./../services/daos/mongodb/UserDAO.js";
+import RestaurantDAO from "../services/dao/RestaurantDAO.js";
+import UserDAO from "../services/dao/UserDAO.js";
 import Tracer from "./tracer.js";
 
 const ERROR = "VERIFY_ERROR";

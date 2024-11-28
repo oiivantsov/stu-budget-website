@@ -1,19 +1,26 @@
-import User from "../../../db/models/user.model.js";
+import User from "../../db/models/user.model.js";
 
 
 export default class UserDAO {
     constructor() { }
 
+    // TODO: filter out password
     async findOneById(id) {
         return User.findById(id);
     };
 
+    // TODO: filter out password
+    async findOneByEmail(email) {
+        return User.findOne({email: email});
+    }
+
+    // TODO: filter out password
     async findAll() {
         return User.find();
     };
 
-    async persist(user) {
-        return User.create(user);
+    async register(user) {
+        return User.signup(user);
     };
 
     async update(id, userData) {

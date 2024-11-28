@@ -1,5 +1,5 @@
-import MongooseConnection from "../../../db/mongodb.js";
-import Restaurant from "../../../db/models/restaurant.model.js";
+import MongooseConnection from "../../db/mongodb.js";
+import Restaurant from "../../db/models/restaurant.model.js";
 import ReviewDAO from "./ReviewDAO.js";
 
 
