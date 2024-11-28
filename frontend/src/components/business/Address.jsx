@@ -1,50 +1,43 @@
-import React, { useState, useEffect } from 'react';
+function Address({ address, coordinates, phone, website }) {
+  if (!address) {
+    return <div>Address information is not available for this business.</div>;
+  }
 
-function Address({ address }) {
-  const [coordinates, setCoordinates] = useState(null);
-
-  useEffect(() => {
-    const fetchCoordinates = async () => {
-      try {
-        const response = await fetch(
-          // small backend FastAPI server deployed on Render to fetch coordinates from google maps api, own server to avoid api key exposure
-          `https://googlemap-dfje.onrender.com/api/maps?address=${encodeURIComponent(address.street + ', ' + address.city + ', ' + address.country)}`
-        );
-        const data = await response.json();
-
-        if (data && data.candidates && data.candidates.length > 0) {
-          const { lat, lng } = data.candidates[0].geometry.location;
-          setCoordinates({ lat, lng });
-        }
-      } catch (error) {
-        console.error("Error fetching coordinates:", error);
-      }
-    };
-
-    fetchCoordinates();
-  }, [address]);
+  const { street, postal, city, country } = address;
 
   return (
     <div className="business-address-container">
+      {/* Map Integration */}
       {coordinates ? (
         <iframe
           title="Map"
-          // openstreetmap embed api - open source alternative to google maps
-          src={`https://www.openstreetmap.org/export/embed.html?bbox=${coordinates.lng - 0.01},${coordinates.lat - 0.01},${coordinates.lng + 0.01},${coordinates.lat + 0.01}&layer=mapnik&marker=${coordinates.lat},${coordinates.lng}`}
+          src={`https://www.openstreetmap.org/export/embed.html?bbox=${coordinates.long - 0.01},${coordinates.lat - 0.01},${coordinates.long + 0.01},${coordinates.lat + 0.01}&layer=mapnik&marker=${coordinates.lat},${coordinates.long}`}
           className="map"
-          allowFullScreen=""
+          allowFullScreen
           loading="lazy"
           style={{ width: '100%', height: '400px', border: 'none' }}
         ></iframe>
       ) : (
-        <p>Loading map...</p>
+        <p>Map information is not available for this business.</p>
       )}
 
+      {/* Address Details */}
       <div className="business-address">
-        <p>{address.street}</p>
-        <p>{address.city}, {address.country}</p>
-        <p><a href={`tel:${address.phone}`}>{address.phone}</a></p>
-        <p><a href={address.website} target="_blank" rel="noopener noreferrer">{address.website}</a></p>
+        {street && <p><strong>Address:</strong> {street}, {postal}</p>}
+        {(city || country) && <p>{city && `${city}, `}{country}</p>}
+        {phone && (
+          <p>
+            <strong>Phone:</strong> {phone}
+          </p>
+        )}
+        {website && (
+          <p>
+            <strong>Website:</strong>{" "}
+            <a href={website} target="_blank" rel="noopener noreferrer">
+              {website}
+            </a>
+          </p>
+        )}
       </div>
     </div>
   );

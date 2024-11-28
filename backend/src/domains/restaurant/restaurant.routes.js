@@ -1,31 +1,23 @@
 import { Router } from "express";
+import { upload, check } from "../../middlewares/multer.js";
 const router = Router();
-import { getAll, getByCity, getNearby, addReview } from "./restaurant.controller.js"
+import { getAll, getById, getByCity, getNearby, addReview, deleteReview, updateReview, uploadImage, deleteImage } from "./restaurant.controller.js"
+import { checkParameters } from "../../utils/checkParameters.js";
+import { verifyUserId, verifyRestaurantId } from "../../utils/verifiers.js";
 
 // GET all
 router.get("/all", getAll);
-
-// GET restaurant by name
-// router.get("/:name", getByName);
-
-// GET restaurants by city
-router.get("/city/:city", getByCity);
-
-// GET nearby restaurants
-/*
-* Example request GET nearby/Mannerheimintie 1/Helsinki/10000
-*
-* Limit defines the distance from which restaurants are shown.
-* In the above example restaurants further than 10,000 metres / 10km
-* will not be provided in the response.
-*
-* Only restaurants in the given city are provided in the response.
-*
-* Limit and provided distances are in metres.
-*/
-router.get("/nearby/:street/:city/:limit", getNearby);
+router.get("/city", checkParameters([], ["city"]), getByCity);
+router.get("/id", checkParameters(["ga"], ["id"]), getById);
+router.get("/nearby", checkParameters([], ["city", "street", "limit"]), getNearby);
 
 // POST Add review
-router.post("/review/add", addReview);
+router.post("/review/add", checkParameters([], ["user", "restaurant", "rating", "comment"]), addReview);
+router.put("/review/update", checkParameters([], ["id", "rating", "comment"]), updateReview);
+router.delete("/review/delete", checkParameters([], ["id"]), deleteReview);
+
+// Images
+router.post("/image/upload/:id/:restaurant", [checkParameters(["id", "restaurant"], []), check, upload.single("image")], uploadImage);
+router.delete("/image/delete", checkParameters([], ["id"]), deleteImage);
 
 export default router;

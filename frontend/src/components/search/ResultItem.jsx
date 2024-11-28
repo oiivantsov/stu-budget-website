@@ -1,14 +1,20 @@
 import { Link } from 'react-router-dom';
 
-function ResultItem({ name, category, rating, reviews, description, image }) {
+function ResultItem({ id, name, category, rating, reviews, description, image }) {
+  const placeholderImage = "https://via.placeholder.com/150?text=No+Image";
+
   return (
-    <Link to="/business" className="result-item-link">
+    <Link to={`/business/${id}`} className="result-item-link">
       <div className="result-item">
-        <img src={image} alt={name} />
+        <img 
+          src={image || placeholderImage} 
+          alt={name} 
+          className="result-item-image" 
+        />
         <div className="result-info">
           <h3>{name}</h3>
           <p>{category}</p>
-          <p className="rating">{rating} ({reviews} reviews)</p>
+          <p className="rating">{rating} ⭐ ({reviews} reviews)</p>
           <p>{description}</p>
         </div>
       </div>

@@ -1,19 +1,19 @@
 import { Link } from 'react-router-dom';
 
-function Recommended({ recommendedRestaurants }) {
+function Nearby({ nearbyRestaurants }) {
   const placeholderImage = "https://via.placeholder.com/150?text=No+Image";
 
   return (
-    <section className="recommended">
-      <h2>Recommended Restaurants</h2>
-      <div className="recommended-cards">
-        {recommendedRestaurants.map((restaurant) => (
+    <section className="nearby">
+      <h2>Restaurants Near You</h2>
+      <div className="nearby-cards">
+        {nearbyRestaurants.map((restaurant) => (
           <Link
             to={`/business/${restaurant.id}`} // Link to the correct business page
             key={restaurant.id}
-            className="recommended-card-link"
+            className="nearby-card-link"
           >
-            <div className="recommended-card">
+            <div className="nearby-card">
               <img
                 src={restaurant.images && restaurant.images.length > 0 ? restaurant.images[0] : placeholderImage}
                 alt={restaurant.name}
@@ -33,4 +33,4 @@ function Recommended({ recommendedRestaurants }) {
   );
 }
 
-export default Recommended;
+export default Nearby;
