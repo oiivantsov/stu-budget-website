@@ -4,23 +4,30 @@ import mongoose from "mongoose";
 
 
 const restaurantSchema = new mongoose.Schema({
-    name: String,
-    category: String,
-    phone: String,
+    // Set constants from DB
+    name: { type: String, required: true },
+    address: { type: String, required: true },
+    postal_code: { type: String, required: true },
+    city: { type: String, required: true },
     website: String,
-    address: {
-        street: String,
-        postal: String,
-        city: String,
-        country: String
+    longitude: Number,
+    latitude: Number,
+
+    // Modifiable by this server
+    images: {
+        type: [String],
+        autoCreate: true,
     },
-    coordinates: {
-        lat: Number,
-        long: Number
+    reviewsTotal: {
+        type: Number,
+        autoCreate: true,
+        default: 0
     },
-    images: [String],
-    reviewsTotal: Number,
-    reviewsAverage: Number,
+    reviewsAverage: {
+        type: Number,
+        autoCreate: true,
+        default: 0
+    },
 });
 
 

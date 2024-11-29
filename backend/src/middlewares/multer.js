@@ -27,19 +27,21 @@ export const upload = multer({
     }
 });
 
+
+// TODO: Remove this and use verifier.js (not yet implemented) middleware instead
 export const check = async (req, res, next) => {
-    switch (await verifyRestaurantId(restaurant)) {
+    switch (await verifyRestaurantId(req.query.restaurant)) {
         case "not found":
-            return res.status(404).json({ message: `No restaurant found with id ${restaurant}` });
+            return res.status(404).json({ message: `No restaurant found with id ${req.query.restaurant}` });
         case "invalid":
             return res.status(400).json({ message: "Invalid restaurant id" });
         case "found":
-            next();
+            {}
     }
 
-    switch (await verifyUserId(id)) {
+    switch (await verifyUserId(req.query.user)) {
         case "not found":
-            return res.status(404).json({ message: `No user found with id ${id}` });
+            return res.status(404).json({ message: `No user found with id ${req.query.user}` });
         case "invalid":
             return res.status(400).json({ message: "Invalid user id" });
         case "found":

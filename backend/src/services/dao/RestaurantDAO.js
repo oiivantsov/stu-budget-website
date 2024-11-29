@@ -14,23 +14,11 @@ export default class RestaurantDAO {
     };
 
     async findByCity(city) {
-        return await Restaurant.find({"address.city":city});
+        return await Restaurant.find({"city": city.toUpperCase()});
     }
 
     async findAll() {
         return await Restaurant.find();
-    }
-
-    async persist(restaurant) {
-        return await Restaurant.create(restaurant);
-    }
-
-    async update(id, data) {
-        // Do we need this?
-    }
-
-    async delete(id) {
-        return await Restaurant.deleteOne({_id:id});
     }
 
     async addImage(id, image) {

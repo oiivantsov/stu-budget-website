@@ -1,3 +1,5 @@
+// TODO: Change these to middleware and in doing so standardize the uses of these functions
+
 "use strict";
 
 import RestaurantDAO from "../services/dao/RestaurantDAO.js";
