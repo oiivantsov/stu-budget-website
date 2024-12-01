@@ -15,7 +15,7 @@ const ERROR = "RESTAURANT_ERROR";
 Tracer.register(INFO);
 Tracer.register(ERROR);
 
-export const getAll = async (req, res) => {
+export const getAll = async (_, res) => {
     try {
         Tracer.print(INFO, "Attempting to find all restaurants..");
         return res.json(await dao.findAll());
@@ -95,15 +95,32 @@ export const getNearby = async (req, res) => {
 
 export const addReview = async (req, res) => {
     try {
-        const { restaurant, user } = req.body;
-        Tracer.print(INFO, `Attempting to add review for restaurant with id ${restaurant}..`);
+        const review = req.body;
+        const user = req.user;
+        Tracer.print(INFO, `Attempting to add review for restaurant with id ${review.restaurant}..`);
         // Verify that user and restaurant ids are valid and correspond to real documents
-        await verifyRestaurantId(restaurant, res);
-        await verifyUserId(user, res);
+        switch (await verifyRestaurantId(review.restaurant)) {
+            case "not found":
+                return res.status(400).json({error: `No restaurant with id ${review.restaurant} found`});
+            case "invalid":
+                return res.status(400).json({error: "Invalid restaurant id"});
+        }
+
+        const usersReviewsForRestaurants = await reviewDao.findByUserAndRestaurant(user, review.restaurant);
+        console.log(usersReviewsForRestaurants);
+
+        if (usersReviewsForRestaurants.length > 0) {
+            return res.status(400).json({error: "Cannot add more than 1 review for each restaurant"});
+        }
+
+        // Attach the submitting user to the review
+        review.user = user._id;
 
         // Add review
-        await dao.addReview(req.body);
-        await reviewDao.persist(req.body);
+        await dao.addReview(review);
+        await reviewDao.persist(review);
+
+        Tracer.print(INFO, `Review added to restaurant ${review.restaurant} succesfully`)
         return res.status(200).json({message: "Review added succesfully" });
 
     } catch (e) {
@@ -115,15 +132,24 @@ export const addReview = async (req, res) => {
 export const deleteReview = async (req, res) => {
     try {
         const { id } = req.query;
+        const user = req.user;
+
         Tracer.print(INFO, `Attempting to delete review with id ${id}..`);
-        // Check if requester is owner here
         const review = await reviewDao.findOneById(id);
-        if (review.length < 1) {
+        if (review === null) {
             Tracer.error(ERROR, {name:"NotFound", message:"No review found"});
             return res.status(404).json({msg:"No review found"});
         }
+
+        // Checks if the authenticated user is trying to delete another user's review
+        if (review.user.toString() !== user._id.toString()) {
+            Tracer.error(ERROR, {name:"Unauthorized", message:"Cannot delete other user's review"});
+            return res.status(401).json({error: "Cannot delete other user's review"});
+        }
+
         await dao.deleteReview(review);
         await reviewDao.deleteById(id);
+        Tracer.print(INFO, `Succesfully delted review with id ${id}`);
         return res.status(204).send();
 
     } catch (e) {
@@ -139,10 +165,23 @@ export const deleteReview = async (req, res) => {
 export const updateReview = async (req, res) => {
     try {
         const { id, rating, comment } = req.body;
+        const user = req.user;
+
         Tracer.print(INFO, `Attempting to update review with id ${id}..`);
-        // Check if requester is owner here
 
         const review = await reviewDao.findOneById(id);
+
+        if (review === null) {
+            Tracer.error(ERROR, {name:"NotFound", message:"No review found"});
+            return res.status(404).json({msg:`No review with id ${id} found`});
+        }
+
+        // Checks if the authenticated user is trying to update another user's review
+        if (review.user.toString() !== user._id.toString()) {
+            Tracer.error(ERROR, {name:"Unauthorized", message:"Cannot update other user's review"});
+            return res.status(401).json({error: "Cannot update other user's review"});
+        }
+
         await dao.deleteReview(review);
         await dao.addReview({restaurant:review.restaurant, rating:rating, comment:comment});
 
@@ -161,9 +200,10 @@ export const updateReview = async (req, res) => {
 }
 
 export const uploadImage = async (req, res) => {
+    console.log(req.image);
     try {
         const { user, restaurant } = req.query;
-        const createdImage = await Image.create({user, image:req.file.filename});
+        const createdImage = await Image.create({user, image:req.image.filename});
         const ok = await dao.addImage(restaurant, ok.image);
         if (createdImage && ok.modifiedCount > 0) {
             return res.status(201).json({msg:"Image creation has succeeded"});

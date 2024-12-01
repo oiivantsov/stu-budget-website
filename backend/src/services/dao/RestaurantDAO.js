@@ -41,14 +41,14 @@ export default class RestaurantDAO {
         if (!restaurant.reviewsAverage) restaurant.reviewsAverage = 0;
         restaurant.reviewsAverage = restaurant.reviewsAverage + ((review.rating - restaurant.reviewsAverage) / (restaurant.reviewsTotal + 1));
         restaurant.reviewsTotal += 1;
-        await Restaurant.updateOne(restaurant);
+        await Restaurant.updateOne({_id: review.restaurant}, restaurant);
     }
 
     async deleteReview(review) {
         const restaurant = await Restaurant.findOne({_id:review.restaurant});
         restaurant.reviewsAverage = (restaurant.reviewsAverage * restaurant.reviewsTotal - review.rating) / (restaurant.reviewsTotal - 1);
         restaurant.reviewsTotal -= 1;
-        await Restaurant.updateOne(restaurant);
+        await Restaurant.updateOne({_id: restaurant._id}, restaurant);
     }
 
     async findReviewByUserAndRestaurant(userId, restaurantId) {

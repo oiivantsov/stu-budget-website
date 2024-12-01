@@ -22,5 +22,6 @@ export const checkParameters = (params, body, query) => (req, res, next) => {
         return res.status(400).json({msg:"Parameters for this route are missing"});
     }
 
+    console.log("Parameters checked");
     next();
 };
