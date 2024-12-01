@@ -1,11 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaHeart } from 'react-icons/fa';
-import LogoIcon from '/stubudget.png'; // Adjust path if necessary
-import { useState } from 'react';
+import LogoIcon from '/stubudget.png';
 
-function Header({ openLoginModal, openSignUpModal }) {
-  const [findText, setFindText] = useState('');
-  const [nearText, setNearText] = useState('');
+function Header({ findText, nearText, setFindText, setNearText, openLoginModal, openSignUpModal }) {
   const navigate = useNavigate();
 
   const handleSearch = () => {
@@ -20,8 +17,6 @@ function Header({ openLoginModal, openSignUpModal }) {
           StuBudget
         </Link>
       </div>
-
-      {/* Centered Search Bar */}
       <div className="header-center">
         <div className="search-bar">
           <input
@@ -41,8 +36,6 @@ function Header({ openLoginModal, openSignUpModal }) {
           </button>
         </div>
       </div>
-
-      {/* Navigation Links with Heart Icon */}
       <nav className="nav-links">
         <Link to="/favorites" className="favorites-icon">
           <FaHeart />

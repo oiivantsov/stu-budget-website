@@ -1,35 +1,55 @@
 import React, { useState } from 'react';
+import { addReview as addReviewAPI } from '../utils/CafesAPI'; // Import the API function
 import './Modal.css';
 
-function WriteReviewModal({ closeModal, addReview }) {
-    const [name, setName] = useState('');
+function WriteReviewModal({ closeModal, addReview, cafeId }) {
     const [rating, setRating] = useState('');
     const [comment, setComment] = useState('');
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (name && rating && comment) {
-            addReview({ name, rating: `${rating} ★`, comment });
+        setError(null);
+        setLoading(true);
+
+        if (!rating || !comment) {
+            setError('All fields are required.');
+            setLoading(false);
+            return;
+        }
+
+        try {
+            // Construct the review object
+            const newReview = {
+                restaurant: cafeId, // Assuming cafeId maps to `restaurant` field
+                rating: parseInt(rating, 10),
+                comment,
+                user: '674c6f2b3fb59690905a6d44', // Replace with dynamic user ID if available
+            };
+
+            // Call the API to add the review
+            const response = await addReviewAPI(newReview);
+
+            // Update parent component state
+            addReview(response); // Pass the saved review back to the parent
             closeModal();
+        } catch (err) {
+            setError('Failed to submit review. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="modal-overlay" onClick={closeModal}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
-                <button className="close-button" onClick={closeModal}>×</button>
+                <button className="close-button" onClick={closeModal}>
+                    ×
+                </button>
                 <h2>Write a Review</h2>
+                {error && <p className="error">{error}</p>}
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="name">Name:</label>
-                        <input
-                            type="text"
-                            id="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-                    </div>
                     <div className="form-group">
                         <label htmlFor="rating">Rating (1-5):</label>
                         <input
@@ -51,7 +71,9 @@ function WriteReviewModal({ closeModal, addReview }) {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn-submit">Submit</button>
+                    <button type="submit" className="btn-submit" disabled={loading}>
+                        {loading ? 'Submitting...' : 'Submit'}
+                    </button>
                 </form>
             </div>
         </div>
