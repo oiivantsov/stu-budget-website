@@ -200,11 +200,10 @@ export const updateReview = async (req, res) => {
 }
 
 export const uploadImage = async (req, res) => {
-    console.log(req.image);
     try {
         const { user, restaurant } = req.query;
-        const createdImage = await Image.create({user, image:req.image.filename});
-        const ok = await dao.addImage(restaurant, ok.image);
+        const createdImage = await Image.create({user, restaurant, image:req.file.filename});
+        const ok = await dao.addImage(restaurant, createdImage.image);
         if (createdImage && ok.modifiedCount > 0) {
             return res.status(201).json({msg:"Image creation has succeeded"});
         } else {
@@ -220,9 +219,11 @@ export const uploadImage = async (req, res) => {
 export const deleteImage = async (req, res) => {
     try {
         const { id } = req.body;
+        const img = await Image.findOne({_id:id});
         const deletedImage = await Image.deleteOne({_id:id});
 
         if (deletedImage.deletedCount > 0) {
+            await dao.removeImage(img.restaurant, img.image);
             return res.status(204).send();
         } else {
             return res.status(404).json({msg:"No image found"});

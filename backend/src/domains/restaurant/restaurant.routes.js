@@ -4,7 +4,6 @@ import auth from "../../middlewares/auth.js";
 const router = Router();
 import { getAll, getById, getByCity, getNearby, addReview, deleteReview, updateReview, uploadImage, deleteImage } from "./restaurant.controller.js"
 import { checkParameters } from "../../utils/checkParameters.js";
-import { verifyUserId, verifyRestaurantId } from "../../utils/verifiers.js";
 
 router.get("/all", getAll);
 router.get("/city", checkParameters([], [], ["city"]), getByCity);
