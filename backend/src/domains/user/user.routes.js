@@ -27,10 +27,10 @@ router.patch("/:id", auth, updateUser);
 router.delete("/", auth, deleteUser);
 
 // POST New favorite
-router.post("/favorite/add", [checkParameters([], [], ["restaurantId"]), auth], addFavorite)
+router.post("/favorite/", [checkParameters([], [], ["restaurantId"]), auth], addFavorite)
 
 // DELETE Favorite
-router.delete("/favorite/delete", [checkParameters([], [], ["restaurantId"]), auth], deleteFavorite);
+router.delete("/favorite/", [checkParameters([], [], ["restaurantId"]), auth], deleteFavorite);
 
 
 export default router;
