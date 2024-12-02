@@ -8,7 +8,7 @@ export default class ReviewDAO {
     }
 
     async findOneById(reviewId) {
-        return await Review.findOne({ _id: reviewId });
+        return await Review.findById(reviewId);
     }
 
     async findAllByRestaurant(restaurantId) {

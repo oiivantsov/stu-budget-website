@@ -1,23 +1,22 @@
 import { Router } from "express";
 import { upload, check } from "../../middlewares/multer.js";
+import auth from "../../middlewares/auth.js";
 const router = Router();
 import { getAll, getById, getByCity, getNearby, addReview, deleteReview, updateReview, uploadImage, deleteImage } from "./restaurant.controller.js"
 import { checkParameters } from "../../utils/checkParameters.js";
-import { verifyUserId, verifyRestaurantId } from "../../utils/verifiers.js";
 
-// GET all
 router.get("/all", getAll);
-router.get("/city", checkParameters([], ["city"]), getByCity);
-router.get("/id", checkParameters(["ga"], ["id"]), getById);
-router.get("/nearby", checkParameters([], ["city", "street", "limit"]), getNearby);
+router.get("/city", checkParameters([], [], ["city"]), getByCity);
+router.get("/id", checkParameters([], [], ["id"]), getById);
+router.get("/nearby", checkParameters([], ["city", "street", "limit"], []), getNearby);
 
-// POST Add review
-router.post("/review/add", checkParameters([], ["user", "restaurant", "rating", "comment"]), addReview);
-router.put("/review/update", checkParameters([], ["id", "rating", "comment"]), updateReview);
-router.delete("/review/delete", checkParameters([], ["id"]), deleteReview);
+// Reviews
+router.post("/review/add", [checkParameters([], ["restaurant", "rating", "comment"], []), auth], addReview);
+router.put("/review/update", [checkParameters([], ["id", "rating", "comment"], []), auth], updateReview);
+router.delete("/review/delete", [checkParameters([], [], ["id"]), auth], deleteReview);
 
 // Images
-router.post("/image/upload/:id/:restaurant", [checkParameters(["id", "restaurant"], []), check, upload.single("image")], uploadImage);
-router.delete("/image/delete", checkParameters([], ["id"]), deleteImage);
+router.post("/image/upload", [checkParameters([], [], ["user", "restaurant"]), auth, check, upload.single("image")], uploadImage);
+router.delete("/image/delete", [checkParameters([], ["id"], []), auth], deleteImage);
 
 export default router;

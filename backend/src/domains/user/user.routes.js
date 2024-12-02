@@ -14,7 +14,7 @@ router.get("/byId/:id", getOneById);
 router.get("/all", getAll);
 
 // POST New user
-router.post("/register",registerUser);
+router.post("/register", registerUser);
 
 // POST Login user
 router.post("/login", loginUser);

@@ -14,23 +14,11 @@ export default class RestaurantDAO {
     };
 
     async findByCity(city) {
-        return await Restaurant.find({"address.city":city});
+        return await Restaurant.find({"city": city.toUpperCase()});
     }
 
     async findAll() {
         return await Restaurant.find();
-    }
-
-    async persist(restaurant) {
-        return await Restaurant.create(restaurant);
-    }
-
-    async update(id, data) {
-        // Do we need this?
-    }
-
-    async delete(id) {
-        return await Restaurant.deleteOne({_id:id});
     }
 
     async addImage(id, image) {
@@ -53,14 +41,14 @@ export default class RestaurantDAO {
         if (!restaurant.reviewsAverage) restaurant.reviewsAverage = 0;
         restaurant.reviewsAverage = restaurant.reviewsAverage + ((review.rating - restaurant.reviewsAverage) / (restaurant.reviewsTotal + 1));
         restaurant.reviewsTotal += 1;
-        await Restaurant.updateOne(restaurant);
+        await Restaurant.updateOne({_id: review.restaurant}, restaurant);
     }
 
     async deleteReview(review) {
         const restaurant = await Restaurant.findOne({_id:review.restaurant});
         restaurant.reviewsAverage = (restaurant.reviewsAverage * restaurant.reviewsTotal - review.rating) / (restaurant.reviewsTotal - 1);
         restaurant.reviewsTotal -= 1;
-        await Restaurant.updateOne(restaurant);
+        await Restaurant.updateOne({_id: restaurant._id}, restaurant);
     }
 
     async findReviewByUserAndRestaurant(userId, restaurantId) {

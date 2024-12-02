@@ -16,6 +16,11 @@ const auth = async (req, res, next) => {
         const {id} = jwt.verify(token, process.env.JWT_SECRET);
 
         req.user = await userDao.findOneById(id);
+
+        if (req.user === null) {
+            return res.status(401).json({error: `Unauthorized, no user with id ${id}`});
+        }
+
         next();
     } catch (error) {
         console.error("Error in auth: error", error);
