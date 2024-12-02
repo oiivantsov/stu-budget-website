@@ -1,7 +1,7 @@
 "use strict";
 
 import { Router } from "express";
-import { getOneById, getAll, registerUser, loginUser, updateUser, deleteUser, addFavorite, deleteFavorite } from "./user.controller.js";
+import { getOneById, getAll, signupUser, loginUser, updateUser, deleteUser, addFavorite, deleteFavorite } from "./user.controller.js";
 import auth from "../../middlewares/auth.js"
 import { checkParameters } from "../../utils/checkParameters.js";
 
@@ -15,7 +15,7 @@ router.get("/byId/:id", getOneById);
 router.get("/all", getAll);
 
 // POST New user
-router.post("/register", registerUser);
+router.post("/register", signupUser);
 
 // POST Login user
 router.post("/login", loginUser);

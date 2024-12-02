@@ -36,7 +36,7 @@ export const getAll = async (_, res) => {
 };
 
 
-export const registerUser = async (req, res) => {
+export const signupUser = async (req, res) => {
     try {
         const newUser = await dao.register(req.body);
 
