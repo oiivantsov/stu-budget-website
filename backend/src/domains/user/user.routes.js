@@ -1,8 +1,9 @@
 "use strict";
 
 import { Router } from "express";
-import { getOneById, getAll, registerUser, loginUser, updateUser, deleteUser } from "./user.controller.js";
+import { getOneById, getAll, registerUser, loginUser, updateUser, deleteUser, addFavorite, deleteFavorite } from "./user.controller.js";
 import auth from "../../middlewares/auth.js"
+import { checkParameters } from "../../utils/checkParameters.js";
 
 
 const router = Router();
@@ -24,6 +25,12 @@ router.patch("/:id", auth, updateUser);
 
 // DELETE User
 router.delete("/:id", deleteUser);
+
+// POST New favorite
+router.post("/favorite/add", [checkParameters([], [], ["restaurantId"]), auth], addFavorite)
+
+// DELETE Favorite
+router.delete("/favorite/delete", [checkParameters([], [], ["restaurantId"]), auth], deleteFavorite);
 
 
 export default router;
