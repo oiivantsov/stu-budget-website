@@ -24,7 +24,7 @@ router.post("/login", loginUser);
 router.patch("/:id", auth, updateUser);
 
 // DELETE User
-router.delete("/:id", deleteUser);
+router.delete("/", auth, deleteUser);
 
 // POST New favorite
 router.post("/favorite/add", [checkParameters([], [], ["restaurantId"]), auth], addFavorite)

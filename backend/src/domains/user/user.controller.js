@@ -105,11 +105,12 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
+    const user = req.user;
+
     try {
-        const daoResponse = await dao.delete(req.params.id);
+        const daoResponse = await dao.delete(user._id);
         if (daoResponse.deletedCount === 0) {
-            res.status(404).json({ msg: `No user found with id ${req.params.id}` });
-            return;
+            return res.status(404).json({ msg: `No user found with id ${req.params.id}` });
         }
         res.status(204).end();
 

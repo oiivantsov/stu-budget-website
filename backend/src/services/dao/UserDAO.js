@@ -1,4 +1,5 @@
 import User from "../../db/models/user.model.js";
+import Review from "../../db/models/review.model.js";
 
 
 export default class UserDAO {
@@ -50,6 +51,8 @@ export default class UserDAO {
     };
 
     async delete(id) {
+        await Review.deleteMany({user: id});
+
         return User.deleteOne({ _id: id });
     };
 
