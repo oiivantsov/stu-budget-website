@@ -205,7 +205,7 @@ export const uploadImage = async (req, res) => {
         const createdImage = await Image.create({user, restaurant, image:req.file.filename});
         const ok = await dao.addImage(restaurant, createdImage.image);
         if (createdImage && ok.modifiedCount > 0) {
-            return res.status(201).json({msg:"Image creation has succeeded"});
+            return res.status(201).json({msg:"Image creation has succeeded", img: createdImage.image});
         } else {
             console.log("Image creation failed");
             return res.status(500).json({msg:"Image creation has failed"});

@@ -1,12 +1,19 @@
-import React from 'react';
-import Slider from "react-slick"; // React Slick for carousel
-import "slick-carousel/slick/slick.css"; 
+import React, { useEffect } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 function Images({ images }) {
+  useEffect(() => {
+  }, [images]);
+
   if (!images || images.length === 0) {
     return (
-          <p>No photos available yet!</p>
+      <div className="business-images-placeholder">
+        <p>No photos available yet!</p>
+      </div>
     );
   }
 
@@ -18,7 +25,7 @@ function Images({ images }) {
     slidesToScroll: 1,
     responsive: [
       {
-        breakpoint: 768, // Adjust for smaller devices
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
         },
@@ -31,13 +38,23 @@ function Images({ images }) {
       {images.length > 3 ? (
         <Slider {...settings}>
           {images.map((image, index) => (
-            <img key={index} src={image} alt={`Business Image ${index + 1}`} className="carousel-image" />
+            <img
+              key={index}
+              src={`${API_BASE_URL}/public/${image}`}
+              alt={`Business Image ${index + 1}`}
+              className="carousel-image"
+            />
           ))}
         </Slider>
       ) : (
         <div className="business-images">
           {images.map((image, index) => (
-            <img key={index} src={image} alt={`Business Image ${index + 1}`} className="static-image" />
+            <img
+              key={index}
+              src={`${API_BASE_URL}/public/${image}`}
+              alt={`Business Image ${index + 1}`}
+              className="static-image"
+            />
           ))}
         </div>
       )}

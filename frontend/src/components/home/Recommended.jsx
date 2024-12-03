@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../../utils/TextFormat';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 function Recommended({ recommendedRestaurants }) {
   const placeholderImage = "https://via.placeholder.com/150?text=No+Image";
 
@@ -16,7 +18,7 @@ function Recommended({ recommendedRestaurants }) {
           >
             <div className="recommended-card">
               <img
-                src={restaurant.images && restaurant.images.length > 0 ? restaurant.images[0] : placeholderImage}
+                src={restaurant.images && restaurant.images.length > 0 ? `${API_BASE_URL}/public/${restaurant.images[0]}` : placeholderImage}
                 alt={restaurant.name}
                 className="restaurant-image"
               />
