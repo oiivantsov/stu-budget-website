@@ -6,12 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 function Images({ images }) {
   if (!images || images.length === 0) {
     return (
-      <div className="business-images-placeholder">
-        <div className="placeholder-content">
           <p>No photos available yet!</p>
-          <button className="upload-photo-btn">Upload Photos</button>
-        </div>
-      </div>
     );
   }
 

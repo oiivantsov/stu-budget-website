@@ -1,23 +1,43 @@
+import React, { useEffect, useState } from 'react';
+import { fetchAllCafes } from '../utils/CafesAPI';
 import Hero from '../components/home/Hero';
 import Nearby from '../components/home/Nearby';
 import Categories from '../components/home/Categories';
 import Recommended from '../components/home/Recommended';
-import { businesses } from '../data/businesses'; // Import businesses data
 
 function Home() {
-  // Filter or select recommended restaurants (example: top 3 based on average rating)
-  const recommendedRestaurants = businesses
-    .sort((a, b) => b.reviews.average - a.reviews.average) // Sort by highest rating
-    .slice(0, 3); // Select the top 3
+  const [cafes, setCafes] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const nearbyRestaurants = businesses.slice(0, 3);
+  useEffect(() => {
+    const loadCafes = async () => {
+      try {
+        const data = await fetchAllCafes();
+        setCafes(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+    loadCafes();
+  }, []);
+
+  if (loading) return <p>Loading cafes...</p>;
+  if (error) return <p>{error}</p>;
+
+  // Filter recommended and nearby cafes
+  const recommendedRestaurants = cafes
+    .sort((a, b) => b.reviewsAverage - a.reviewsAverage) // Sort by highest rating
+    .slice(0, 3); // Top 3
+  const nearbyRestaurants = cafes.slice(0, 3); // Arbitrary top 3 for nearby
 
   return (
     <main className="main-content">
       <Hero />
-      <Categories/>
+      <Categories />
       <Nearby nearbyRestaurants={nearbyRestaurants} />
-      
       <Recommended recommendedRestaurants={recommendedRestaurants} />
     </main>
   );

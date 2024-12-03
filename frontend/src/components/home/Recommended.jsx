@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { capitalizeFirstLetter } from '../../utils/TextFormat';
 
 function Recommended({ recommendedRestaurants }) {
   const placeholderImage = "https://via.placeholder.com/150?text=No+Image";
@@ -9,8 +10,8 @@ function Recommended({ recommendedRestaurants }) {
       <div className="recommended-cards">
         {recommendedRestaurants.map((restaurant) => (
           <Link
-            to={`/business/${restaurant.id}`} // Link to the correct business page
-            key={restaurant.id}
+            to={`/business/${restaurant._id}`} // Link to the correct business page
+            key={restaurant._id}
             className="recommended-card-link"
           >
             <div className="recommended-card">
@@ -20,9 +21,9 @@ function Recommended({ recommendedRestaurants }) {
                 className="restaurant-image"
               />
               <div className="restaurant-info">
-                <h3>{restaurant.name}</h3>
+                <h3>{capitalizeFirstLetter(restaurant.name)}</h3>
                 <p>
-                  {restaurant.reviews.average} ⭐ • {restaurant.category} • {restaurant.address.city}
+                  {restaurant.reviewsAverage} ⭐ • {capitalizeFirstLetter(restaurant.city)}
                 </p>
               </div>
             </div>

@@ -15,18 +15,42 @@ function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
+  const [findText, setFindText] = useState('');
+  const [nearText, setNearText] = useState('');
+
   const openLoginModal = () => setIsLoginOpen(true);
   const closeLoginModal = () => setIsLoginOpen(false);
   const openSignUpModal = () => setIsSignUpOpen(true);
   const closeSignUpModal = () => setIsSignUpOpen(false);
 
+  const clearSearchFields = () => {
+    setFindText('');
+    setNearText('');
+  };
+
   return (
     <Router>
-      <Header openLoginModal={openLoginModal} openSignUpModal={openSignUpModal} />
+      <Header
+        findText={findText}
+        nearText={nearText}
+        setFindText={setFindText}
+        setNearText={setNearText}
+        openLoginModal={openLoginModal}
+        openSignUpModal={openSignUpModal}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/business/:id" element={<Business />} /> {/* Use :id for dynamic routes */}
-        <Route path="/search" element={<SearchResults />} />
+        <Route path="/business/:id" element={<Business />} />
+        <Route
+          path="/search"
+          element={
+            <SearchResults
+              findText={findText}
+              nearText={nearText}
+              clearSearchFields={clearSearchFields}
+            />
+          }
+        />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
@@ -34,7 +58,7 @@ function App() {
       {isLoginOpen && (
         <LoginModal
           closeLoginModal={closeLoginModal}
-          openSignUpModal={openSignUpModal} // Passing this prop to LoginModal
+          openSignUpModal={openSignUpModal}
         />
       )}
       {isSignUpOpen && (
