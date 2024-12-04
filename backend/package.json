@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --env-file=.env src/app.js"
+    "dev": "nodemon --env-file=.env src/app.js",
+    "lint": "node ./dev-tools/node_modules/eslint/bin/eslint.js . -c ./dev-tools/eslint.config.mjs"
   },
   "author": "Aaro Saila",
   "license": "ISC",
