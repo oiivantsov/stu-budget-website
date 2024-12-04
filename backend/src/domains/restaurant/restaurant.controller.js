@@ -1,7 +1,7 @@
 import DAO from "../../services/dao/index.js";
 import { getDistanceBetweenCoords } from "../../utils/distanceBetweenCoords.js";
 import { getCoordinates } from "../../services/apis/openrouteservice.js";
-import { verifyUserId, verifyRestaurantId } from "../../utils/verifiers.js";
+import { verifyRestaurantId } from "../../utils/verifiers.js";
 import Tracer from "../../utils/tracer.js";
 import Image from "../../db/models/image.model.js";
 

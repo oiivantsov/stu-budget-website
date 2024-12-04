@@ -6,8 +6,8 @@ export default class MongooseConnection {
 
         try {
             mongoose.connect(process.env.DB_ADDRESS)
-                .then(e => console.log("Connected"))
-                .catch(e => console.log("Failed connecting"));
+                .then(() => console.log("Connected"))
+                .catch(() => console.log("Failed connecting"));
             this.connection = mongoose.connection;
         } catch (e) {
             console.log(e.message);

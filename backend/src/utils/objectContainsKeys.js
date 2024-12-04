@@ -1,10 +1,10 @@
 "use strict";
 
 
-const objectContainsKeys = (object, keys) => {
+const objectContainsKeys = (obj, keys) => {
     const hasTheseKeys = [];
     keys.some(key => {
-        if (object.hasOwnProperty(key)) {
+        if (obj[key] !== undefined) {
             hasTheseKeys.push(key);
         }
     });
