@@ -1,4 +1,5 @@
 import User from "../../db/models/user.model.js";
+import Review from "../../db/models/review.model.js";
 
 
 export default class UserDAO {
@@ -11,7 +12,7 @@ export default class UserDAO {
 
     // TODO: filter out password
     async findOneByEmail(email) {
-        return User.findOne({email: email});
+        return User.findOne({ email: email });
     }
 
     // TODO: filter out password
@@ -50,22 +51,46 @@ export default class UserDAO {
     };
 
     async delete(id) {
-        return User.deleteOne({_id: id});
+        await Review.deleteMany({user: id});
+
+        return User.deleteOne({ _id: id });
     };
 
+    async addFavorite(userId, favorite) {
+        const user = await User.findById(userId);
+
+        user.favorites.forEach(id => {
+            if (id.toString() === favorite) {
+                throw Error("Already in favorites");
+            }
+        });
+
+        const newFavorites = [...user.favorites, favorite];
+
+        return User.updateOne({ _id: userId }, {favorites: newFavorites});
+    }
+
+    async deleteFavorite(userId, favorite) {
+        const user = await User.findOne({ _id: userId });
+
+        const newFavorites = user.favorites.filter(id => id.toString() !== favorite)
+
+        return User.updateOne({ _id: userId }, { favorites: newFavorites });
+    }
+
     async addReview(reviewId, userId) {
-        const user = User.find({_id: userId});
+        const user = User.findOne({ _id: userId });
 
         const newReviews = [...user.reviews, reviewId];
 
-        return User.updateOne({_id: userId}, {reviews: newReviews});
+        return User.updateOne({ _id: userId }, { reviews: newReviews });
     }
 
     async deleteReview(reviewId, userId) {
-        const user = User.find({_id: userId});
+        const user = User.findOne({ _id: userId });
 
         const newReviews = user.reviews.filter(id => id !== reviewId)
 
-        return User.updateOne({_id: userId}, {reviews: newReviews});
+        return User.updateOne({ _id: userId }, { reviews: newReviews });
     }
 }
