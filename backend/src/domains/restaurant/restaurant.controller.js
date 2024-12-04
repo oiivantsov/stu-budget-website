@@ -92,38 +92,6 @@ export const getNearby = async (req, res) => {
     }
 };
 
-export const deleteReview = async (req, res) => {
-    try {
-        const { id } = req.query;
-        const user = req.user;
-
-        Tracer.print(INFO, `Attempting to delete review with id ${id}..`);
-        const review = await reviewDao.findOneById(id);
-        if (review === null) {
-            Tracer.error(ERROR, {name:"NotFound", message:"No review found"});
-            return res.status(404).json({msg:"No review found"});
-        }
-
-        // Checks if the authenticated user is trying to delete another user's review
-        if (review.user.toString() !== user._id.toString()) {
-            Tracer.error(ERROR, {name:"Unauthorized", message:"Cannot delete other user's review"});
-            return res.status(401).json({error: "Cannot delete other user's review"});
-        }
-
-        await dao.deleteReview(review);
-        await reviewDao.deleteById(id);
-        Tracer.print(INFO, `Succesfully delted review with id ${id}`);
-        return res.status(204).send();
-
-    } catch (e) {
-        Tracer.error(ERROR, e)
-        if (e.name === "CastError") {
-            return res.status(400).json({msg:"Bad review id"});
-        } else {
-            return res.status(500).json({msg:"Server error"});
-        }
-    }
-}
 
 export const updateReview = async (req, res) => {
     try {

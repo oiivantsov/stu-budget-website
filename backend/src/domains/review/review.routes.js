@@ -18,6 +18,17 @@ router.get(
 );
 
 /*
+    GET All reviews for a user
+    
+    Query: userId
+*/
+router.get(
+    "/user",
+    checkParameters([], [], ["userId"]),
+    controller.getAllReviewsForUser
+);
+
+/*
     POST Add review
 
     Protected
@@ -34,6 +45,20 @@ router.post(
     checkParameters([], ["restaurant", "rating"], []),
     auth,
     controller.addReview
-)
+);
+
+/*
+    DELETE Review
+    
+    Protected
+
+    Query: reviewId
+*/
+router.delete(
+    "/",
+    checkParameters([], [], ["reviewId"]),
+    auth,
+    controller.deleteReview
+);
 
 export default router;
