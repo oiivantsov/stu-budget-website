@@ -1,7 +1,6 @@
 import DAO from "../../services/dao/index.js";
 import { getDistanceBetweenCoords } from "../../utils/distanceBetweenCoords.js";
 import { getCoordinates } from "../../services/apis/openrouteservice.js";
-import { verifyRestaurantId } from "../../utils/verifiers.js";
 import Tracer from "../../utils/tracer.js";
 import Image from "../../db/models/image.model.js";
 
@@ -92,42 +91,6 @@ export const getNearby = async (req, res) => {
         return res.status(500).json({msg:"Server error"});
     }
 };
-
-export const addReview = async (req, res) => {
-    try {
-        const review = req.body;
-        const user = req.user;
-        Tracer.print(INFO, `Attempting to add review for restaurant with id ${review.restaurant}..`);
-        // Verify that user and restaurant ids are valid and correspond to real documents
-        switch (await verifyRestaurantId(review.restaurant)) {
-            case "not found":
-                return res.status(400).json({error: `No restaurant with id ${review.restaurant} found`});
-            case "invalid":
-                return res.status(400).json({error: "Invalid restaurant id"});
-        }
-
-        const usersReviewsForRestaurants = await reviewDao.findByUserAndRestaurant(user, review.restaurant);
-        console.log(usersReviewsForRestaurants);
-
-        if (usersReviewsForRestaurants.length > 0) {
-            return res.status(400).json({error: "Cannot add more than 1 review for each restaurant"});
-        }
-
-        // Attach the submitting user to the review
-        review.user = user._id;
-
-        // Add review
-        await dao.addReview(review);
-        await reviewDao.persist(review);
-
-        Tracer.print(INFO, `Review added to restaurant ${review.restaurant} succesfully`)
-        return res.status(200).json({message: "Review added succesfully" });
-
-    } catch (e) {
-        Tracer.error(ERROR, e);
-        return res.status(500).json({error:"Server error"});
-    }
-}
 
 export const deleteReview = async (req, res) => {
     try {
