@@ -84,6 +84,15 @@ export const addReview = async (req, res) => {
     }
 };
 
+export const patchReview = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        Tracer.print(ERROR, error);
+        res.status(400).json({ error: error.message });
+    }
+};
+
 export const deleteReview = async (req, res) => {
     try {
         const user = req.user;
@@ -98,7 +107,7 @@ export const deleteReview = async (req, res) => {
         return res.sendStatus(204);
     } catch (error) {
         if (error instanceof mongoose.CastError) {
-            return res.status(400).json({error: "Invalid review id"});
+            return res.status(400).json({ error: "Invalid review id" });
         }
         Tracer.print(ERROR, error);
         return res.status(400).json({ error: error.message });
@@ -109,5 +118,6 @@ export default {
     getAllReviewsForRestaurant,
     getAllReviewsForUser,
     addReview,
+    patchReview,
     deleteReview
 };

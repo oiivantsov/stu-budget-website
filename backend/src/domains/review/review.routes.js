@@ -48,6 +48,24 @@ router.post(
 );
 
 /*
+    PATCH Update, but don't replace, review
+
+    Protected
+
+    Body: {
+        [optional] rating
+        [optional] comment
+    }
+    Query: reviewId
+*/
+router.patch(
+    "/",
+    checkParameters([], [], ["reviewId"]),
+    auth,
+    controller.patchReview
+);
+
+/*
     DELETE Review
     
     Protected
