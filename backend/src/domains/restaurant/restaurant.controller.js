@@ -92,44 +92,6 @@ export const getNearby = async (req, res) => {
     }
 };
 
-
-export const updateReview = async (req, res) => {
-    try {
-        const { id, rating, comment } = req.body;
-        const user = req.user;
-
-        Tracer.print(INFO, `Attempting to update review with id ${id}..`);
-
-        const review = await reviewDao.findOneById(id);
-
-        if (review === null) {
-            Tracer.error(ERROR, {name:"NotFound", message:"No review found"});
-            return res.status(404).json({msg:`No review with id ${id} found`});
-        }
-
-        // Checks if the authenticated user is trying to update another user's review
-        if (review.user.toString() !== user._id.toString()) {
-            Tracer.error(ERROR, {name:"Unauthorized", message:"Cannot update other user's review"});
-            return res.status(401).json({error: "Cannot update other user's review"});
-        }
-
-        await dao.deleteReview(review);
-        await dao.addReview({restaurant:review.restaurant, rating:rating, comment:comment});
-
-        const ok = await reviewDao.updateReview(id, rating, comment);
-
-        if (ok.modifiedCount > 0) return res.status(200).send();
-        else return res.status(500).json({msg:"Entry was not modified"});
-    } catch (e) {
-        Tracer.error(ERROR, e);
-        if (e.name === "CastError") {
-            res.status(400).json({msg:"Bad review id"});
-        } else {
-            res.status(500).json({msg:"Server error"});
-        }
-    }
-}
-
 export const uploadImage = async (req, res) => {
     try {
         const { user, restaurant } = req.query;

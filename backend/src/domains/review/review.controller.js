@@ -3,6 +3,7 @@ import Restaurant from "../../db/models/restaurant.model.js";
 import Tracer from "../../utils/tracer.js";
 import mongoose from "mongoose";
 import { verifyRestaurantId, verifyUserId } from "../../utils/verifiers.js";
+import objectOnlyHasFields from "../../utils/objectOnlyHasFields.js";
 
 const INFO = "REVIEW_INFO";
 const ERROR = "REVIEW_ERROR";
@@ -85,8 +86,20 @@ export const addReview = async (req, res) => {
 };
 
 export const patchReview = async (req, res) => {
+    const user = req.user;
+    const { reviewId } = req.query;
+    const patchedReview = req.body;
+
+    const extraFields = objectOnlyHasFields(patchedReview, ["comment", "rating"]);
+
+    if (extraFields) {
+        return res.status(400).json({ msg: "Non-allowed or unnecessary fields in request", fields: extraFields });
+    }
+
     try {
-        
+        const result = await Review.findOneAndUpdate({ _id: reviewId, user: user._id }, { ...patchedReview }, { new: true });
+
+        res.status(200).json(result);
     } catch (error) {
         Tracer.print(ERROR, error);
         res.status(400).json({ error: error.message });
