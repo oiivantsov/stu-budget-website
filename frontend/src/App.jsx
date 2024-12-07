@@ -10,8 +10,10 @@ import ErrorPage from './pages/ErrorPage';
 import LoginModal from './components/LoginModal';
 import SignUpModal from './components/SignUpModal';
 import ProfilePage from './components/User/ProfilePage';
+import UserReviewsPage from './components/User/UserReviewsPage';
 import { AuthProvider } from './context/AuthContext';
 import './App.css';
+
 
 function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -55,7 +57,8 @@ function App() {
             }
           />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/user_details" element={<ProfilePage />} /> {/* Add this route */}
+          <Route path="/user_details" element={<ProfilePage />} />
+          <Route path="/reviews" element={<UserReviewsPage/>} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />
