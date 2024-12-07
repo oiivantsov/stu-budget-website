@@ -30,5 +30,14 @@ const restaurantSchema = new mongoose.Schema({
     },
 });
 
+restaurantSchema.statics.addReview = async function (review) {
+    const restaurant = await this.findOne({_id:review.restaurant});
+    if (!restaurant.reviewsTotal) restaurant.reviewsTotal = 0;
+    if (!restaurant.reviewsAverage) restaurant.reviewsAverage = 0;
+    restaurant.reviewsAverage = restaurant.reviewsAverage + ((review.rating - restaurant.reviewsAverage) / (restaurant.reviewsTotal + 1));
+    restaurant.reviewsTotal += 1;
+    await this.updateOne({_id: review.restaurant}, restaurant);
+}
+
 
 export default restaurantSchema;
