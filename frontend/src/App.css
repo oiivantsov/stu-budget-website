@@ -499,6 +499,8 @@ h1, h2, h3, h4 {
   border-radius: var(--radius);
   box-shadow: var(--light-shadow);
   transition: var(--transition);
+  min-height: 450px;
+  max-height: 450px;
   overflow: hidden;
 }
 
@@ -765,6 +767,23 @@ h1, h2, h3, h4 {
   background: var(--clr-primary-5);
 }
 
+.btn-back {
+  background: var(--clr-grey-8); /* Light grey background */
+  color: var(--clr-grey-1); /* Dark grey text */
+  padding: 0.5rem 1rem; /* Smaller padding for a more compact look */
+  border-radius: var(--radius);
+  border: none;
+  font-size: 0.9rem; /* Adjust font size for the back button */
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 1.5rem; /* Add margin to separate from other buttons */
+}
+
+.btn-back:hover {
+  background: var(--clr-grey-5); /* Darker grey on hover */
+  color: var(--clr-white); /* White text on hover */
+}
+
 /* Business Images */
 /* Business Images Grid */
 .business-images {
@@ -809,11 +828,10 @@ h1, h2, h3, h4 {
 
 /* Placeholder for No Images */
 .business-images-placeholder {
+  display: flex; /* Use Flexbox for centering */
+  align-items: center; /* Vertically center */
+  justify-content: center; /* Horizontally center */
   text-align: center;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px dashed #ddd;
-  border-radius: 8px;
 }
 
 .placeholder-content p {

@@ -1,4 +1,4 @@
-/* Modal Overlay */
+/* Shared Modal Overlay */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -12,7 +12,7 @@
     z-index: 1000;
 }
 
-/* Modal Content */
+/* Shared Modal Base */
 .modal {
     background: var(--clr-white);
     padding: 2rem;
@@ -29,60 +29,9 @@
     color: var(--clr-primary-5);
 }
 
-.close-button {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    font-size: 1.5rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--clr-grey-5);
-}
-
-.close-button:hover {
-    color: var(--clr-primary-5);
-}
-
-/* Form Group */
-.form-group {
-    margin-bottom: 1rem;
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.3rem;
-    color: var(--clr-grey-1);
-}
-
-.form-group input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid var(--clr-grey-3);
-    border-radius: var(--radius);
-}
-
-/* Submit Button */
-button[type="submit"] {
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1rem;
-    background: var(--clr-primary-5);
-    color: var(--clr-white);
-    border: none;
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-button[type="submit"]:hover {
-    background: var(--clr-primary-8);
-}
-
-/* Text and Links */
 .modal p {
     margin-top: 1rem;
+    /* margin-bottom: 1.5rem; */
     font-size: 1rem;
     color: var(--clr-grey-5);
 }
@@ -98,17 +47,45 @@ button[type="submit"]:hover {
     color: var(--clr-primary-8);
 }
 
+/* Close Button */
+.close-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--clr-grey-5);
+    transition: var(--transition);
+}
 
-/* Additional styling for Write Review Modal */
+.close-button:hover {
+    color: var(--clr-primary-5);
+}
+
+/* Shared Form Group */
+.form-group {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: var(--clr-grey-1);
+}
+
+.form-group input,
 .modal textarea {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid var(--clr-grey-3);
     border-radius: var(--radius);
     resize: vertical;
-    min-height: 100px;
 }
 
+/* Submit Button */
 .btn-submit {
     background: var(--clr-primary-5);
     color: var(--clr-white);
@@ -124,4 +101,49 @@ button[type="submit"]:hover {
 
 .btn-submit:hover {
     background: var(--clr-primary-8);
+}
+
+/* Modal Buttons */
+.modal-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.modal-buttons .btn {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+.modal-buttons .btn-login {
+    background: var(--clr-primary-5);
+    color: var(--clr-white);
+}
+
+.modal-buttons .btn-login:hover {
+    background: var(--clr-primary-8);
+}
+
+.modal-buttons .btn-signup {
+    background: var(--clr-secondary-1);
+    color: var(--clr-white);
+}
+
+.modal-buttons .btn-signup:hover {
+    background: var(--clr-secondary-5);
+}
+
+.modal-buttons .btn-close {
+    background: var(--clr-grey-5);
+    color: var(--clr-white);
+}
+
+.modal-buttons .btn-close:hover {
+    background: var(--clr-grey-8);
 }

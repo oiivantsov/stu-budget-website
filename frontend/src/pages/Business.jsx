@@ -8,6 +8,7 @@ import WriteReviewModal from '../components/WriteReviewModal';
 import { fetchCafeById } from '../utils/CafesAPI';
 import { uploadImage } from '../utils/CafesAPI';
 import { capitalizeFirstLetter } from '../utils/TextFormat';
+import LoginPromptModal from '../components/LoginPromptModal';
 
 function Business() {
   const { id } = useParams();
@@ -19,6 +20,12 @@ function Business() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+
+  // dialog to login or sign up if user is not logged in
+  const [isLoginPromptOpen, setIsLoginPromptOpen] = useState(false);
+
+  const userId = localStorage.getItem("userId") || "674c6f2b3fb59690905a6d44"; // Replace with actual user ID
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const loadBusiness = async () => {
@@ -44,7 +51,7 @@ function Business() {
 
   const handleImageUpload = async (event) => {
     if (!event.target.files || event.target.files.length === 0) {
-        return;
+      return;
     }
 
     const file = event.target.files[0];
@@ -52,22 +59,22 @@ function Business() {
     formData.append("image", file);
 
     try {
-        setUploading(true);
-        const response = await uploadImage(formData, "674c6f2b3fb59690905a6d44", id); // Replace with actual user ID
-        console.log("Response msg:", response.msg);
-        // Optionally refresh the images in the UI
-        setBusinessData((prevData) => ({
-            ...prevData,
-            images: [...prevData.images, response.newImage], // Ensure the backend returns the new image in the response
-        }));
+      setUploading(true);
+      const response = await uploadImage(formData, userId, id); // Replace with actual user ID
+      setBusinessData((prevData) => ({
+        ...prevData,
+        images: [...prevData.images, response.img],
+      }));
     } catch (err) {
-        console.error("Error uploading image:", err.message);
+      console.error("Error uploading image:", err.message);
     } finally {
-        setUploading(false);
+      setUploading(false);
     }
-};
+  };
 
-
+  const handleModalClose = (action) => {
+    setIsLoginPromptOpen(false);
+  };
 
   if (loading) return <p>Loading business details...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -75,6 +82,7 @@ function Business() {
 
   return (
     <section className="business-details">
+      <LoginPromptModal isOpen={isLoginPromptOpen} onClose={handleModalClose} />
       <button className="btn btn-back" onClick={() => navigate(-1)}>
         ← Back
       </button>
@@ -89,7 +97,16 @@ function Business() {
         <button className="btn btn-review" onClick={openReviewModal}>
           Write a Review
         </button>
-        <label className="btn btn-upload">
+        <label
+          className="btn btn-upload"
+          // comment out the following lines onClick to disable the authentication check
+          onClick={(event) => {
+            if (!token) {
+              event.preventDefault(); // Prevent the default click behavior
+              setIsLoginPromptOpen(true); // Show the login modal
+            }
+          }}
+        >
           Add Image
           <input
             type="file"
@@ -98,6 +115,7 @@ function Business() {
             onChange={handleImageUpload}
           />
         </label>
+
         <button className="btn btn-favorite">Add to Favorites</button>
         <button className="btn btn-share">Share</button>
       </div>
