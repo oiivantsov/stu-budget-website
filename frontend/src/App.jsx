@@ -9,6 +9,7 @@ import Favorites from './pages/Favorites';
 import ErrorPage from './pages/ErrorPage';
 import LoginModal from './components/LoginModal';
 import SignUpModal from './components/SignUpModal';
+import { AuthProvider } from './context/AuthContext';
 import './App.css';
 
 function App() {
@@ -29,45 +30,47 @@ function App() {
   };
 
   return (
-    <Router>
-      <Header
-        findText={findText}
-        nearText={nearText}
-        setFindText={setFindText}
-        setNearText={setNearText}
-        openLoginModal={openLoginModal}
-        openSignUpModal={openSignUpModal}
-      />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/business/:id" element={<Business />} />
-        <Route
-          path="/search"
-          element={
-            <SearchResults
-              findText={findText}
-              nearText={nearText}
-              clearSearchFields={clearSearchFields}
-            />
-          }
-        />
-        <Route path="/favorites" element={<Favorites />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-      <Footer />
-      {isLoginOpen && (
-        <LoginModal
-          closeLoginModal={closeLoginModal}
+    <AuthProvider>
+      <Router>
+        <Header
+          findText={findText}
+          nearText={nearText}
+          setFindText={setFindText}
+          setNearText={setNearText}
+          openLoginModal={openLoginModal}
           openSignUpModal={openSignUpModal}
         />
-      )}
-      {isSignUpOpen && (
-        <SignUpModal
-          closeSignUpModal={closeSignUpModal}
-          openLoginModal={openLoginModal}
-        />
-      )}
-    </Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/business" element={<Business />} />
+          <Route
+            path="/search"
+            element={
+              <SearchResults
+                findText={findText}
+                nearText={nearText}
+                clearSearchFields={clearSearchFields}
+              />
+            }
+          />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+        <Footer />
+        {isLoginOpen && (
+          <LoginModal
+            closeLoginModal={closeLoginModal}
+            openSignUpModal={openSignUpModal}
+          />
+        )}
+        {isSignUpOpen && (
+          <SignUpModal
+            closeSignUpModal={closeSignUpModal}
+            openLoginModal={openLoginModal}
+          />
+        )}
+      </Router>
+    </AuthProvider>
   );
 }
 

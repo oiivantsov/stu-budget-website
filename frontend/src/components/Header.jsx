@@ -1,9 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaHeart } from 'react-icons/fa';
 import LogoIcon from '/stubudget.png';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 function Header({ findText, nearText, setFindText, setNearText, openLoginModal, openSignUpModal }) {
   const navigate = useNavigate();
+  const { isLoggedIn, username, logout } = useContext(AuthContext);
 
   const handleSearch = () => {
     navigate('/search', { state: { find: findText, near: nearText } });
@@ -40,8 +43,17 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
         <Link to="/favorites" className="favorites-icon">
           <FaHeart />
         </Link>
-        <button onClick={openLoginModal}>Login</button>
-        <button onClick={openSignUpModal}>Sign Up</button>
+        {isLoggedIn ? (
+          <>
+            <span className="username">{username}</span>
+            <button onClick={logout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <button onClick={openLoginModal}>Login</button>
+            <button onClick={openSignUpModal}>Sign Up</button>
+          </>
+        )}
       </nav>
     </header>
   );
