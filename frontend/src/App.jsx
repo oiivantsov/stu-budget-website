@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -9,6 +9,7 @@ import Favorites from './pages/Favorites';
 import ErrorPage from './pages/ErrorPage';
 import LoginModal from './components/LoginModal';
 import SignUpModal from './components/SignUpModal';
+import ProfilePage from './components/User/ProfilePage';
 import { AuthProvider } from './context/AuthContext';
 import './App.css';
 
@@ -54,6 +55,7 @@ function App() {
             }
           />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/user_details" element={<ProfilePage />} /> {/* Add this route */}
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />

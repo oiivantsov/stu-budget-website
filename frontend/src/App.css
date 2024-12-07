@@ -96,6 +96,88 @@ h1, h2, h3, h4 {
   margin-right: 0.5rem;
 }
 
+/* User Icon */
+.user-icon {
+  width: 24px; /* Set width of the icon */
+  height: 24px; /* Set height of the icon */
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.user-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.user-image {
+  display: inline-block;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 50px; /* Adjust based on your layout */
+  right: 0; /* Adjust based on your layout */
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000; /* Ensure the dropdown appears in front of everything */
+}
+
+.user-menu .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dropdown-menu li:last-child {
+  margin-bottom: 0;
+}
+
+.menu-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background: #f0f0f0;
+}
+
 /* Search Bar */
 .search-bar {
   display: flex;

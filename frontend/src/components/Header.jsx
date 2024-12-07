@@ -1,16 +1,41 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaHeart } from 'react-icons/fa';
 import LogoIcon from '/stubudget.png';
-import { useContext } from 'react';
+import DropdownMenu from '../components/User/DropdownMenu';
+import { useContext, useState, useEffect, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 function Header({ findText, nearText, setFindText, setNearText, openLoginModal, openSignUpModal }) {
   const navigate = useNavigate();
-  const { isLoggedIn, username, logout } = useContext(AuthContext);
+  const { isLoggedIn, username, userId, logout } = useContext(AuthContext);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleSearch = () => {
     navigate('/search', { state: { find: findText, near: nearText } });
   };
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDropdown]);
 
   return (
     <header className="header">
@@ -44,10 +69,15 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
           <FaHeart />
         </Link>
         {isLoggedIn ? (
-          <>
+          <div className="user-menu" ref={dropdownRef}>
             <span className="username">{username}</span>
-            <button onClick={logout}>Logout</button>
-          </>
+            <span className="user-image" onClick={toggleDropdown}>
+              <img src={LogoIcon} alt="User" className="user-icon" />
+            </span>
+            {showDropdown && (
+              <DropdownMenu logout={logout} userId={userId} />
+            )}
+          </div>
         ) : (
           <>
             <button onClick={openLoginModal}>Login</button>
