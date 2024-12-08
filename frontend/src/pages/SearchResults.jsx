@@ -7,7 +7,12 @@ import { capitalizeFirstLetter } from "../utils/TextFormat";
 import { useFetchData } from "../hooks/useFetchData";
 import { useFilters } from "../hooks/useFilters";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 function SearchResults({ findText, nearText, clearSearchFields }) {
+
+  const placeholderImage = "https://via.placeholder.com/150?text=No+Image";
+
   const [selectedFilters, setSelectedFilters] = useState({
     averageScore: [],
     reviewNumber: [],
@@ -66,7 +71,7 @@ function SearchResults({ findText, nearText, clearSearchFields }) {
               rating={business.reviewsAverage}
               reviews={business.reviewsTotal}
               description={`${capitalizeFirstLetter(business.address)}, ${capitalizeFirstLetter(business.city)}`}
-              image={business.images[0]}
+              image={business.images && business.images.length > 0 ? `${API_BASE_URL}/public/${business.images[0]}` : placeholderImage}
             />
           ))
         ) : (

@@ -1,7 +1,10 @@
-function Review({ name, rating, comment }) {
+function Review({ id, userName, rating, comment}) {
+
   return (
     <div className="review">
-      <p><strong>{name}</strong> - <span>{rating} ⭐</span></p>
+      <p>
+        <strong>{userName}</strong> - <span>{rating} ⭐</span>
+      </p>
       <p>{comment}</p>
     </div>
   );

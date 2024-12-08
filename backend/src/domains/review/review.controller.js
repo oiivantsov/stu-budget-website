@@ -45,7 +45,7 @@ export const getAllReviewsForRestaurant = async (req, res) => {
                 return res.status(400).json({ error: `Invalid restaurant id ${restaurantId}` });
         }
 
-        const reviews = await Review.find({ restaurant: restaurantId });
+        const reviews = await Review.find({ restaurant: restaurantId }).populate('user', 'username'); // Return also the name of the user
         return res.status(200).json(reviews);
     } catch (error) {
         Tracer.print(ERROR, error);
@@ -64,7 +64,7 @@ export const getAllReviewsForUser = async (req, res) => {
                 return res.status(400).json({ error: `Invalid user id ${userId}` });
         }
 
-        const reviews = await Review.find({ user: userId });
+        const reviews = await Review.find({ user: userId }).populate('restaurant', 'name'); // Return also the name of the restaurant
         return res.status(200).json(reviews);
     } catch (error) {
         Tracer.print(ERROR, error);
@@ -128,6 +128,7 @@ export const patchReview = async (req, res) => {
     }
 };
 
+// also need to recalculate the average rating and number of reviews for the restaurant
 export const deleteReview = async (req, res) => {
     try {
         const user = req.user;
