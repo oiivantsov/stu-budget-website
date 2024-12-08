@@ -119,7 +119,10 @@ export const patchReview = async (req, res) => {
     }
 
     try {
+        const prev = await Review.findOne({_id:reviewId});
         const result = await Review.findOneAndUpdate({ _id: reviewId, user: user._id }, { ...patchedReview }, { new: true });
+        await Restaurant.deleteReview(prev);
+        await Restaurant.addReview(result);
 
         res.status(200).json(result);
     } catch (error) {
@@ -135,6 +138,7 @@ export const deleteReview = async (req, res) => {
         const { reviewId } = req.query;
 
         const result = await Review.findOneAndDelete({ _id: reviewId, user: user._id });
+        await Restaurant.deleteReview(result);
 
         if (result === null) {
             return res.status(404).json({ error: `No review for user found with id ${reviewId}` });

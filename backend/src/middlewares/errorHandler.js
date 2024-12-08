@@ -6,5 +6,5 @@ Tracer.register(ERROR);
 
 export const errorHandler = (err, req, res) => {
     Tracer.error(ERROR, err);
-    return res.status(500).json({msg:err.message});
+    return res.status(500).json({msg:"Server error"});
 }
