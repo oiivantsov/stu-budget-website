@@ -1,0 +1,36 @@
+[
+  {
+    "name": "ARMILAN SAIRAALA, RAVINTOLA LOUNASKEIDAS",
+    "address": "ARMILANKATU 44",
+    "postal_code": "53100",
+    "city": "LAPPEENRANTA",
+    "website": "https://www.saimaantukipalvelut.fi",
+    "admin": "SAIMAAN TUKIPALVELUT OY",
+    "admin_website": "https://www.saimaantukipalvelut.fi",
+    "longitude": 28.213738,
+    "latitude": 61.060198
+  },
+  {
+    "name": "BISTRO SKINNARILA",
+    "address": "LASERKATU 6",
+    "postal_code": "53850",
+    "city": "LAPPEENRANTA",
+    "website": null,
+    "admin": "COMPASS GROUP FINLAND OY",
+    "admin_website": "https://www.compass-group.fi/",
+    "longitude": 28.096606,
+    "latitude": 61.062153
+  },
+  {
+    "name": "RAVINTOLA KOIVU",
+    "address": "SOTKAMONTIE 13",
+    "postal_code": "87300",
+    "city": "KAJAANI",
+    "website": null,
+    "admin": "VIREKO OY",
+    "admin_website": null,
+    "longitude": 27.727947,
+    "latitude": 64.214363
+  }
+]
+
