@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { businesses } from '../../data/businesses';
+import { AuthContext } from '../../context/AuthContext';
+import useFetchFavorites from '../../hooks/useFetchFavorites';
 
-function FavoritesComponent() {
-  const [favoriteIds, setFavoriteIds] = useState([1, 2, 3]); // Initialize with example IDs
-
-  const favorites = businesses.filter((business) => favoriteIds.includes(business.id));
+const FavoritesComponent = () => {
+  const { userId, token } = useContext(AuthContext);
+  const { favorites, loading, error } = useFetchFavorites(userId, token);
 
   const placeholderImage = "https://via.placeholder.com/150?text=No+Image";
+
+  if (loading) return <p>Loading favorites...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
     <section className="favorites">
@@ -16,8 +19,8 @@ function FavoritesComponent() {
         {favorites.length > 0 ? (
           favorites.map((restaurant) => (
             <Link
-              to={`/business/${restaurant.id}`}
-              key={restaurant.id}
+              to={`/business/${restaurant._id}`}
+              key={restaurant._id}
               className="favorites-card-link"
             >
               <div className="favorites-card">
@@ -28,20 +31,20 @@ function FavoritesComponent() {
                 />
                 <div className="restaurant-info">
                   <h3>{restaurant.name}</h3>
-                  <p>{restaurant.reviews.average} ⭐ • {restaurant.category}</p>
+                  <p>{restaurant.reviewsAverage} ⭐ • {restaurant.category}</p>
                   <p className="location">
-                    {restaurant.address.street}, {restaurant.address.city}
+                    {restaurant.coordinates.lat}, {restaurant.coordinates.long}
                   </p>
                 </div>
               </div>
             </Link>
           ))
         ) : (
-          <p>No favorite businesses yet! Add some to see them here.</p>
+          <p>No favorites yet.</p>
         )}
       </div>
     </section>
   );
-}
+};
 
 export default FavoritesComponent;

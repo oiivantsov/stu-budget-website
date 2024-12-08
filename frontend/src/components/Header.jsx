@@ -4,6 +4,7 @@ import { FaSearch, FaHeart } from 'react-icons/fa';
 import LogoIcon from '/stubudget.png';
 import DropdownMenu from '../components/User/DropdownMenu';
 import { AuthContext } from '../context/AuthContext';
+import { ToastContainer } from 'react-toastify';
 
 function Header({ findText, nearText, setFindText, setNearText, openLoginModal, openSignUpModal }) {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
 
   return (
     <header className="header">
+          <ToastContainer/>
       <div className="logo">
         <Link to="/">
           <img src={LogoIcon} alt="StuBudget Logo" className="logo-icon" />

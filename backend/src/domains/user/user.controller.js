@@ -2,8 +2,10 @@ import DAOs from "../../services/dao/index.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { verifyRestaurantId } from "../../utils/verifiers.js";
+import { verifyRestaurantId, verifyUserId } from "../../utils/verifiers.js";
+import User from "../../db/models/user.model.js"
 import Tracer from "../../utils/tracer.js";
+
 
 
 const INFO = "USER_INFO";
@@ -118,6 +120,30 @@ export const deleteUser = async (req, res) => {
         res.status(400).json({ msg: "Invalid id" });
     }
 };
+
+export const getAllFavoritresForUser = async (req, res) => {
+    try {
+        let { userId } = req.query;
+
+        switch (await verifyUserId(userId)) {
+            case "not found":
+                return res.status(404).json({ error: `No user found with id ${userId}` });
+            case "invalid":
+                return res.status(400).json({ error: `Invalid user id ${userId}` });
+        }
+
+        const user = await User.findById(userId).populate('favorites');
+        if (!user) {
+            return res.status(404).json({ error: `No user found with id ${userId}` });
+        }
+
+        return res.status(200).json(user.favorites);
+    } catch (error) {
+        Tracer.print(ERROR, error);
+        res.status(400).json({ error: error.message });
+    }
+};
+
 
 export const addFavorite = async (req, res) => {
     const user = req.user;
