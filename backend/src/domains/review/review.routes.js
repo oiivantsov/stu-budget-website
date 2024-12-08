@@ -7,6 +7,17 @@ import auth from "../../middlewares/auth.js";
 const router = Router();
 
 /*
+    GET Review by id
+
+    Query: reviewId
+*/
+router.get(
+    "/",
+    checkParameters([], [], ["reviewId"]),
+    controller.getReviewById
+);
+
+/*
     GET All reviews for a restaurant
 
     Query: restaurantId

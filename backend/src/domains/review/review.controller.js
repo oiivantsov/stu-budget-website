@@ -12,6 +12,28 @@ const ERROR = "REVIEW_ERROR";
 Tracer.register(INFO);
 Tracer.register(ERROR);
 
+export const getReviewById = async (req, res) => {
+    try {
+        const { reviewId } = req.query;
+
+        const review = await Review.findById(reviewId);
+
+        if (review === null) {
+            return res.status(404).json({ error: `No review found for id ${reviewId}` });
+        }
+
+        return res.status(400).json(review);
+    } catch (error) {
+        if (error instanceof mongoose.CastError) {
+            return res.status(400).json({ error: "Invalid review id" });
+        }
+
+        Tracer.print(ERROR, error);
+
+        return res.status(400).json({ error: error.message });
+    }
+};
+
 export const getAllReviewsForRestaurant = async (req, res) => {
     try {
         let { restaurantId } = req.query;
@@ -128,6 +150,7 @@ export const deleteReview = async (req, res) => {
 };
 
 export default {
+    getReviewById,
     getAllReviewsForRestaurant,
     getAllReviewsForUser,
     addReview,
