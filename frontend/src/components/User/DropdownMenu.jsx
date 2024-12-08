@@ -10,7 +10,7 @@ function DropdownMenu({ logout, userId }) {
           <Link to={`/user_details?userid=${userId}`}>Profile</Link>
         </li>
         <li>
-          <img src="/review.png" alt="Reviews" className="menu-icon" />
+          <img src="/write-review-icon.png" alt="Reviews" className="menu-icon" />
           <Link to="/reviews">Reviews</Link>
         </li>
         <li>

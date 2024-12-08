@@ -4,6 +4,8 @@ import LogoIcon from '/stubudget.png';
 import DropdownMenu from '../components/User/DropdownMenu';
 import { useContext, useState, useEffect, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Header({ findText, nearText, setFindText, setNearText, openLoginModal, openSignUpModal }) {
   const navigate = useNavigate();
@@ -39,6 +41,7 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
 
   return (
     <header className="header">
+      <ToastContainer/>
       <div className="logo">
         <Link to="/">
           <img src={LogoIcon} alt="StuBudget Logo" className="logo-icon" />
