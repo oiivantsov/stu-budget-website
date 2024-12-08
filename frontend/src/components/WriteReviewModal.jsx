@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addReview as addReviewAPI } from '../utils/CafesAPI'; // Import the API function
+import { addReview as addReviewAPI } from '../utils/ReviewsAPI';
 import './Modal.css';
 
 function WriteReviewModal({ closeModal, addReview, cafeId }) {
@@ -8,40 +8,35 @@ function WriteReviewModal({ closeModal, addReview, cafeId }) {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const userId = localStorage.getItem("userId");
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
         setLoading(true);
-
+    
         if (!rating || !comment) {
-            setError('All fields are required.');
+            setError('Please provide a rating and a comment.');
             setLoading(false);
             return;
         }
-
+    
         try {
             // Construct the review object
             const newReview = {
-                restaurant: cafeId, // Assuming cafeId maps to `restaurant` field
+                restaurant: cafeId,
                 rating: parseInt(rating, 10),
                 comment,
-                user: userId,
             };
-
-            // Call the API to add the review
-            const response = await addReviewAPI(newReview);
-
-            // Update parent component state
-            addReview(response); // Pass the saved review back to the parent
-            closeModal();
+    
+            // Pass the new review to the parent component
+            await addReview(newReview);
         } catch (err) {
+            console.error('Failed to submit review:', err.message);
             setError('Failed to submit review. Please try again.');
         } finally {
             setLoading(false);
         }
     };
+    
 
     return (
         <div className="modal-overlay" onClick={closeModal}>
@@ -73,7 +68,11 @@ function WriteReviewModal({ closeModal, addReview, cafeId }) {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn-submit" disabled={loading}>
+                    <button
+                        type="submit"
+                        className="btn-submit"
+                        disabled={loading}
+                    >
                         {loading ? 'Submitting...' : 'Submit'}
                     </button>
                 </form>

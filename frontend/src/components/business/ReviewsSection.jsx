@@ -7,8 +7,9 @@ function ReviewsSection({ reviews }) {
       {reviews.length > 0 ? (
         reviews.map((review) => (
           <Review
-            key={review.id}
-            name={review.name}
+            key={review.id || review._id}
+            id={review.id || review._id}
+            userName={review.user.username}
             rating={review.rating}
             comment={review.comment}
           />
