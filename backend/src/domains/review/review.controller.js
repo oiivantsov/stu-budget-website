@@ -85,7 +85,7 @@ export const addReview = async (req, res) => {
                 return res.status(400).json({ error: "Invalid restaurant id" });
         }
 
-        const usersReviewsForRestaurants = await Review.find({ user });
+        const usersReviewsForRestaurants = await Review.find({ user, restaurant: review.restaurant});
 
         if (usersReviewsForRestaurants.length > 0) {
             return res.status(400).json({ error: "Cannot add more than 1 review for each restaurant" });
