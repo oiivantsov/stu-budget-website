@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../../utils/TextFormat';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 function Recommended({ recommendedRestaurants }) {
   const placeholderImage = "https://via.placeholder.com/150?text=No+Image";

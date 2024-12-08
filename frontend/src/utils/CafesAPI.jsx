@@ -1,7 +1,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const RESTAURANT_URL = `${API_BASE_URL}/restaurant`;
 
-const getToken = () => localStorage.getItem("authToken");
+const getToken = () => localStorage.getItem("token");
 
 export const fetchAllCafes = async () => {
     const response = await fetch(`${RESTAURANT_URL}/all`, {

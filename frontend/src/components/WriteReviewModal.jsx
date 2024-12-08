@@ -8,6 +8,8 @@ function WriteReviewModal({ closeModal, addReview, cafeId }) {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const userId = localStorage.getItem("userId");
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
@@ -25,7 +27,7 @@ function WriteReviewModal({ closeModal, addReview, cafeId }) {
                 restaurant: cafeId, // Assuming cafeId maps to `restaurant` field
                 rating: parseInt(rating, 10),
                 comment,
-                user: '674c6f2b3fb59690905a6d44', // Replace with dynamic user ID if available
+                user: userId,
             };
 
             // Call the API to add the review

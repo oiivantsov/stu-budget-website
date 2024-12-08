@@ -24,7 +24,7 @@ function Business() {
   // dialog to login or sign up if user is not logged in
   const [isLoginPromptOpen, setIsLoginPromptOpen] = useState(false);
 
-  const userId = localStorage.getItem("userId") || "674c6f2b3fb59690905a6d44"; // Replace with actual user ID
+  const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -117,7 +117,6 @@ function Business() {
         </label>
 
         <button className="btn btn-favorite">Add to Favorites</button>
-        <button className="btn btn-share">Share</button>
       </div>
 
       <div className="business-info">
