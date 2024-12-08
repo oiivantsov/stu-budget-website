@@ -33,7 +33,7 @@ const useFetchFavorites = (userId, token) => {
     fetchFavorites();
   }, [userId, token]);
 
-  return { favorites, loading, error };
+  return { favorites, loading, error, setFavorites };
 };
 
 export default useFetchFavorites;
