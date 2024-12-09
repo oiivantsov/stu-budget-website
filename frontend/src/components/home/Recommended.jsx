@@ -21,7 +21,7 @@ function Recommended({ recommendedRestaurants }) {
   };
 
   return (
-    <section className="recommended bg-gray-100 dark:bg-gray-900 py-8 mt-28 mb-40">
+    <section className="recommended bg-gray-100 dark:bg-gray-900 py-8 mt-28">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">{getText("title")}</h2>
         <div className="recommended-cards grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-1200px mx-auto">
