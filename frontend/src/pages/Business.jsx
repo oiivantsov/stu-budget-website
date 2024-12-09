@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BusinessHeader from "../components/business/BusinessHeader";
 import Images from "../components/business/Images";
@@ -9,8 +9,8 @@ import { fetchCafeById } from "../utils/CafesAPI";
 import { uploadImage } from "../utils/CafesAPI";
 import { capitalizeFirstLetter } from "../utils/TextFormat";
 import LoginPromptModal from "../components/LoginPromptModal";
-import { toast } from "react-toastify";
 import useAddToFavorites from "../hooks/useAddToFavorites";
+import { LanguageContext } from "../context/LanguageContext";
 
 import {
   fetchReviewsForRestaurant,
@@ -20,6 +20,7 @@ import {
 function Business() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { language } = useContext(LanguageContext);
 
   const [businessData, setBusinessData] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -35,7 +36,11 @@ function Business() {
   const token = localStorage.getItem("token");
 
   const hasUserReviewed = reviews.some((review) => review.user._id === userId);
-  const { addToFavorites, loading: addingToFavorites, error: addToFavoritesError } = useAddToFavorites(token);
+  const {
+    addToFavorites,
+    loading: addingToFavorites,
+    error: addToFavoritesError,
+  } = useAddToFavorites(token);
 
   useEffect(() => {
     const loadBusiness = async () => {
@@ -117,15 +122,72 @@ function Business() {
     setIsLoginPromptOpen(false);
   };
 
-  if (loading) return <p>Loading business details...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!businessData) return <p>Business not found.</p>;
+  const getText = (key) => {
+    const texts = {
+      addToFavorites: {
+        en: "Add to Favorites",
+        fi: "Lisää suosikkeihin",
+        sv: "Lägg till i favoriter",
+      },
+      writeReview: {
+        en: "Write a Review",
+        fi: "Kirjoita arvostelu",
+        sv: "Skriv en recension",
+      },
+      loading: {
+        en: "Loading...",
+        fi: "Ladataan...",
+        sv: "Laddar...",
+      },
+      error: {
+        en: "Failed to load data.",
+        fi: "Tietojen lataaminen epäonnistui.",
+        sv: "Det gick inte att ladda data.",
+      },
+      businessNotFound: {
+        en: "Business not found.",
+        fi: "Yritystä ei löytynyt.",
+        sv: "Företaget hittades inte.",
+      },
+      back: {
+        en: "← Back",
+        fi: "← Takaisin",
+        sv: "← Tillbaka",
+      },
+      alreadyReviewed: {
+        en: "You have already reviewed this restaurant.",
+        fi: "Olet jo arvostellut tämän ravintolan.",
+        sv: "Du har redan recenserat denna restaurang.",
+      },
+      addImage: {
+        en: "Add Image",
+        fi: "Lisää kuva",
+        sv: "Lägg till bild",
+      },
+    };
+    return texts[key][language];
+  };
+
+  if (loading)
+    return (
+      <p className="text-gray-600 dark:text-gray-300">{getText("loading")}</p>
+    );
+  if (error) return <p className="text-red-500">{getText("error")}</p>;
+  if (!businessData)
+    return (
+      <p className="text-gray-600 dark:text-gray-300">
+        {getText("businessNotFound")}
+      </p>
+    );
 
   return (
-    <section className="business-details">
+    <section className="business-page container mx-auto px-4 py-8 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
       <LoginPromptModal isOpen={isLoginPromptOpen} onClose={handleModalClose} />
-      <button className="btn btn-back" onClick={() => navigate(-1)}>
-        ← Back
+      <button
+        className="btn btn-back text-blue-500 hover:underline"
+        onClick={() => navigate(-1)}
+      >
+        {getText("back")}
       </button>
 
       <BusinessHeader
@@ -136,7 +198,7 @@ function Business() {
 
       <div className="button-group">
         <button
-          className="btn btn-review"
+          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
           onClick={(event) => {
             if (!token) {
               event.preventDefault();
@@ -144,16 +206,16 @@ function Business() {
             } else if (!hasUserReviewed) {
               openReviewModal();
             } else {
-              alert("You have already reviewed this restaurant.");
+              alert(getText("alreadyReviewed"));
             }
           }}
           disabled={hasUserReviewed}
         >
-          {hasUserReviewed ? "Review Submitted" : "Write a Review"}
+          {hasUserReviewed ? "Reviewed" : getText("writeReview")}
         </button>
 
         <label
-          className="btn btn-upload"
+          className="btn btn-upload bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-4 md:mt-0"
           onClick={(event) => {
             if (!token) {
               event.preventDefault();
@@ -161,7 +223,7 @@ function Business() {
             }
           }}
         >
-          Add Image
+          {getText("addImage")}
           <input
             type="file"
             accept="image/*"
@@ -171,11 +233,11 @@ function Business() {
         </label>
 
         <button
-          className="btn btn-favorite"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onClick={handleAddToFavorites}
           disabled={loading}
         >
-          {loading ? "Adding to Favorites..." : "Add to Favorites"}
+          {addingToFavorites ? getText("loading") : getText("addToFavorites")}
         </button>
         {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
@@ -183,12 +245,12 @@ function Business() {
       <div className="business-info">
         <Images images={businessData.images} />
         {uploading && <p>Uploading image...</p>}
+        <div></div>
         <Address
           address={{
             street: capitalizeFirstLetter(businessData.address),
             city: capitalizeFirstLetter(businessData.city),
             postal: businessData.postal_code,
-            country: "Finland",
           }}
           coordinates={{
             lat: businessData.latitude,

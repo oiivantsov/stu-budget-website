@@ -1,9 +1,27 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
+import { LanguageContext } from '../context/LanguageContext';
 
 const useAddToFavorites = (token) => {
+  const { language } = useContext(LanguageContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const getText = (key) => {
+    const texts = {
+      success: {
+        en: 'Restaurant added to favorites',
+        fi: 'Ravintola lisätty suosikkeihin',
+        sv: 'Restaurang tillagd i favoriter'
+      },
+      error: {
+        en: 'Failed to add to favorites',
+        fi: 'Lisääminen suosikkeihin epäonnistui',
+        sv: 'Det gick inte att lägga till i favoriter'
+      }
+    };
+    return texts[key][language];
+  };
 
   const addToFavorites = async (restaurantId) => {
     setLoading(true);
@@ -20,11 +38,11 @@ const useAddToFavorites = (token) => {
         const errorText = await response.text();
         throw new Error(`Failed to add to favorites: ${errorText}`);
       }
-      toast.success('Restaurant added to favorites');
+      toast.success(getText('success'));
     } catch (error) {
       console.error('Error adding to favorites:', error);
-      setError(`Failed to add to favorites: ${error.message}`);
-      toast.error(`Failed to add to favorites: ${error.message}`);
+      setError(`${getText('error')}: ${error.message}`);
+      toast.error(`${getText('error')}`);
     } finally {
       setLoading(false);
     }

@@ -12,7 +12,11 @@ import SignUpModal from './components/SignUpModal';
 import ProfilePage from './components/User/ProfilePage';
 import UserReviewsPage from './components/User/UserReviewsPage';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
+
 import './App.css';
+import './index.css';
 
 
 function App() {
@@ -34,6 +38,8 @@ function App() {
 
   return (
     <AuthProvider>
+      <ThemeProvider>
+        <LanguageProvider>
       <Router>
         <Header
           findText={findText}
@@ -75,6 +81,8 @@ function App() {
           />
         )}
       </Router>
+      </LanguageProvider>
+      </ThemeProvider>
     </AuthProvider>
   );
 }

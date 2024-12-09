@@ -1,8 +1,26 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
+import { LanguageContext } from '../context/LanguageContext';
 
 const useDeleteReview = (token, setReviews) => {
+  const { language } = useContext(LanguageContext);
   const [error, setError] = useState('');
+
+  const getText = (key) => {
+    const texts = {
+      success: {
+        en: 'Review deleted successfully',
+        fi: 'Arvostelu poistettu onnistuneesti',
+        sv: 'Recensionen raderades framgångsrikt'
+      },
+      error: {
+        en: 'Failed to delete review',
+        fi: 'Arvostelun poistaminen epäonnistui',
+        sv: 'Det gick inte att radera recensionen'
+      }
+    };
+    return texts[key][language];
+  };
 
   const deleteReview = async (reviewId) => {
     try {
@@ -18,11 +36,11 @@ const useDeleteReview = (token, setReviews) => {
         throw new Error(`Failed to delete review: ${errorText}`);
       }
       setReviews((prevReviews) => prevReviews.filter((review) => review._id !== reviewId));
-      toast.success('Review deleted successfully');
+      toast.success(getText('success'));
     } catch (error) {
       console.error('Error deleting review:', error);
-      setError(`Failed to delete review: ${error.message}`);
-      toast.error(`Failed to delete review: ${error.message}`);
+      setError(`${getText('error')}: ${error.message}`);
+      toast.error(`${getText('error')}: ${error.message}`);
     }
   };
 

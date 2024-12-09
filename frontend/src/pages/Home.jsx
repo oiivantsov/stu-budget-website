@@ -24,8 +24,8 @@ function Home() {
     loadCafes();
   }, []);
 
-  if (loading) return <p>Loading cafes...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p className="text-gray-600">Loading cafes...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   // Filter recommended and nearby cafes
   const recommendedRestaurants = cafes
@@ -34,7 +34,7 @@ function Home() {
   const nearbyRestaurants = cafes.slice(0, 3); // Arbitrary top 3 for nearby
 
   return (
-    <main className="main-content">
+    <main className="main-content bg-gray-100 dark:bg-gray-900">
       <Hero />
       <Categories />
       <Nearby nearbyRestaurants={nearbyRestaurants} />

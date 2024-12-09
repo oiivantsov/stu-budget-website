@@ -6,12 +6,11 @@ import "slick-carousel/slick/slick-theme.css";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || `http://localhost:3000`;
 
 function Images({ images }) {
-  useEffect(() => {
-  }, [images]);
+  useEffect(() => {}, [images]);
 
   if (!images || images.length === 0) {
     return (
-      <div className="business-images-placeholder">
+      <div className="business-images-placeholder text-gray-600 dark:text-gray-300">
         <p>No photos available yet!</p>
       </div>
     );
@@ -42,18 +41,18 @@ function Images({ images }) {
               key={index}
               src={`${API_BASE_URL}/public/${image}`}
               alt={`Business Image ${index + 1}`}
-              className="carousel-image"
+              className="carousel-image w-full h-64 object-cover rounded-md"
             />
           ))}
         </Slider>
       ) : (
-        <div className="business-images">
+        <div className="business-images grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((image, index) => (
             <img
               key={index}
               src={`${API_BASE_URL}/public/${image}`}
               alt={`Business Image ${index + 1}`}
-              className="static-image"
+              className="static-image w-full h-64 object-cover rounded-md"
             />
           ))}
         </div>
