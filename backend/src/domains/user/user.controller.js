@@ -83,26 +83,16 @@ export const loginUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-    const authorizedUser = req.user;
-
-    // Check if authorized user is the same that is being updated
-    if (!(authorizedUser["_id"] === req.params.id)) {
-        return res.status(401).json({ msg: "You are not authorized to update this profile" });
-    }
+    const user = req.user;
 
     try {
-        const updatedUser = await dao.update(req.params.id, req.body);
+        const updatedUser = await User.findOneAndUpdate({_id: user._id}, req.body, {new: true});
 
-        // Valid id but no user with that id
-        if (updatedUser.matchedCount === 0) {
-            res.status(404).json({ msg: `No user found with id ${req.params.id}` });
-            return;
-        }
-
-        res.status(200).json(updatedUser);
-    } catch (ValidationError) {
-        // Invalid id
-        res.status(400).json({ msg: "Invalid id" });
+        return res.status(200).json(updatedUser);
+    } catch (error) {
+        Tracer.register(ERROR);
+        Tracer.print(ERROR, error);
+        return res.status(500).json({error: error.message});
     }
 };
 
