@@ -1,10 +1,9 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaHeart } from 'react-icons/fa';
 import LogoIcon from '/stubudget.png';
 import DropdownMenu from '../components/User/DropdownMenu';
 import { AuthContext } from '../context/AuthContext';
-import { ToastContainer } from 'react-toastify';
 
 function Header({ findText, nearText, setFindText, setNearText, openLoginModal, openSignUpModal }) {
   const navigate = useNavigate();
@@ -38,9 +37,13 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
     };
   }, [showDropdown]);
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <header className="header">
-          <ToastContainer/>
       <div className="logo">
         <Link to="/">
           <img src={LogoIcon} alt="StuBudget Logo" className="logo-icon" />
@@ -78,7 +81,7 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
                 <img src={LogoIcon} alt="User" className="user-icon" />
               </span>
               {showDropdown && (
-                <DropdownMenu logout={logout} userId={userId} />
+                <DropdownMenu logout={handleLogout} userId={userId} />
               )}
             </div>
           </>
