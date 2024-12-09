@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules --env-file=.env node_modules/jest/bin/jest.js --detectOpenHandles",
-    "dev": "cross-env NODE_ENV=development nodemon --env-file=.env src/start.app.js",
+    "dev": "nodemon --env-file=.env src/start.app.js",
     "lint": "node ./dev-tools/node_modules/eslint/bin/eslint.js . -c ./dev-tools/eslint.config.mjs"
   },
   "author": "Aaro Saila",
