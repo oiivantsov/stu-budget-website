@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import BusinessHeader from '../components/business/BusinessHeader';
-import Images from '../components/business/Images';
-import Address from '../components/business/Address';
-import ReviewsSection from '../components/business/ReviewsSection';
-import WriteReviewModal from '../components/WriteReviewModal';
-import { fetchCafeById } from '../utils/CafesAPI';
-import { uploadImage } from '../utils/CafesAPI';
-import { capitalizeFirstLetter } from '../utils/TextFormat';
-import LoginPromptModal from '../components/LoginPromptModal';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import BusinessHeader from "../components/business/BusinessHeader";
+import Images from "../components/business/Images";
+import Address from "../components/business/Address";
+import ReviewsSection from "../components/business/ReviewsSection";
+import WriteReviewModal from "../components/WriteReviewModal";
+import { fetchCafeById } from "../utils/CafesAPI";
+import { uploadImage } from "../utils/CafesAPI";
+import { capitalizeFirstLetter } from "../utils/TextFormat";
+import LoginPromptModal from "../components/LoginPromptModal";
+import { toast } from "react-toastify";
+import useAddToFavorites from "../hooks/useAddToFavorites";
 
 import {
   fetchReviewsForRestaurant,
   addReview as addReviewAPI,
-} from '../utils/ReviewsAPI';
-
+} from "../utils/ReviewsAPI";
 
 function Business() {
   const { id } = useParams();
@@ -34,6 +35,7 @@ function Business() {
   const token = localStorage.getItem("token");
 
   const hasUserReviewed = reviews.some((review) => review.user._id === userId);
+  const { addToFavorites, loading: addingToFavorites, error: addToFavoritesError } = useAddToFavorites(token);
 
   useEffect(() => {
     const loadBusiness = async () => {
@@ -60,7 +62,6 @@ function Business() {
     loadReviews();
   }, [id]);
 
-
   const openReviewModal = () => setIsReviewModalOpen(true);
   const closeReviewModal = () => setIsReviewModalOpen(false);
 
@@ -73,13 +74,12 @@ function Business() {
 
       const reviewsData = await fetchReviewsForRestaurant(id);
       setReviews(reviewsData);
-      
+
       closeReviewModal();
     } catch (err) {
       console.error("Failed to add review:", err.message);
     }
   };
-
 
   const handleImageUpload = async (event) => {
     if (!event.target.files || event.target.files.length === 0) {
@@ -101,6 +101,15 @@ function Business() {
       console.error("Error uploading image:", err.message);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleAddToFavorites = (event) => {
+    if (!token) {
+      event.preventDefault();
+      setIsLoginPromptOpen(true);
+    } else {
+      addToFavorites(id);
     }
   };
 
@@ -163,19 +172,13 @@ function Business() {
 
         <button
           className="btn btn-favorite"
-          onClick={(event) => {
-            if (!token) {
-              event.preventDefault();
-              setIsLoginPromptOpen(true);
-            } else {
-              console.log("Added to favorites"); // logic for adding to favorites
-            }
-          }}
+          onClick={handleAddToFavorites}
+          disabled={loading}
         >
-          Add to Favorites
+          {loading ? "Adding to Favorites..." : "Add to Favorites"}
         </button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
-
 
       <div className="business-info">
         <Images images={businessData.images} />
@@ -196,12 +199,14 @@ function Business() {
         />
       </div>
 
-      <ReviewsSection
-        reviews={reviews}
-      />
+      <ReviewsSection reviews={reviews} />
 
       {isReviewModalOpen && (
-        <WriteReviewModal closeModal={closeReviewModal} addReview={addReview} cafeId={id} />
+        <WriteReviewModal
+          closeModal={closeReviewModal}
+          addReview={addReview}
+          cafeId={id}
+        />
       )}
     </section>
   );

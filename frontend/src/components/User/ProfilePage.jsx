@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import FavoritesComponent from '../favorites/FavoritesComponent';
 
 const ProfilePage = () => {
+  const { userId, token } = useContext(AuthContext);
   const [userDetails, setUserDetails] = useState(null);
-  const location = useLocation();
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const userId = queryParams.get('userid');
-
-    if (userId) {
-      fetchUserDetails(userId);
-    }
-  }, [location]);
-
-  const fetchUserDetails = async (userId) => {
-    try {
-      const response = await fetch(`http://127.0.0.1:3000/user/byId/${userId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setUserDetails(data);
-      } else {
-        console.error('Failed to fetch user details');
+    const fetchUserDetails = async () => {
+      try {
+        const response = await fetch(`/user/byId/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setUserDetails(data);
+        } else {
+          console.error('Failed to fetch user details');
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
       }
-    } catch (error) {
-      console.error('Error fetching user details:', error);
-    }
-  };
+    };
+
+    fetchUserDetails();
+  }, [userId, token]);
 
   return (
     <div>
@@ -35,16 +36,7 @@ const ProfilePage = () => {
           <h1>Profile</h1>
           <h2>Username: {userDetails.username}</h2>
           <h2>Email: {userDetails.email}</h2>
-          <h2>Favorites</h2>
-          <ul>
-            {userDetails.favorites && userDetails.favorites.length > 0 ? (
-              userDetails.favorites.map((favorite) => (
-                <li key={favorite._id}>{favorite.name}</li>
-              ))
-            ) : (
-              <p>No favorites added yet.</p>
-            )}
-          </ul>
+          <FavoritesComponent />
         </div>
       ) : (
         <p>Loading...</p>
