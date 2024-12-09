@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import supertest from "supertest";
 import app from "../src/app.js";
 import data from "./data/user.test.data.js";
@@ -6,7 +5,7 @@ import User from "../src/db/models/user.model.js";
 
 
 const api = supertest(app);
-const USER_PWD = "1234";
+const BASE_URL = "/user";
 
 
 if (!process.env.DB_ADDRESS.includes("TEST")) {
@@ -25,21 +24,17 @@ beforeEach(async () => {
             .send(data[i]);
     }
 
+    const user = await api.post("/user/login")
+        .send({email: data[0].email, password: data[0].password});
 
-    const users = await api.get("/user/all");
-    const user = users._body[0];
-
-    const userLoggedIn = await api.post("/user/login")
-        .send({email: user.email, password: USER_PWD});
-
-    token = userLoggedIn._body.token;
-    userId = user._id;
+    token = user._body.token;
+    userId = user._body.id;
 });
 
 
 describe("GET Endpoints", () => {
     test("GET One user by id", async () => {
-        const result = await api.get(`/user/byId/${userId}`)
+        const result = await api.get(`${BASE_URL}/byId/${userId}`)
             .expect(200)
             .expect("Content-Type", /application\/json/);
 
@@ -47,7 +42,7 @@ describe("GET Endpoints", () => {
     });
 
     test("GET All users", async () => {
-        const users = await api.get("/user/all")
+        const users = await api.get(`${BASE_URL}/all`)
             .expect(200)
             .expect("Content-Type", /application\/json/);
             
@@ -72,7 +67,7 @@ describe("GET Endpoints", () => {
 // });
 
 test("DELETE User", async () => {
-    await api.delete("/user")
+    await api.delete(BASE_URL)
         .set("Authorization", `bearer ${token}`)
         .expect(204);
 });
