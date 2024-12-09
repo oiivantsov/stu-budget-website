@@ -8,7 +8,7 @@ import { checkParameters } from "../../utils/checkParameters.js";
 router.get("/all", getAll);
 router.get("/city", checkParameters([], [], ["city"]), getByCity);
 router.get("/id", checkParameters([], [], ["id"]), getById);
-router.get("/nearby", checkParameters([], ["city", "street", "limit"], []), getNearby);
+router.post("/nearby", checkParameters([], ["city", "street", "limit"], []), getNearby); // we need post here because we are sending an object as a body
 
 // Images
 router.post("/image/upload", [checkParameters([], [], ["user", "restaurant"]), auth, check, upload.single("image")], uploadImage);

@@ -466,7 +466,14 @@ h1, h2, h3, h4 {
   font-size: 1rem;
 }
 
-
+.address-info {
+  color: var(--clr-grey-3); /* Neutral grey text for better readability */
+  font-size: 0.95rem; /* Slightly smaller than regular paragraph size */
+  font-style: italic; /* Adds a subtle emphasis */
+  margin: 0.5rem 0; /* Add vertical spacing between elements */
+  line-height: 1.4; /* Improve readability with proper line spacing */
+  text-align: center; /* Center-align the text for a clean layout */
+}
 
 
 /* Recommended Section */

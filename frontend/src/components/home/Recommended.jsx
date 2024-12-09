@@ -8,7 +8,7 @@ function Recommended({ recommendedRestaurants }) {
 
   return (
     <section className="recommended">
-      <h2>Recommended Restaurants</h2>
+      <h2>Top Rated Restaurants</h2>
       <div className="recommended-cards">
         {recommendedRestaurants.map((restaurant) => (
           <Link
