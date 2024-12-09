@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333;
+}
+.navbar {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  border-bottom: 1px solid #f2f2f2;
+}
+.navbar h1 {
+  color: #f1356d;
+}
+.navbar .links {
+  margin-left: auto;
+}
+.navbar a {
+  margin-left: 16px;
+  text-decoration: none;
+  padding: 6px;
+}
+.navbar a:hover {
+  color: #f1356d;
+}
+.content {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* job previews / list */
+
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.job-preview {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.job-preview:hover {
+  box-shadow: 1px 3px 5px rgba(41, 20, 156, 0.1);
+}
+
+.job-preview h2 {
+  margin: 0 0 10px;
+  font-size: 1.5em;
+  color: #f1356d;
+}
+
+.job-preview p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.job-preview p span {
+  font-weight: bold;
+}
+
+.job-preview a {
+  text-decoration: none;
+}
+
+/* job details page */
+.job-details h2 {
+  font-size: 20px;
+  color: #f1356d;
+  margin-bottom: 10px;
+}
+.job-details div {
+  margin: 20px 0;
+}
+.job-details button {
+  background: #f1356d;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* create new job form */
+.create {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.create label {
+  text-align: left;
+  display: block;
+}
+.create h2 {
+  font-size: 20px;
+  color: #f1356d;
+  margin-bottom: 30px;
+}
+.create input,
+.create textarea,
+.create select {
+  width: 100%;
+  padding: 6px 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  display: block;
+}
+.create button {
+  background: #f1356d;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.job-preview button {
+  margin: 5px; /* Adds space around the buttons */
+  border: 1px solid #f1356d; /* Adds a black border */
+  padding: 10px; /* Adds padding inside the buttons */
+  border-radius: 5px; /* Optional: Adds rounded corners */
+}
+
+
+/* Style for the "Add Job" link */
+nav .links a {
+  color: #f1356d;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+/* Style for the email span */
+nav .links span {
+  color: gray;
+  margin-right: 15px;
+  font-style: italic;
+}
+
+/* Style for the "Log out" button */
+nav button {
+  margin: 5px; /* Adds space around the buttons */
+  border: 2px solid #f1356d; /* Adds a black border */
+  padding: 5px; /* Adds padding inside the buttons */
+  border-radius: 5px; /* Optional: Adds rounded corners */
+} 
+
