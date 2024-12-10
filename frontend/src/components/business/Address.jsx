@@ -18,7 +18,7 @@ function Address({ address, coordinates, phone, website }) {
       },
       website: {
         en: 'Website',
-        fi: 'Verkkosivusto',
+        fi: 'Verkkosivu',
         sv: 'Webbplats'
       },
       noAddress: {

@@ -2,6 +2,7 @@ import './Modal.css';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { LanguageContext } from '../context/LanguageContext';
+import { toast } from 'react-toastify';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
@@ -42,7 +43,8 @@ function LoginModal({ closeLoginModal, openSignUpModal }) {
         closeLoginModal();
       } else {
         const errorData = await response.json();
-        console.error('Login failed:', errorData.msg);
+        toast.error(`${getLabelText('loginFailed')} `);
+        return;
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -60,6 +62,11 @@ function LoginModal({ closeLoginModal, openSignUpModal }) {
         en: 'Password',
         fi: 'Salasana',
         sv: 'Lösenord'
+      },
+      loginFailed: {
+        en: 'Login failed. Username or password is incorrect.',
+        fi: 'Kirjautuminen epäonnistui. Käyttäjätunnus tai salasana on virheellinen.',
+        sv: 'Inloggning misslyckades. Användarnamn eller lösenord är felaktigt.'
       }
     };
     return labels[field][language];
