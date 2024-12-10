@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 const useFetchFavorites = (userId, token) => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +11,7 @@ const useFetchFavorites = (userId, token) => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await fetch(`/user/favorite/?userId=${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/user/favorite/?userId=${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',

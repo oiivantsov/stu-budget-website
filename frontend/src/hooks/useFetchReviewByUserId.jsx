@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 const useFetchReviewByUserId = (userId, token) => {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState('');
@@ -8,7 +10,7 @@ const useFetchReviewByUserId = (userId, token) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch(`/review/user?userId=${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/review/user?userId=${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',

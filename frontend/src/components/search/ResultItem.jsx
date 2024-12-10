@@ -6,15 +6,22 @@ function ResultItem({ id, name, category, rating, reviews, description, image })
   return (
     <Link to={`/business/${id}`} className="result-item-link">
       <div className="result-item">
-        <img 
-          src={image || placeholderImage} 
-          alt={name} 
-          className="result-item-image" 
+        <img
+          src={image || placeholderImage}
+          alt={name}
+          className="result-item-image"
         />
         <div className="result-info">
           <h3>{name}</h3>
           <p>{category}</p>
-          <p className="rating">{rating} ⭐ ({reviews} reviews)</p>
+          <p
+            className="rating">
+            {rating
+              ? `${parseFloat(rating).toFixed(1)}`
+              : "No ratings"}
+            ⭐
+            ({reviews} reviews)
+          </p>
           <p>{description}</p>
         </div>
       </div>

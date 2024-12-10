@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 const useDeleteReview = (token, setReviews) => {
   const [error, setError] = useState('');
 
   const deleteReview = async (reviewId) => {
     try {
-      const response = await fetch(`/review/?reviewId=${reviewId}`, {
+      const response = await fetch(`${API_BASE_URL}/review/?reviewId=${reviewId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

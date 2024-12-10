@@ -13,7 +13,7 @@ function Nearby({ city, street, limit }) {
 
   useEffect(() => {
     if (!city || !street) return;
-  
+
     const fetchRestaurants = async () => {
       setLoading(true);
       setError(null);
@@ -32,7 +32,7 @@ function Nearby({ city, street, limit }) {
         setLoading(false);
       }
     };
-  
+
     fetchRestaurants();
   }, [city, street, limit]);
 
@@ -66,7 +66,9 @@ function Nearby({ city, street, limit }) {
                 <div className="restaurant-info">
                   <h3>{capitalizeFirstLetter(restaurant.name)}</h3>
                   <p>
-                    {restaurant.reviewsAverage || "No ratings"} ⭐ •{" "}
+                    {restaurant.reviewsAverage
+                      ? `${parseFloat(restaurant.reviewsAverage).toFixed(2)} ⭐`
+                      : "No ratings"} •{" "}
                     {restaurant.city || "Unknown City"}
                   </p>
                   <p>{(restaurant.distance / 1000).toFixed(2)} km away</p>
