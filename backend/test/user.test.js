@@ -2,6 +2,7 @@ import supertest from "supertest";
 import app from "../src/app.js";
 import data from "./data/user.test.data.js";
 import User from "../src/db/models/user.model.js";
+import Restaurant from "../src/db/models/restaurant.model.js";
 
 
 const api = supertest(app);
@@ -50,24 +51,64 @@ describe("GET Endpoints", () => {
     })
 });
 
-// test("PATCH User", async () => {
-//     const patchedUsername = "changedUsername"
-//
-//     const user = await api.patch(`/user/${userId}`)
-//         .set("Authorization", `bearer ${token}`)
-//         .send({username: patchedUsername})
-//         .expect(200)
-//         .expect("Content-Type", /application\/json/);
-//
-//     expect(user.body.username).toBe(patchedUsername);
-//   
-//     const getUser = (await api.get(`/byId/${userId}`)).body;
-//
-//     expect(getUser.username).toBe(patchedUsername);
-// });
+test("PATCH User", async () => {
+    const patchedUsername = "changedUsername"
+
+    const user = await api.patch(BASE_URL)
+        .set("Authorization", `bearer ${token}`)
+        .send({username: patchedUsername})
+        .expect(200)
+        .expect("Content-Type", /application\/json/);
+
+    expect(user.body.username).toBe(patchedUsername);
+  
+    const getUser = (await api.get(`${BASE_URL}/byId/${userId}`)).body;
+
+    expect(getUser.username).toBe(patchedUsername);
+});
 
 test("DELETE User", async () => {
     await api.delete(BASE_URL)
         .set("Authorization", `bearer ${token}`)
         .expect(204);
+});
+
+describe("Favorite endpoints", () => {
+    let restaurant = null;
+
+    test("POST Favorite", async () => {
+        restaurant = await Restaurant.findOne({});
+
+        const result = await api
+            .post(`${BASE_URL}/favorite?restaurantId=${restaurant._id}`)
+            .set("Authorization", `bearer ${token}`)
+            .expect(200)
+            .expect("Content-Type", /application\/json/);
+
+        expect(result.body.msg).toBe("Favorite added");
+    });
+
+    test("GET Favorites for user", async () => {
+        await api
+            .post(`${BASE_URL}/favorite?restaurantId=${restaurant._id}`)
+            .set("Authorization", `bearer ${token}`);
+
+        const result = await api
+            .get(`${BASE_URL}/favorite?userId=${userId}`)
+            .expect(200)
+            .expect("Content-Type", /application\/json/);
+        
+        expect(result._body).toHaveLength(1);
+    });
+
+    test("DELETE Favorite", async () => {
+        await api
+            .post(`${BASE_URL}/favorite?restaurantId=${restaurant._id}`)
+            .set("Authorization", `bearer ${token}`);
+
+        await api
+            .delete(`${BASE_URL}/favorite?restaurantId=${restaurant._id}`)
+            .set("Authorization", `bearer ${token}`)
+            .expect(204);
+    });
 });
