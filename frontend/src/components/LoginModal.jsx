@@ -1,6 +1,7 @@
 import './Modal.css';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { LanguageContext } from '../context/LanguageContext';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
@@ -11,6 +12,7 @@ function LoginModal({ closeLoginModal, openSignUpModal }) {
   });
 
   const { login } = useContext(AuthContext);
+  const { language } = useContext(LanguageContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,14 +49,30 @@ function LoginModal({ closeLoginModal, openSignUpModal }) {
     }
   };
 
+  const getLabelText = (field) => {
+    const labels = {
+      email: {
+        en: 'Email',
+        fi: 'Sähköposti',
+        sv: 'E-post'
+      },
+      password: {
+        en: 'Password',
+        fi: 'Salasana',
+        sv: 'Lösenord'
+      }
+    };
+    return labels[field][language];
+  };
+
   return (
-    <div className="modal-overlay" onClick={closeLoginModal}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <button className="close-button" onClick={closeLoginModal}>×</button>
-        <h2>Login</h2>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" onClick={closeLoginModal}>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+        <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none" onClick={closeLoginModal}>×</button>
+        <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">{language === 'en' ? 'Login' : language === 'fi' ? 'Kirjaudu' : 'Logga in'}</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
+          <div className="form-group mb-4">
+            <label htmlFor="email" className="block text-gray-700 dark:text-gray-300">{getLabelText('email')}:</label>
             <input
               type="email"
               id="email"
@@ -62,10 +80,11 @@ function LoginModal({ closeLoginModal, openSignUpModal }) {
               value={formData.email}
               onChange={handleChange}
               required
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password:</label>
+          <div className="form-group mb-4">
+            <label htmlFor="password" className="block text-gray-700 dark:text-gray-300">{getLabelText('password')}:</label>
             <input
               type="password"
               id="password"
@@ -73,12 +92,13 @@ function LoginModal({ closeLoginModal, openSignUpModal }) {
               value={formData.password}
               onChange={handleChange}
               required
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit" className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">{language === 'en' ? 'Login' : language === 'fi' ? 'Kirjaudu' : 'Logga in'}</button>
         </form>
-        <p>
-          Don’t have an account?{' '}
+        <p className="mt-4 text-gray-700 dark:text-gray-300">
+          {language === 'en' ? 'Don’t have an account?' : language === 'fi' ? 'Eikö sinulla ole tiliä?' : 'Har du inget konto?'}{' '}
           <a
             href="#"
             onClick={(e) => {
@@ -86,8 +106,9 @@ function LoginModal({ closeLoginModal, openSignUpModal }) {
               closeLoginModal();
               openSignUpModal();
             }}
+            className="text-blue-500 hover:underline"
           >
-            Sign up
+            {language === 'en' ? 'Sign up' : language === 'fi' ? 'Rekisteröidy' : 'Registrera dig'}
           </a>
         </p>
       </div>

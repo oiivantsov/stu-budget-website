@@ -60,7 +60,7 @@ function Home() {
     return (
       <div className="loading-container">
         <InfinitySpin width="200" color="#4fa94d" />
-        <p>Loading cafes...</p>
+        <p className="text-gray-600">Loading cafes...</p>;
       </div>
     );  
   if (error) return <p>{error}</p>;
@@ -71,7 +71,7 @@ function Home() {
     .slice(0, 6); // Top 3
 
   return (
-    <main className="main-content">
+    <main className="main-content bg-gray-100 dark:bg-gray-900">
       <Hero />
       <Categories />
       {userAddress ? (

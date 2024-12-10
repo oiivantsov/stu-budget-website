@@ -481,10 +481,10 @@ h1, h2, h3, h4 {
 
 .recommended {
   background: var(--clr-grey-9);
-  padding: 0rem 5rem; /* Reduce vertical padding */
+  padding: 5rem; /* Reduce vertical padding */
   text-align: center;
   margin-top: 7rem;
-  margin-bottom:10rem; /* Optional: further reduce distance from Categories */
+  padding-bottom:10rem; /* Optional: further reduce distance from Categories */
 }
 
 .recommended h2 {
