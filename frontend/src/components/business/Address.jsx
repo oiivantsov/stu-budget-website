@@ -57,7 +57,7 @@ function Address({ address, coordinates, phone, website }) {
       )}
 
       {/* Address Details */}
-      <div className="business-address mt-4">
+      <div className="business-address">
         {street && <p className="text-gray-800 dark:text-black"><strong>{getText('address')}:</strong> {street}, {postal}</p>}
         {(city || country) && <p className="text-gray-800 dark:text-black">{city && `${city}, `}{country}</p>}
         {phone && (
@@ -66,12 +66,10 @@ function Address({ address, coordinates, phone, website }) {
           </p>
         )}
         {website && (
-          <p className="text-gray-800 dark:text-black">
+          <p className="text-gray-800 dark:text-black mt-2">
             <strong>{getText('website')}:</strong>{" "}
-            <a href={website} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-              {website}
-            </a>
-          </p>
+            <a href={website} className="text-blue-500 hover:underline break-words" target="_blank" rel="noopener noreferrer">{website}</a>
+        </p>
         )}
       </div>
     </div>

@@ -70,7 +70,9 @@ function Nearby({ city, street, limit }) {
   return (
     <section className="nearby bg-gray-100 dark:bg-gray-900 py-8">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">{getText("title")}</h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white tracking-wide whitespace-pre-wrap">
+          {getText('title')}
+        </h2>
         {loading ? (
           <p className="text-gray-600 dark:text-gray-300">{getText("loading")}</p>
         ) : error ? (

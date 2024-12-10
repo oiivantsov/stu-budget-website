@@ -51,22 +51,55 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
     navigate('/');
   };
 
-  const getPlaceholderText = (type) => {
-    if (type === 'find') {
-      return language === 'en' ? 'Find...' : language === 'fi' ? 'Etsi...' : 'Hitta...';
-    } else if (type === 'near') {
-      return language === 'en' ? 'Near...' : language === 'fi' ? 'Lähellä...' : 'Nära...';
-    }
-    return '';
-  };
-
-  const getButtonText = (type) => {
-    if (type === 'login') {
-      return language === 'en' ? 'Login' : language === 'fi' ? 'Kirjaudu' : 'Logga in';
-    } else if (type === 'signup') {
-      return language === 'en' ? 'Sign Up' : language === 'fi' ? 'Rekisteröidy' : 'Registrera dig';
-    }
-    return '';
+  const getText = (key) => {
+    const texts = {
+      profile: {
+        en: 'Profile',
+        fi: 'Profiili',
+        sv: 'Profil'
+      },
+      reviews: {
+        en: 'Reviews',
+        fi: 'Arvostelut',
+        sv: 'Recensioner'
+      },
+      logout: {
+        en: 'Logout',
+        fi: 'Kirjaudu ulos',
+        sv: 'Logga ut'
+      },
+      login: {
+        en: 'Login',
+        fi: 'Kirjaudu',
+        sv: 'Logga in'
+      },
+      signup: {
+        en: 'Sign Up',
+        fi: 'Rekisteröidy',
+        sv: 'Registrera dig'
+      },
+      find: {
+        en: 'Find...',
+        fi: 'Etsi...',
+        sv: 'Hitta...'
+      },
+      near: {
+        en: 'Near...',
+        fi: 'Lähellä...',
+        sv: 'Nära...'
+      },
+      search: {
+        en: 'Search',
+        fi: 'Hae',
+        sv: 'Sök'
+      },
+      favorites: {
+        en: 'Favorites',
+        fi: 'Suosikit',
+        sv: 'Favoriter'
+      }
+    };
+    return texts[key][language];
   };
 
   return (
@@ -84,14 +117,14 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
             <div className="flex w-full">
               <input
                 type="text"
-                placeholder={getPlaceholderText('find')}
+                placeholder={getText('find')}
                 value={findText}
                 onChange={(e) => setFindText(e.target.value)}
                 className="w-1/2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
               />
               <input
                 type="text"
-                placeholder={getPlaceholderText('near')}
+                placeholder={getText('near')}
                 value={nearText}
                 onChange={(e) => setNearText(e.target.value)}
                 className="w-1/2 px-4 py-2 border-t border-b border-r border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
@@ -100,7 +133,7 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
                 className="bg-red-500 text-white px-4 py-2 rounded-r-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-white-500"
                 onClick={handleSearch}
               >
-                <FaSearch />
+                {getText('search')}
               </button>
             </div>
           </div>
@@ -139,15 +172,15 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
               <>
                 <button
                   onClick={openLoginModal}
-                  className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                  className="text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded focus:outline-none"
                 >
-                  {getButtonText('login')}
+                  {getText('login')}
                 </button>
                 <button
                   onClick={openSignUpModal}
-                  className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none"
+                  className="text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded focus:outline-none"
                 >
-                  {getButtonText('signup')}
+                  {getText('signup')}
                 </button>
               </>
             )}
@@ -165,14 +198,14 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
               <div className="flex">
                 <input
                   type="text"
-                  placeholder={getPlaceholderText('find')}
+                  placeholder={getText('find')}
                   value={findText}
                   onChange={(e) => setFindText(e.target.value)}
                   className="w-1/2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
                 <input
                   type="text"
-                  placeholder={getPlaceholderText('near')}
+                  placeholder={getText('near')}
                   value={nearText}
                   onChange={(e) => setNearText(e.target.value)}
                   className="w-1/2 px-4 py-2 border-t border-b border-r border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
@@ -182,7 +215,7 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onClick={handleSearch}
               >
-                Search
+                {getText('search')}
               </button>
               <div className="flex justify-between items-center">
                 <button
@@ -201,6 +234,41 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
                   <option value="sv">SV</option>
                 </select>
               </div>
+              {isLoggedIn ? (
+                <div className="flex flex-col space-y-2">
+                  <Link to="/favorites" className="favorites-icon flex items-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded focus:outline-none">
+                    <FaHeart className="mr-2" />
+                    {getText('favorites')}
+                  </Link>
+                  <Link to={`/user_details?userid=${userId}`} className="text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded focus:outline-none">
+                    {getText('profile')}
+                  </Link>
+                  <Link to="/reviews" className="text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded focus:outline-none">
+                    {getText('reviews')}
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded focus:outline-none"
+                  >
+                    {getText('logout')}
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col space-y-2">
+                  <button
+                    onClick={openLoginModal}
+                    className="text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded focus:outline-none"
+                  >
+                    {getText('login')}
+                  </button>
+                  <button
+                    onClick={openSignUpModal}
+                    className="text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded focus:outline-none"
+                  >
+                    {getText('signup')}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}

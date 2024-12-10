@@ -44,6 +44,10 @@ body {
   color: var(--clr-grey-1);
   line-height: 1.5;
 }
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
 
 h1, h2, h3, h4 {
   letter-spacing: var(--spacing);
@@ -377,7 +381,6 @@ h1, h2, h3, h4 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 1px solid #eee;
   text-align: center;
-  padding: 2.5rem; /* Slightly larger padding for emphasis */
   width: 1000px; /* Wider box width for two items */
   height: 250px; /* Taller box height */
   display: flex;
@@ -474,7 +477,6 @@ h1, h2, h3, h4 {
 
 .recommended {
   background: var(--clr-grey-9);
-  padding: 5rem; /* Reduce vertical padding */
   text-align: center;
   margin-top: 7rem;
   padding-bottom:10rem; /* Optional: further reduce distance from Categories */
@@ -1045,7 +1047,6 @@ button[type="submit"]:hover {
 /* Favorites Section */
 .favorites {
   background: var(--clr-grey-9);
-  padding: 3rem 5rem;
   text-align: center;
   margin-bottom: 10rem;
 }
