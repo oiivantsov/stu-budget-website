@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 const useDeleteFavorite = (token, setFavorites) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -9,7 +11,7 @@ const useDeleteFavorite = (token, setFavorites) => {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch(`/user/favorite/?restaurantId=${restaurantId}`, {
+      const response = await fetch(`${API_BASE_URL}/user/favorite/?restaurantId=${restaurantId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

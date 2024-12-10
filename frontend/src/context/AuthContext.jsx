@@ -2,6 +2,8 @@ import { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 export function AuthProvider(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(null);
@@ -21,7 +23,7 @@ export function AuthProvider(props) {
 
   const fetchUsername = async (id, token) => {
     try {
-      const response = await fetch(`/user/byId/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/user/byId/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

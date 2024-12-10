@@ -6,6 +6,7 @@ import { fetchAllCafes } from "../utils/CafesAPI";
 import { capitalizeFirstLetter } from "../utils/TextFormat";
 import { useFetchData } from "../hooks/useFetchData";
 import { useFilters } from "../hooks/useFilters";
+import { InfinitySpin } from 'react-loader-spinner';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
@@ -59,7 +60,11 @@ function SearchResults({ findText, nearText, clearSearchFields }) {
       <section className="results">
         <h2>Search Results</h2>
         {loading ? (
-          <p>Loading results...</p>
+
+          <div className="loading-container">
+            <InfinitySpin width="200" color="#4fa94d" />
+            <p>Loading results...</p>
+          </div>
         ) : error ? (
           <p className="error">{error}</p>
         ) : filteredResults.length > 0 ? (

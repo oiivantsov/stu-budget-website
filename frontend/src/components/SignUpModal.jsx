@@ -2,6 +2,8 @@ import './Modal.css';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 function SignUpModal({ closeSignUpModal, openLoginModal }) {
   const [formData, setFormData] = useState({
     username: '',
@@ -32,7 +34,7 @@ function SignUpModal({ closeSignUpModal, openLoginModal }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "/user/register";
+    const url = `${API_BASE_URL}/user/register`;
     try {
       const response = await fetch(url, {
         method: 'POST',

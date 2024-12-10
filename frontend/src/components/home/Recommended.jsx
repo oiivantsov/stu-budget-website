@@ -25,7 +25,10 @@ function Recommended({ recommendedRestaurants }) {
               <div className="restaurant-info">
                 <h3>{capitalizeFirstLetter(restaurant.name)}</h3>
                 <p>
-                  {restaurant.reviewsAverage} ⭐ • {capitalizeFirstLetter(restaurant.city)}
+                  {restaurant.reviewsAverage
+                    ? `${parseFloat(restaurant.reviewsAverage).toFixed(1)} ⭐`
+                    : "No ratings"} •{" "}
+                  {capitalizeFirstLetter(restaurant.city)}
                 </p>
               </div>
             </div>

@@ -2,6 +2,8 @@ import './Modal.css';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 function LoginModal({ closeLoginModal, openSignUpModal }) {
   const [formData, setFormData] = useState({
     email: '',
@@ -24,7 +26,7 @@ function LoginModal({ closeLoginModal, openSignUpModal }) {
     };
 
     try {
-      const response = await fetch('/user/login', {
+      const response = await fetch(`${API_BASE_URL}/user/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

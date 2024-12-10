@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { addReview as addReviewAPI } from '../utils/ReviewsAPI';
 import './Modal.css';
 
 function WriteReviewModal({ closeModal, addReview, cafeId }) {

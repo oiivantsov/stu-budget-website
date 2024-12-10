@@ -5,6 +5,9 @@ import Hero from '../components/home/Hero';
 import Nearby from '../components/home/Nearby';
 import Categories from '../components/home/Categories';
 import Recommended from '../components/home/Recommended';
+import { InfinitySpin } from 'react-loader-spinner';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 function Home() {
   const [cafes, setCafes] = useState([]);
@@ -33,7 +36,7 @@ function Home() {
   useEffect(() => {
     const fetchUserAddress = async () => {
       try {
-        const response = await fetch(`/user/byId/${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/user/byId/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -53,7 +56,13 @@ function Home() {
     if (userId && token) fetchUserAddress();
   }, [userId, token]);
 
-  if (loading) return <p>Loading cafes...</p>;
+  if (loading)
+    return (
+      <div className="loading-container">
+        <InfinitySpin width="200" color="#4fa94d" />
+        <p>Loading cafes...</p>
+      </div>
+    );  
   if (error) return <p>{error}</p>;
 
   // Filter recommended cafes

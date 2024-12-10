@@ -1166,3 +1166,24 @@ button[type="submit"]:hover {
   color: var(--clr-primary-5);
   text-decoration: underline;
 }
+
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  width: 100%;   /* Full width */
+  text-align: center;
+  background-color: #f9f9f9; /* Optional background color */
+}
+
+.loading-container-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #f9f9f9; /* Optional background color */
+}

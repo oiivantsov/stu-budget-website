@@ -11,6 +11,7 @@ import { capitalizeFirstLetter } from "../utils/TextFormat";
 import LoginPromptModal from "../components/LoginPromptModal";
 import { toast } from "react-toastify";
 import useAddToFavorites from "../hooks/useAddToFavorites";
+import { InfinitySpin } from 'react-loader-spinner';
 
 import {
   fetchReviewsForRestaurant,
@@ -117,7 +118,13 @@ function Business() {
     setIsLoginPromptOpen(false);
   };
 
-  if (loading) return <p>Loading business details...</p>;
+  if (loading)
+    return (
+      <div className="loading-container">
+        <InfinitySpin width="200" color="#4fa94d" />
+        <p>Loading cafes...</p>
+      </div>
+    );
   if (error) return <p>Error: {error}</p>;
   if (!businessData) return <p>Business not found.</p>;
 
@@ -182,7 +189,11 @@ function Business() {
 
       <div className="business-info">
         <Images images={businessData.images} />
-        {uploading && <p>Uploading image...</p>}
+        {uploading &&
+          <div className="loading-container-photo">
+            <InfinitySpin width="200" color="#4fa94d" />
+            <p>Uploading image...</p>
+          </div>}
         <Address
           address={{
             street: capitalizeFirstLetter(businessData.address),
