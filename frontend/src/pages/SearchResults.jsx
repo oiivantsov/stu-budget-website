@@ -20,8 +20,11 @@ function SearchResults({ findText, nearText, clearSearchFields }) {
     reviewNumber: [],
   });
 
+  const location = useLocation();
+  const filterType = location.state?.filterType || null;
+
   const { data: allResults, loading, error } = useFetchData(fetchAllCafes);
-  const filteredResults = useFilters(allResults, findText, nearText, selectedFilters);
+  const filteredResults = useFilters(allResults, findText, nearText, selectedFilters, filterType);
 
   const handleFilterChange = (type, selectedOptions) => {
     setSelectedFilters((prev) => ({

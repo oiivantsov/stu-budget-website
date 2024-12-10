@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { debounce } from "lodash";
 
-export const useFilters = (allResults, findText, nearText, selectedFilters) => {
+export const useFilters = (allResults, findText, nearText, selectedFilters, filterType) => {
   const [filteredResults, setFilteredResults] = useState([]);
 
   const applyFilters = (data) => {
@@ -41,6 +41,15 @@ export const useFilters = (allResults, findText, nearText, selectedFilters) => {
       );
     }
 
+    // Apply sorting based on filterType
+    if (filterType === "mostLiked") {
+      results = results.sort((a, b) => b.reviewsAverage - a.reviewsAverage); 
+    }
+
+    if (filterType === "mostReviewed") {
+      results = results.sort((a, b) => b.reviewsTotal - a.reviewsTotal);
+    }
+
     setFilteredResults(results);
   };
 
@@ -49,7 +58,7 @@ export const useFilters = (allResults, findText, nearText, selectedFilters) => {
   useEffect(() => {
     debouncedApplyFilters();
     return () => debouncedApplyFilters.cancel();
-  }, [allResults, findText, nearText, selectedFilters]);
+  }, [allResults, findText, nearText, selectedFilters, filterType]);
 
   return filteredResults;
 };

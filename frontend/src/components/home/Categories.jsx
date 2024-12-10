@@ -10,14 +10,14 @@ function Categories() {
 
   const handleCategoryClick = (type) => {
     navigate("/search", { state: { filterType: type } });
-  };
+  };  
 
   const getCategoryText = (type) => {
     const texts = {
       mostLiked: {
-        en: "Most Liked",
-        fi: "Eniten Tykkäyksiä",
-        sv: "Mest Gillade"
+        en: "Top Rated",
+        fi: "Parhaat Arviot",
+        sv: "Högst Betyg"
       },
       mostReviewed: {
         en: "Most Reviewed",
