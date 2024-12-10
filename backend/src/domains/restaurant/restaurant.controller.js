@@ -29,6 +29,9 @@ export const getById = async (req, res) => {
         const { id } = req.query;
         Tracer.print(INFO, `Attempting to find restaurant by id ${id}..`);
         const restaurant = await dao.findOneById(id);
+        if (restaurant === null) {
+            return res.status(404).json({error: `No restaurant found with id ${id}`});
+        }
         return res.json(restaurant);
     } catch (e) {
         Tracer.error(ERROR, e);
