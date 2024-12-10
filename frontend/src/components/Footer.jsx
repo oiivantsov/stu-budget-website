@@ -24,7 +24,7 @@ function Footer() {
       privacy: {
         en: 'Privacy Policy',
         fi: 'Tietosuojakäytäntö',
-        sv: 'Integritetspolicy'
+        sv: 'Kundservice'
       }
     };
     return links[type][language];

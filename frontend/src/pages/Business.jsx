@@ -134,6 +134,11 @@ function Business() {
         fi: "Kirjoita arvostelu",
         sv: "Skriv en recension",
       },
+      reviewed: {
+        en: "Reviewed",
+        fi: "Arvosteltu",
+        sv: "Recenserad",
+      },
       loading: {
         en: "Loading...",
         fi: "Ladataan...",
@@ -196,7 +201,7 @@ function Business() {
         totalReviews={businessData.reviewsTotal}
       />
 
-      <div className="button-group">
+<div className="button-group">
         <button
           className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
           onClick={(event) => {
@@ -211,11 +216,11 @@ function Business() {
           }}
           disabled={hasUserReviewed}
         >
-          {hasUserReviewed ? "Reviewed" : getText("writeReview")}
+          {hasUserReviewed ? getText("reviewed") : getText("writeReview")}
         </button>
 
         <label
-          className="btn btn-upload bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-4 md:mt-0"
+          className="btn btn-upload bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 md:mt-0"
           onClick={(event) => {
             if (!token) {
               event.preventDefault();

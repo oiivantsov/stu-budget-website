@@ -21,10 +21,10 @@ function Hero() {
   };
 
   return (
-    <section className="hero bg-blue-500 text-white py-20">
-      <div className="hero-content container mx-auto px-4 text-center">
-        <h1 className="text-4xl font-bold mb-4">{getText('title')}</h1>
-        <p className="text-lg">{getText('subtitle')}</p>
+    <section className="hero bg-blue-500 text-white py-20 sm:py-24 lg:py-32">
+      <div className="hero-content container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 break-words tracking-wide py-2 leading-normal">{getText('title')}</h1>
+        <p className="text-lg sm:text-xl lg:text-2xl break-words py-2 leading-normal">{getText('subtitle')}</p>
       </div>
     </section>
   );
