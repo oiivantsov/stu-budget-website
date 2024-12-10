@@ -1,0 +1,921 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "STU Budget API",
+    "version": "1.0.0",
+    "description": "All endpoints for managing users, restaurants & reviews"
+  },
+  "tags": [
+    {
+      "name": "User",
+      "description": "All user endpoints"
+    },
+    {
+      "name": "Restaurant",
+      "description": "All restaurant endpoints"
+    },
+    {
+      "name": "Review",
+      "description": "All review endpoints"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/user/byId/{id}": {
+      "get": {
+        "security": [],
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the user to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID format"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user/all": {
+      "get": {
+        "security": [],
+        "tags": [
+          "User"
+        ],
+        "summary": "Get all users",
+        "responses": {
+          "200": {
+            "description": "List of all users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "security": [],
+        "tags": [
+          "User"
+        ],
+        "summary": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegistration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "security": [],
+        "tags": [
+          "User"
+        ],
+        "summary": "Login a user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials or input"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the user to update."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully"
+          },
+          "400": {
+            "description": "Invalid ID or input"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user/": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete user",
+        "responses": {
+          "204": {
+            "description": "User deleted successfully"
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user/favorite/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Add a favorite restaurant",
+        "parameters": [
+          {
+            "name": "restaurantId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the restaurant to add to favorites."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Favorite added successfully"
+          },
+          "400": {
+            "description": "Invalid restaurant ID or already in favorites"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Remove a favorite restaurant",
+        "parameters": [
+          {
+            "name": "restaurantId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the restaurant to remove from favorites."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Favorite removed successfully"
+          },
+          "400": {
+            "description": "Invalid restaurant ID or not in favorites"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/restaurant/all": {
+      "get": {
+        "security": [],
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Get all restaurants",
+        "description": "Fetches all restaurants from the database.",
+        "responses": {
+          "200": {
+            "description": "List of all restaurants",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Restaurant"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/restaurant/id": {
+      "get": {
+        "security": [],
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Get restaurant by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the restaurant to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Restaurant details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Restaurant"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID format"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/restaurant/city": {
+      "get": {
+        "security": [],
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Get restaurants by city",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "City to filter restaurants by."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of restaurants in the city",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Restaurant"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No restaurants found in the city"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/restaurant/nearby": {
+      "get": {
+        "security": [],
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Get nearby restaurants",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "city": {
+                    "type": "string",
+                    "description": "City for nearby restaurants."
+                  },
+                  "street": {
+                    "type": "string",
+                    "description": "Street for nearby restaurants."
+                  },
+                  "limit": {
+                    "type": "number",
+                    "description": "Distance limit for nearby restaurants."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of nearby restaurants",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NearbyRestaurant"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "No nearby restaurants found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/restaurant/image/upload": {
+      "post": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Upload an image",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Image uploaded successfully"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/restaurant/image/delete": {
+      "delete": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Delete an image",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Image ID to delete."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Image deleted successfully"
+          },
+          "400": {
+            "description": "Invalid image ID"
+          },
+          "404": {
+            "description": "Image not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/review/": {
+      "get": {
+        "security": [],
+        "tags": [
+          "Review"
+        ],
+        "summary": "Get review by ID",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the review to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Review details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid review ID or request"
+          },
+          "404": {
+            "description": "Review not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Add a review",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddReview"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Review added successfully"
+          },
+          "400": {
+            "description": "Invalid input or review already exists"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Update review",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the review to update."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReview"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Review updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or request"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Delete review",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the review to delete."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Review deleted successfully"
+          },
+          "400": {
+            "description": "Invalid review ID or request"
+          },
+          "404": {
+            "description": "Review not found"
+          }
+        }
+      }
+    },
+    "/review/restaurant": {
+      "get": {
+        "security": [],
+        "tags": [
+          "Review"
+        ],
+        "summary": "Get all reviews for a restaurant",
+        "parameters": [
+          {
+            "name": "restaurantId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the restaurant to fetch reviews for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of reviews for the restaurant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid restaurant ID"
+          },
+          "404": {
+            "description": "Restaurant not found"
+          }
+        }
+      }
+    },
+    "/review/user": {
+      "get": {
+        "security": [],
+        "tags": [
+          "Review"
+        ],
+        "summary": "Get all reviews for a user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the user to fetch reviews for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of reviews for the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user ID"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "jwt"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "favorites": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "ObjectId of the favorite restaurant"
+            }
+          }
+        }
+      },
+      "UserRegistration": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "UserLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UserUpdate": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "Restaurant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "postal_code": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "reviewsTotal": {
+            "type": "number"
+          },
+          "reviewsAverage": {
+            "type": "number"
+          }
+        }
+      },
+      "NearbyRestaurant": {
+        "type": "object",
+        "properties": {
+          "restaurant": {
+            "$ref": "#/components/schemas/Restaurant"
+          },
+          "distance": {
+            "type": "number",
+            "description": "Distance to the user in meters."
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string",
+            "description": "User ID who submitted the review"
+          },
+          "restaurant": {
+            "type": "string",
+            "description": "Restaurant ID being reviewed"
+          },
+          "rating": {
+            "type": "number",
+            "format": "float"
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AddReview": {
+        "type": "object",
+        "properties": {
+          "restaurant": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "restaurant",
+          "rating"
+        ]
+      },
+      "UpdateReview": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "number",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

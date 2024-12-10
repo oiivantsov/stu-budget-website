@@ -1,8 +1,8 @@
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaHeart } from 'react-icons/fa';
 import LogoIcon from '/stubudget.png';
 import DropdownMenu from '../components/User/DropdownMenu';
-import { useContext, useState, useEffect, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 function Header({ findText, nearText, setFindText, setNearText, openLoginModal, openSignUpModal }) {
@@ -37,6 +37,11 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
     };
   }, [showDropdown]);
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <header className="header">
       <div className="logo">
@@ -65,19 +70,21 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
         </div>
       </div>
       <nav className="nav-links">
-        <Link to="/favorites" className="favorites-icon">
-          <FaHeart />
-        </Link>
         {isLoggedIn ? (
-          <div className="user-menu" ref={dropdownRef}>
-            <span className="username">{username}</span>
-            <span className="user-image" onClick={toggleDropdown}>
-              <img src={LogoIcon} alt="User" className="user-icon" />
-            </span>
-            {showDropdown && (
-              <DropdownMenu logout={logout} userId={userId} />
-            )}
-          </div>
+          <>
+            <Link to="/favorites" className="favorites-icon">
+              <FaHeart />
+            </Link>
+            <div className="user-menu" ref={dropdownRef}>
+              <span className="username">{username}</span>
+              <span className="user-image" onClick={toggleDropdown}>
+                <img src={LogoIcon} alt="User" className="user-icon" />
+              </span>
+              {showDropdown && (
+                <DropdownMenu logout={handleLogout} userId={userId} />
+              )}
+            </div>
+          </>
         ) : (
           <>
             <button onClick={openLoginModal}>Login</button>

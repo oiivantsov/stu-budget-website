@@ -1,7 +1,7 @@
 "use strict";
 
 import { Router } from "express";
-import { getOneById, getAll, signupUser, loginUser, updateUser, deleteUser, addFavorite, deleteFavorite } from "./user.controller.js";
+import { getOneById, getAll, signupUser, loginUser, updateUser, deleteUser,getAllFavoritresForUser, addFavorite, deleteFavorite } from "./user.controller.js";
 import auth from "../../middlewares/auth.js"
 import { checkParameters } from "../../utils/checkParameters.js";
 
@@ -21,10 +21,15 @@ router.post("/register", signupUser);
 router.post("/login", loginUser);
 
 // PATCH Update user
-router.patch("/:id", auth, updateUser);
+router.patch("/", auth, updateUser);
 
 // DELETE User
 router.delete("/", auth, deleteUser);
+
+// GET All favorites
+
+router.get("/favorite/", checkParameters([], [], ["userId"]), getAllFavoritresForUser)
+
 
 // POST New favorite
 router.post("/favorite/", [checkParameters([], [], ["restaurantId"]), auth], addFavorite)

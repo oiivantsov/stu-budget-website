@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import BusinessHeader from '../components/business/BusinessHeader';
-import Images from '../components/business/Images';
-import Address from '../components/business/Address';
-import ReviewsSection from '../components/business/ReviewsSection';
-import WriteReviewModal from '../components/WriteReviewModal';
-import { fetchCafeById } from '../utils/CafesAPI';
-import { uploadImage } from '../utils/CafesAPI';
-import { capitalizeFirstLetter } from '../utils/TextFormat';
-import LoginPromptModal from '../components/LoginPromptModal';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import BusinessHeader from "../components/business/BusinessHeader";
+import Images from "../components/business/Images";
+import Address from "../components/business/Address";
+import ReviewsSection from "../components/business/ReviewsSection";
+import WriteReviewModal from "../components/WriteReviewModal";
+import { fetchCafeById } from "../utils/CafesAPI";
+import { uploadImage } from "../utils/CafesAPI";
+import { capitalizeFirstLetter } from "../utils/TextFormat";
+import LoginPromptModal from "../components/LoginPromptModal";
+import { toast } from "react-toastify";
+import useAddToFavorites from "../hooks/useAddToFavorites";
+
+import {
+  fetchReviewsForRestaurant,
+  addReview as addReviewAPI,
+} from "../utils/ReviewsAPI";
 
 function Business() {
   const { id } = useParams();
@@ -27,26 +34,51 @@ function Business() {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
 
+  const hasUserReviewed = reviews.some((review) => review.user._id === userId);
+  const { addToFavorites, loading: addingToFavorites, error: addToFavoritesError } = useAddToFavorites(token);
+
   useEffect(() => {
     const loadBusiness = async () => {
       try {
         const data = await fetchCafeById(id);
         setBusinessData(data);
-        setReviews(data.reviews || []);
         setLoading(false);
       } catch (err) {
         setError(err.message);
         setLoading(false);
       }
     };
+
+    const loadReviews = async () => {
+      try {
+        const reviewsData = await fetchReviewsForRestaurant(id);
+        setReviews(reviewsData);
+      } catch (err) {
+        console.error("Failed to fetch reviews:", err.message);
+      }
+    };
+
     loadBusiness();
+    loadReviews();
   }, [id]);
 
   const openReviewModal = () => setIsReviewModalOpen(true);
   const closeReviewModal = () => setIsReviewModalOpen(false);
 
-  const addReview = (newReview) => {
-    setReviews((prevReviews) => [...prevReviews, newReview]);
+  const addReview = async (newReview) => {
+    try {
+      await addReviewAPI(newReview);
+
+      const data = await fetchCafeById(id);
+      setBusinessData(data);
+
+      const reviewsData = await fetchReviewsForRestaurant(id);
+      setReviews(reviewsData);
+
+      closeReviewModal();
+    } catch (err) {
+      console.error("Failed to add review:", err.message);
+    }
   };
 
   const handleImageUpload = async (event) => {
@@ -72,6 +104,15 @@ function Business() {
     }
   };
 
+  const handleAddToFavorites = (event) => {
+    if (!token) {
+      event.preventDefault();
+      setIsLoginPromptOpen(true);
+    } else {
+      addToFavorites(id);
+    }
+  };
+
   const handleModalClose = (action) => {
     setIsLoginPromptOpen(false);
   };
@@ -94,16 +135,29 @@ function Business() {
       />
 
       <div className="button-group">
-        <button className="btn btn-review" onClick={openReviewModal}>
-          Write a Review
-        </button>
-        <label
-          className="btn btn-upload"
-          // comment out the following lines onClick to disable the authentication check
+        <button
+          className="btn btn-review"
           onClick={(event) => {
             if (!token) {
-              event.preventDefault(); // Prevent the default click behavior
-              setIsLoginPromptOpen(true); // Show the login modal
+              event.preventDefault();
+              setIsLoginPromptOpen(true);
+            } else if (!hasUserReviewed) {
+              openReviewModal();
+            } else {
+              alert("You have already reviewed this restaurant.");
+            }
+          }}
+          disabled={hasUserReviewed}
+        >
+          {hasUserReviewed ? "Review Submitted" : "Write a Review"}
+        </button>
+
+        <label
+          className="btn btn-upload"
+          onClick={(event) => {
+            if (!token) {
+              event.preventDefault();
+              setIsLoginPromptOpen(true);
             }
           }}
         >
@@ -116,7 +170,14 @@ function Business() {
           />
         </label>
 
-        <button className="btn btn-favorite">Add to Favorites</button>
+        <button
+          className="btn btn-favorite"
+          onClick={handleAddToFavorites}
+          disabled={loading}
+        >
+          {loading ? "Adding to Favorites..." : "Add to Favorites"}
+        </button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
 
       <div className="business-info">
@@ -141,7 +202,11 @@ function Business() {
       <ReviewsSection reviews={reviews} />
 
       {isReviewModalOpen && (
-        <WriteReviewModal closeModal={closeReviewModal} addReview={addReview} cafeId={id} />
+        <WriteReviewModal
+          closeModal={closeReviewModal}
+          addReview={addReview}
+          cafeId={id}
+        />
       )}
     </section>
   );

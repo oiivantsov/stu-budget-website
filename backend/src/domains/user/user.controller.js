@@ -2,8 +2,10 @@ import DAOs from "../../services/dao/index.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { verifyRestaurantId } from "../../utils/verifiers.js";
+import { verifyRestaurantId, verifyUserId } from "../../utils/verifiers.js";
+import User from "../../db/models/user.model.js"
 import Tracer from "../../utils/tracer.js";
+
 
 
 const INFO = "USER_INFO";
@@ -81,26 +83,16 @@ export const loginUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-    const authorizedUser = req.user;
-
-    // Check if authorized user is the same that is being updated
-    if (!(authorizedUser["_id"] === req.params.id)) {
-        return res.status(401).json({ msg: "You are not authorized to update this profile" });
-    }
+    const user = req.user;
 
     try {
-        const updatedUser = await dao.update(req.params.id, req.body);
+        const updatedUser = await User.findOneAndUpdate({_id: user._id}, req.body, {new: true});
 
-        // Valid id but no user with that id
-        if (updatedUser.matchedCount === 0) {
-            res.status(404).json({ msg: `No user found with id ${req.params.id}` });
-            return;
-        }
-
-        res.status(200).json(updatedUser);
-    } catch (ValidationError) {
-        // Invalid id
-        res.status(400).json({ msg: "Invalid id" });
+        return res.status(200).json(updatedUser);
+    } catch (error) {
+        Tracer.register(ERROR);
+        Tracer.print(ERROR, error);
+        return res.status(500).json({error: error.message});
     }
 };
 
@@ -118,6 +110,30 @@ export const deleteUser = async (req, res) => {
         res.status(400).json({ msg: "Invalid id" });
     }
 };
+
+export const getAllFavoritresForUser = async (req, res) => {
+    try {
+        let { userId } = req.query;
+
+        switch (await verifyUserId(userId)) {
+            case "not found":
+                return res.status(404).json({ error: `No user found with id ${userId}` });
+            case "invalid":
+                return res.status(400).json({ error: `Invalid user id ${userId}` });
+        }
+
+        const user = await User.findById(userId).populate('favorites');
+        if (!user) {
+            return res.status(404).json({ error: `No user found with id ${userId}` });
+        }
+
+        return res.status(200).json(user.favorites);
+    } catch (error) {
+        Tracer.print(ERROR, error);
+        res.status(400).json({ error: error.message });
+    }
+};
+
 
 export const addFavorite = async (req, res) => {
     const user = req.user;

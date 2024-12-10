@@ -45,7 +45,7 @@ export const getAllReviewsForRestaurant = async (req, res) => {
                 return res.status(400).json({ error: `Invalid restaurant id ${restaurantId}` });
         }
 
-        const reviews = await Review.find({ restaurant: restaurantId });
+        const reviews = await Review.find({ restaurant: restaurantId }).populate('user', 'username'); // Return also the name of the user
         return res.status(200).json(reviews);
     } catch (error) {
         Tracer.print(ERROR, error);
@@ -64,7 +64,7 @@ export const getAllReviewsForUser = async (req, res) => {
                 return res.status(400).json({ error: `Invalid user id ${userId}` });
         }
 
-        const reviews = await Review.find({ user: userId });
+        const reviews = await Review.find({ user: userId }).populate('restaurant', 'name'); // Return also the name of the restaurant
         return res.status(200).json(reviews);
     } catch (error) {
         Tracer.print(ERROR, error);
@@ -85,7 +85,7 @@ export const addReview = async (req, res) => {
                 return res.status(400).json({ error: "Invalid restaurant id" });
         }
 
-        const usersReviewsForRestaurants = await Review.find({ user });
+        const usersReviewsForRestaurants = await Review.find({ user, restaurant: review.restaurant});
 
         if (usersReviewsForRestaurants.length > 0) {
             return res.status(400).json({ error: "Cannot add more than 1 review for each restaurant" });
@@ -119,7 +119,10 @@ export const patchReview = async (req, res) => {
     }
 
     try {
+        const prev = await Review.findOne({_id:reviewId});
         const result = await Review.findOneAndUpdate({ _id: reviewId, user: user._id }, { ...patchedReview }, { new: true });
+        await Restaurant.deleteReview(prev);
+        await Restaurant.addReview(result);
 
         res.status(200).json(result);
     } catch (error) {
@@ -128,12 +131,14 @@ export const patchReview = async (req, res) => {
     }
 };
 
+// also need to recalculate the average rating and number of reviews for the restaurant
 export const deleteReview = async (req, res) => {
     try {
         const user = req.user;
         const { reviewId } = req.query;
 
         const result = await Review.findOneAndDelete({ _id: reviewId, user: user._id });
+        await Restaurant.deleteReview(result);
 
         if (result === null) {
             return res.status(404).json({ error: `No review for user found with id ${reviewId}` });
