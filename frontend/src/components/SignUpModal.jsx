@@ -7,14 +7,27 @@ function SignUpModal({ closeSignUpModal, openLoginModal }) {
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    address: {
+      street: '',
+      city: '',
+    }
   });
 
   const { login } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name.startsWith('address.')) {
+      const addressField = name.split('.')[1];
+      setFormData((prev) => ({
+        ...prev,
+        address: { ...prev.address, [addressField]: value },
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -89,6 +102,27 @@ function SignUpModal({ closeSignUpModal, openLoginModal }) {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
+            />
+          </div>
+          {/* Address Fields */}
+          <div className="form-group">
+            <label htmlFor="street">Street (Optional):</label>
+            <input
+              type="text"
+              id="street"
+              name="address.street"
+              value={formData.address.street}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="city">City (Optional):</label>
+            <input
+              type="text"
+              id="city"
+              name="address.city"
+              value={formData.address.city}
+              onChange={handleChange}
             />
           </div>
           <button type="submit">Sign Up</button>

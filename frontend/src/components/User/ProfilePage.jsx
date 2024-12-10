@@ -36,6 +36,15 @@ const ProfilePage = () => {
           <h1>Profile</h1>
           <h2>Username: {userDetails.username}</h2>
           <h2>Email: {userDetails.email}</h2>
+          {userDetails.address ? (
+            <div>
+              <h2>Address:</h2>
+              <p>Street: {userDetails.address.street || 'N/A'}</p>
+              <p>City: {userDetails.address.city || 'N/A'}</p>
+            </div>
+          ) : (
+            <p>No address available.</p>
+          )}
           <FavoritesComponent />
         </div>
       ) : (

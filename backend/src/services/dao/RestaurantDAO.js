@@ -14,9 +14,9 @@ export default class RestaurantDAO {
     };
 
     async findByCity(city) {
-        city = city.toLowerCase();
-        city = city.charAt(0).toUpperCase() + city.slice(1);
-        return await Restaurant.find({"address.city": city}); // Dumb hack for now as all data is capitalized and mongodb doesn't seem to provide case insensitive searches
+        city = city.toUpperCase(); // we need capital letters for now as all data is capitalized
+        // city = city.charAt(0).toUpperCase() + city.slice(1);
+        return await Restaurant.find({"city": city}); // Dumb hack for now as all data is capitalized and mongodb doesn't seem to provide case insensitive searches
     }
 
     async findAll() {
