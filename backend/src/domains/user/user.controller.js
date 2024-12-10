@@ -167,7 +167,6 @@ export const deleteFavorite = async (req, res) => {
         const favorite = req.query.restaurantId;
         const user = req.user;
         Tracer.print(INFO, `Attempting to delete favorite ${favorite} from user ${user.id}`);
-        console.log(user);
 
         switch (await verifyRestaurantId(favorite)) {
             case "not found":
