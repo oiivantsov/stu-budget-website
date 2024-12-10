@@ -6,6 +6,7 @@ import Restaurant from "../src/db/models/restaurant.model.js";
 
 const api = supertest(app);
 const DATA_LENGTH = 3;
+const BASE_URL = "/restaurant";
 
 
 if (!process.env.DB_ADDRESS.includes("TEST")) {
@@ -16,7 +17,7 @@ if (!process.env.DB_ADDRESS.includes("TEST")) {
 
 describe("When there are restaurants in database", () => {
     test("GET all restaurants", async () => {
-        const result = await api.get("/restaurant/all")
+        const result = await api.get(`${BASE_URL}/all`)
             .expect(200)
             .expect("Content-Type", /application\/json/);
 
@@ -25,7 +26,7 @@ describe("When there are restaurants in database", () => {
 
     describe("GET restaurants by city", () => {
         test("All city fields should be Lappeenranta", async () => {
-            const result = await api.get("/restaurant/city?city=LAPPEENRANTA")
+            const result = await api.get(`${BASE_URL}/city?city=LAPPEENRANTA`)
                 .expect(200)
                 .expect("Content-Type", /application\/json/);
 
@@ -37,12 +38,12 @@ describe("When there are restaurants in database", () => {
 
     describe("GET restaurant by id", () => {
         test("Should return a restaurant with the same id", async () => {
-            const restaurants = await api.get("/restaurant/all")
+            const restaurants = await api.get(`${BASE_URL}/all`)
                 .expect(200);
 
             const ID = restaurants._body[0]._id;
 
-            const result = await api.get(`/restaurant/id?id=${ID}`)
+            const result = await api.get(`${BASE_URL}/id?id=${ID}`)
                 .expect(200)
                 .expect("Content-Type", /application\/json/);
             
