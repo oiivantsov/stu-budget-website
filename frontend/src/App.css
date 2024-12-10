@@ -50,6 +50,10 @@ h1, h2, h3, h4 {
   text-transform: capitalize;
 }
 
+.text-primary {
+  color: var(--clr-primary-5);
+}
+
 /* HEADER */
 
 /* Header Styles */
@@ -455,17 +459,6 @@ h1, h2, h3, h4 {
   text-align: center;
 }
 
-.nearby .restaurant-info h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  color: var(--clr-secondary-1);
-}
-
-.nearby .restaurant-info p {
-  color: var(--clr-grey-5);
-  font-size: 1rem;
-}
-
 .address-info {
   color: var(--clr-grey-3); /* Neutral grey text for better readability */
   font-size: 0.95rem; /* Slightly smaller than regular paragraph size */
@@ -660,6 +653,9 @@ h1, h2, h3, h4 {
   height: 100px;
   border-radius: var(--radius);
   object-fit: cover;
+  /* middle and left of parent*/
+  align-self: center;
+  justify-self: center;
 }
 
 .result-item-link {

@@ -60,7 +60,7 @@ function Home() {
     return (
       <div className="loading-container">
         <InfinitySpin width="200" color="#4fa94d" />
-        <p className="text-gray-600">Loading cafes...</p>;
+        <p className="text-gray-600">Loading...</p>
       </div>
     );  
   if (error) return <p>{error}</p>;

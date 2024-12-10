@@ -34,11 +34,11 @@ function Recommended({ recommendedRestaurants }) {
               <div className="recommended-card bg-white dark:bg-gray-800 rounded-lg shadow-lg transition-transform transform hover:scale-105 overflow-hidden border dark:border-white">
                 <img
                   src={restaurant.images && restaurant.images.length > 0 ? `${API_BASE_URL}/public/${restaurant.images[0]}` : placeholderImage}
-                  alt={restaurant.name}
+                  alt={"---"}
                   className="restaurant-image w-full h-64 object-cover"
                 />
                 <div className="restaurant-info p-4 text-center">
-                  <h3 className="text-xl mb-2 text-gray-800 dark:text-white">{capitalizeFirstLetter(restaurant.name)}</h3>
+                  <h3 className="text-xl font-bold mb-2 text-gray-800 dark:text-white">{capitalizeFirstLetter(restaurant.name)}</h3>
                   <p className="text-gray-600 dark:text-gray-300">
                   {restaurant.reviewsAverage
                     ? `${parseFloat(restaurant.reviewsAverage).toFixed(1)} ⭐`

@@ -74,10 +74,11 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center text-xl font-bold text-gray-800 dark:text-white">
+            <Link to="/" className="flex items-center text-xl font-bold text-primary dark:text-primary-dark">
               <img src={LogoIcon} alt="StuBudget Logo" className="h-8 w-8 mr-2" />
               <span className="hidden sm:inline">StuBudget</span>
             </Link>
+
           </div>
           <div className="hidden md:flex flex-grow max-w-xl mx-4">
             <div className="flex w-full">
@@ -86,17 +87,17 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
                 placeholder={getPlaceholderText('find')}
                 value={findText}
                 onChange={(e) => setFindText(e.target.value)}
-                className="w-1/2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-1/2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
               />
               <input
                 type="text"
                 placeholder={getPlaceholderText('near')}
                 value={nearText}
                 onChange={(e) => setNearText(e.target.value)}
-                className="w-1/2 px-4 py-2 border-t border-b border-r border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-1/2 px-4 py-2 border-t border-b border-r border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
               />
-              <button 
-                className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-r-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-white-500"
                 onClick={handleSearch}
               >
                 <FaSearch />
@@ -177,7 +178,7 @@ function Header({ findText, nearText, setFindText, setNearText, openLoginModal, 
                   className="w-1/2 px-4 py-2 border-t border-b border-r border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
-              <button 
+              <button
                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onClick={handleSearch}
               >

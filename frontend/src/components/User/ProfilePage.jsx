@@ -50,6 +50,11 @@ const ProfilePage = () => {
         fi: 'Sähköposti',
         sv: 'E-post'
       },
+      address: {
+        en: 'Address',
+        fi: 'Osoite',
+        sv: 'Adress'
+      },
       favorites: {
         en: 'Favorites',
         fi: 'Suosikit',
@@ -59,7 +64,17 @@ const ProfilePage = () => {
         en: 'Loading...',
         fi: 'Ladataan...',
         sv: 'Laddar...'
-      }
+      },
+      na: {
+        en: 'N/A',
+        fi: 'Ei saatavilla',
+        sv: 'Ej tillgänglig'
+      },
+      noAddressAvailable: {
+        en: 'No address available',
+        fi: 'Osoitetta ei saatavilla',
+        sv: 'Ingen adress tillgänglig'
+      },
     };
     return texts[key][language];
   };
@@ -83,10 +98,10 @@ const ProfilePage = () => {
               <div className="mt-4">
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-white">{getText('address')}:</h2>
                 <p className="text-gray-600 dark:text-gray-400">
-                  {getText('street')}: {userDetails.address.street || getText('na')}
+                  {userDetails.address.street || getText('na')}
                 </p>
                 <p className="text-gray-600 dark:text-gray-400">
-                  {getText('city')}: {userDetails.address.city || getText('na')}
+                  {userDetails.address.city || getText('na')}
                 </p>
               </div>
             ) : (

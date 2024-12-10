@@ -186,7 +186,7 @@ function Business() {
     );
 
   return (
-    <section className="business-page container mx-auto px-4 py-8 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
+    <section className="business-details container mx-auto px-4 py-8 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
       <LoginPromptModal isOpen={isLoginPromptOpen} onClose={handleModalClose} />
       <button
         className="btn btn-back text-blue-500 hover:underline"

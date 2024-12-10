@@ -5,6 +5,8 @@ import { LanguageContext } from '../../context/LanguageContext';
 import useFetchFavorites from '../../hooks/useFetchFavorites';
 import useDeleteFavorite from '../../hooks/useDeleteFavorite';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
 const FavoritesComponent = () => {
   const { userId, token } = useContext(AuthContext);
   const { language } = useContext(LanguageContext);
@@ -66,7 +68,11 @@ const FavoritesComponent = () => {
                 >
                   <div className="favorites-card overflow-hidden">
                     <img
-                      src={restaurant.images && restaurant.images.length > 0 ? restaurant.images[0] : placeholderImage}
+                      src={
+                        restaurant.images && restaurant.images.length > 0
+                          ? `${API_BASE_URL}/public/${restaurant.images[0]}`
+                          : placeholderImage
+                      }
                       alt={restaurant.name}
                       className="favorites-image w-full h-64 object-cover"
                     />

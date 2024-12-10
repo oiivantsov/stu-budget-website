@@ -139,26 +139,47 @@ function SignUpModal({ closeSignUpModal, openLoginModal }) {
             />
           </div>
           {/* Address Fields */}
-          <div className="form-group">
-            <label htmlFor="street">Street (Optional):</label>
+          <div className="form-group mb-4">
+            <label htmlFor="street" className="block text-gray-700 dark:text-gray-300">
+              {language === 'en' ? 'Street' : language === 'fi' ? 'Katu' : 'Gata'}:
+            </label>
             <input
               type="text"
               id="street"
               name="address.street"
               value={formData.address.street}
               onChange={handleChange}
+              placeholder={
+                language === 'en'
+                  ? 'Enter your street address'
+                  : language === 'fi'
+                    ? 'Syötä katuosoite'
+                    : 'Ange din gatuadress'
+              }
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="city">City (Optional):</label>
+          <div className="form-group mb-4">
+            <label htmlFor="city" className="block text-gray-700 dark:text-gray-300">
+              {language === 'en' ? 'City' : language === 'fi' ? 'Kaupunki' : 'Stad'}:
+            </label>
             <input
               type="text"
               id="city"
               name="address.city"
               value={formData.address.city}
               onChange={handleChange}
+              placeholder={
+                language === 'en'
+                  ? 'Enter your city'
+                  : language === 'fi'
+                    ? 'Syötä kaupunki'
+                    : 'Ange din stad'
+              }
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             />
           </div>
+
           <button type="submit" className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">{language === 'en' ? 'Sign Up' : language === 'fi' ? 'Rekisteröidy' : 'Registrera dig'}</button>
         </form>
         <p className="mt-4 text-gray-700 dark:text-gray-300">
