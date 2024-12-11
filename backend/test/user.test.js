@@ -32,6 +32,9 @@ beforeEach(async () => {
     userId = user._body.id;
 });
 
+afterAll(async () => {
+    await User.deleteMany({});
+})
 
 describe("GET Endpoints", () => {
     describe("GET One user by id", () => {
