@@ -206,7 +206,7 @@ function Business() {
         totalReviews={businessData.reviewsTotal}
       />
 
-<div className="button-group">
+      <div className="button-group">
         <button
           className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
           onClick={(event) => {
@@ -225,7 +225,7 @@ function Business() {
         </button>
 
         <label
-          className="btn btn-upload bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 md:mt-0"
+          className="btn btn-upload bg-blue-500 text-white text-center px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onClick={(event) => {
             if (!token) {
               event.preventDefault();
