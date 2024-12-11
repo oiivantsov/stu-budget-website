@@ -46,11 +46,11 @@ export const signupUser = async (req, res) => {
 
         res.status(201).json({ id: newUser["_id"], token });
     } catch (error) {
-        console.error("Error in POST /user/register", error);
-
         if (error.message === "Internal server error") {
             return res.status(500).json({ error: error.message });
         }
+
+        //console.error("Error in POST /user/register", error);
 
         return res.status(400).json({ error: error.message });
     }

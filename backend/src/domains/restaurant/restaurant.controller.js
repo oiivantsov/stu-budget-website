@@ -20,7 +20,7 @@ export const getAll = async (_, res) => {
         return res.json(await dao.findAll());
     } catch (e) {
         Tracer.error(ERROR, e);
-        return res.status(500).json({msg:"Server error"});
+        return res.status(500).json({ msg: "Server error" });
     }
 }
 
@@ -30,13 +30,16 @@ export const getById = async (req, res) => {
         Tracer.print(INFO, `Attempting to find restaurant by id ${id}..`);
         const restaurant = await dao.findOneById(id);
         if (restaurant === null) {
-            return res.status(404).json({error: `No restaurant found with id ${id}`});
+            return res.status(404).json({ error: `No restaurant found with id ${id}` });
         }
         return res.json(restaurant);
     } catch (e) {
-        Tracer.error(ERROR, e);
-        if (e.name === "CastError") return res.status(400).json({msg:"Bad id"});
-        else return res.status(500).json({msg:"Server error"});
+        if (e.name === "CastError") {
+            return res.status(400).json({ msg: "Bad id" });
+        } else {
+            Tracer.print(ERROR, e);
+            return res.status(500).json({ msg: "Server error" });
+        }
     }
 }
 
@@ -46,10 +49,10 @@ export const getByCity = async (req, res) => {
         Tracer.print(INFO, `Attempting to find restaurants in ${city}..`);
         const restaurants = await dao.findByCity(city);
         if (restaurants.length > 0) return res.json(restaurants);
-        else return res.status(404).json({msg:`No restaurants in ${city} found`})
+        else return res.status(404).json({ msg: `No restaurants in ${city} found` })
     } catch (e) {
         Tracer.error(ERROR, e);
-        return res.status(500).json({msg:"Server error"});
+        return res.status(500).json({ msg: "Server error" });
     }
 }
 
@@ -59,8 +62,8 @@ export const getNearby = async (req, res) => {
         const street = req.body.street;
         const limit = Number(req.body.limit);
         if (isNaN(limit)) {
-            Tracer.error(ERROR, {name:"TypeError", message:"Distance has to be a number"});
-            return res.status(400).json({msg:"Distance has to be a number"});
+            Tracer.error(ERROR, { name: "TypeError", message: "Distance has to be a number" });
+            return res.status(400).json({ msg: "Distance has to be a number" });
         }
         let nearby = [];
         // Disabled to save on api requests, tested and working
@@ -73,7 +76,7 @@ export const getNearby = async (req, res) => {
         const restaurants = await dao.findByCity(city);
 
         // Alternatively we could just return an empty object below
-        if (restaurants.length < 1) return res.status(404).json({msg:`No restaurants in ${city} found`});
+        if (restaurants.length < 1) return res.status(404).json({ msg: `No restaurants in ${city} found` });
 
         // Calculate distances
         // For-loop used on purpose instead of forEach.
@@ -81,7 +84,7 @@ export const getNearby = async (req, res) => {
         Tracer.print(INFO, `Attempting to find nearby restaurants in ${city} with range of ${limit}..`);
         for (let i = 0; i < restaurants.length; i++) {
             const responseObj = { restaurant: restaurants[i] };
-            const restaurantCoords = {lat: restaurants[i].latitude, long: restaurants[i].longitude};
+            const restaurantCoords = { lat: restaurants[i].latitude, long: restaurants[i].longitude };
             responseObj.distance = getDistanceBetweenCoords(userCoords, restaurantCoords);
 
             if (responseObj.distance <= limit) nearby.push(responseObj);
@@ -91,46 +94,46 @@ export const getNearby = async (req, res) => {
         return res.json(nearby);
     } catch (e) {
         Tracer.error(ERROR, e);
-        return res.status(500).json({msg:"Server error"});
+        return res.status(500).json({ msg: "Server error" });
     }
 };
 
 export const uploadImage = async (req, res) => {
     try {
         const { user, restaurant } = req.query;
-        const createdImage = await Image.create({user, restaurant, image:req.file.filename});
+        const createdImage = await Image.create({ user, restaurant, image: req.file.filename });
         const ok = await dao.addImage(restaurant, createdImage.image);
         if (createdImage && ok.modifiedCount > 0) {
-            return res.status(201).json({msg:"Image creation has succeeded", img: createdImage.image});
+            return res.status(201).json({ msg: "Image creation has succeeded", img: createdImage.image });
         } else {
             console.log("Image creation failed");
-            return res.status(500).json({msg:"Image creation has failed"});
+            return res.status(500).json({ msg: "Image creation has failed" });
         }
     } catch (e) {
         Tracer.error(ERROR, e);
-        return res.status(500).json({msg:"Server error"});
+        return res.status(500).json({ msg: "Server error" });
     }
 }
 
 export const deleteImage = async (req, res) => {
     try {
         const { id } = req.body;
-        const img = await Image.findOne({_id:id});
-        const deletedImage = await Image.deleteOne({_id:id});
+        const img = await Image.findOne({ _id: id });
+        const deletedImage = await Image.deleteOne({ _id: id });
 
         if (deletedImage.deletedCount > 0) {
             await dao.removeImage(img.restaurant, img.image);
             return res.status(204).send();
         } else {
-            return res.status(404).json({msg:"No image found"});
+            return res.status(404).json({ msg: "No image found" });
         }
 
     } catch (e) {
         Tracer.error(ERROR, e);
         if (e.name === "CastError") {
-            return res.status(400).json({msg:"Bad image id"});
+            return res.status(400).json({ msg: "Bad image id" });
         } else {
-            return res.status(500).json({msg:"Server error"});
+            return res.status(500).json({ msg: "Server error" });
         }
     }
 }

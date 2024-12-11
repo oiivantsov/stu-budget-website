@@ -22,7 +22,7 @@ export const getReviewById = async (req, res) => {
             return res.status(404).json({ error: `No review found for id ${reviewId}` });
         }
 
-        return res.status(400).json(review);
+        return res.status(200).json(review);
     } catch (error) {
         if (error instanceof mongoose.CastError) {
             return res.status(400).json({ error: "Invalid review id" });
