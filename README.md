@@ -2,7 +2,7 @@
 
 ## Main Links
 
-- **Group #:**  Group 3
+- **Group #:** 3
 
 - URLs for the deployed API and Frontend:
   - URL for Frontend: [StuBudjet WebSite](https://stu-budget-website.onrender.com/)
