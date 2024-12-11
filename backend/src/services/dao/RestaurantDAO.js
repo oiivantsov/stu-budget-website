@@ -51,6 +51,7 @@ export default class RestaurantDAO {
         const restaurant = await Restaurant.findOne({_id:review.restaurant});
         restaurant.reviewsAverage = (restaurant.reviewsAverage * restaurant.reviewsTotal - review.rating) / (restaurant.reviewsTotal - 1);
         restaurant.reviewsTotal -= 1;
+        if (restaurant.reviewsTotal < 1) restaurant.reviewsAverage = 0;
         await Restaurant.updateOne({_id: restaurant._id}, restaurant);
     }
 
