@@ -9,7 +9,8 @@
   - URL for Backend API: [API deployed on Render](https://stu-budget-website-backend.onrender.com/)  
 
 - Link to the backend code:   
-  - [Code for the final backend API](https://github.com/oiivantsov/stu-budget-website/tree/backend-render/backend)  
+  - [Code for the final backend API](https://github.com/oiivantsov/stu-budget-website/tree/backend-render/backend)
+  - [Code for backend tests](https://github.com/oiivantsov/stu-budget-website/tree/backend-tests) 
 - Link to the frontend code:    
   - [Code for the final frontend](https://github.com/oiivantsov/stu-budget-website/tree/main/frontend)    
 
