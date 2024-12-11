@@ -40,7 +40,7 @@
 body {
   font-family: var(--ff-primary);
   background: var(--clr-white);
-  background-image: url("https://www.transparenttextures.com/patterns/beige-paper.png");
+  /* background-image: url("https://www.transparenttextures.com/patterns/beige-paper.png"); */
   color: var(--clr-grey-1);
   line-height: 1.5;
 }
