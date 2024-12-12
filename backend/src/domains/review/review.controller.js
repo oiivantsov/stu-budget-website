@@ -131,18 +131,18 @@ export const patchReview = async (req, res) => {
     }
 };
 
-// also need to recalculate the average rating and number of reviews for the restaurant
 export const deleteReview = async (req, res) => {
     try {
         const user = req.user;
         const { reviewId } = req.query;
 
         const result = await Review.findOneAndDelete({ _id: reviewId, user: user._id });
-        await Restaurant.deleteReview(result);
 
         if (result === null) {
             return res.status(404).json({ error: `No review for user found with id ${reviewId}` });
         }
+
+        await Restaurant.deleteReview(result);
 
         return res.sendStatus(204);
     } catch (error) {
