@@ -20,7 +20,6 @@ try {
     console.error(error);
 }
 
-
 const app = express();
 
 // Enable CORS for all routes
