@@ -202,7 +202,7 @@ describe("POST Add review", () => {
         exampleRestaurant = await Restaurant.findOne({});
 
         const loginInfo = await api.post("/user/login")
-            .send({ email: userData[0].email, password: userData[0].password});
+            .send({ email: userData[0].email, password: userData[0].password });
 
         token = loginInfo._body.token;
     });
@@ -279,5 +279,146 @@ describe("POST Add review", () => {
                 })
                 .expect(400);
         });
+    });
+});
+
+describe("PATCH Review", () => {
+    let review = null;
+    let token = null;
+
+    beforeAll(async () => {
+        const user = await api
+            .post("/user/register")
+            .send(userData[0]);
+
+        token = user.body.token;
+
+        const restaurant = await Restaurant.findOne({});
+
+        review = await Review.create({
+            user: user.body.id,
+            restaurant: restaurant._id,
+            rating: 3,
+            comment: "Good"
+        });
+    });
+
+    afterAll(async () => {
+        await User.deleteMany({});
+        await Review.deleteMany({});
+    });
+
+    test("200 When authrorized and given correct data", async () => {
+        const newRating = 1;
+        const newComment = "Very bad";
+
+        const result = await api
+            .patch(`${BASE_URL}?reviewId=${review._id}`)
+            .set("Authorization", `bearer ${token}`)
+            .send({
+                rating: newRating,
+                comment: newComment
+            })
+            .expect(200)
+            .expect("Content-Type", /application\/json/);
+
+        expect(result.body.rating).toBe(newRating);
+        expect(result.body.comment).toBe(newComment);
+    });
+
+    test("401 When unauthorized", async () => {
+        const newRating = 1;
+        const newComment = "Very bad";
+
+        await api
+            .patch(`${BASE_URL}?reviewId=${review._id}`)
+            .send({
+                rating: newRating,
+                comment: newComment
+            })
+            .expect(401)
+    });
+
+    test("400 When given redundant fields", async () => {
+        const result = await api
+            .patch(`${BASE_URL}?reviewId=${review._id}`)
+            .set("Authorization", `bearer ${token}`)
+            .send({
+                rating: 1,
+                comment: "Very bad",
+                unnecessaryOne: "Not needed",
+                unnecessaryTwo: "Also not needed"
+            })
+            .expect(400)
+            .expect("Content-Type", /application\/json/);
+
+        expect(result.body.fields).toHaveLength(2);
+        expect(result.body.fields[0]).toBe("unnecessaryOne");
+        expect(result.body.fields[1]).toBe("unnecessaryTwo");
+    });
+});
+
+describe("DELETE Review", () => {
+    let token = null;
+    let exampleUserId = null;
+    let exampleReviewId = null;
+
+    beforeAll(async () => {
+        const user = await api
+            .post("/user/register")
+            .send(userData[0]);
+
+        token = user.body.token;
+        exampleUserId = user.body.id;
+    });
+
+    beforeEach(async () => {
+        const restaurant = await Restaurant.findOne({});
+
+        await Review.deleteMany({});
+        const exampleReview = await Review.create({
+            user: exampleUserId,
+            restaurant: restaurant._id,
+            rating: 3,
+            comment: "Good"
+        });
+
+        exampleReviewId = exampleReview._id;
+    });
+
+    afterAll(async () => {
+        await User.deleteMany({});
+        await Review.deleteMany({});
+    })
+
+    test("204 When authorized and given correct data", async () => {
+        await api
+            .delete(`${BASE_URL}?reviewId=${exampleReviewId}`)
+            .set("Authorization", `bearer ${token}`)
+            .expect(204);
+    });
+
+    test("401 When unauthorized", async () => {
+        await api
+            .delete(`${BASE_URL}?reviewId=${exampleReviewId}`)
+            .expect(401);
+    });
+
+    test("404 When given nonexistent id", async () => {
+        const ID = exampleReviewId.toString().replace(/^./, "8");
+
+        await api
+            .delete(`${BASE_URL}?reviewId=${ID}`)
+            .set("Authorization", `bearer ${token}`)
+            .expect(404);
+    });
+
+    test("400 When given invalid id", async () => {
+        const ID = exampleReviewId.toString().replace(/^./, "");
+
+        await api
+            .delete(`${BASE_URL}?reviewId=${ID}`)
+            .set("Authorization", `bearer ${token}`)
+            .expect(400);
     });
 });
